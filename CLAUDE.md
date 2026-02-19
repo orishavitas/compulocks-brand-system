@@ -84,6 +84,14 @@ This project uses semantic versioning with session-based tracking:
 
 See `CHANGELOG.md` for full history.
 
+## Cross-Project Usage
+
+This repo is the **design reference** for:
+- **mrd-producer-webapp** — unified dashboard, tool cards, documents table, login page all styled from these tokens
+- M3 Expressive tonal palette in `mrd-producer-webapp/app/globals.css` is derived from `color.brand.primary` (#1D1F4A)
+
+When adding tokens here, consider downstream consumers. Run `npm run build` and check that CSS/TS/JSON outputs are correct before pushing.
+
 ## Key Rules
 
 - NEVER edit files in `build/` — they are auto-generated

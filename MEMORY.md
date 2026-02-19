@@ -21,8 +21,24 @@ Reference file: `references/uiref/stlyle_guide_ts.md.txt` in mrd-producer-webapp
 - All token files use `$value`, `$type`, `$description` fields
 - Spacing follows 4px/8px grid: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64
 
+## Cross-Project Usage
+
+- **MRD Producer webapp** (`mrd-producer-webapp` repo) consumes brand tokens as design reference
+- `mrd-producer-webapp/app/globals.css` derives a full M3 Expressive tonal palette from brand primary `#1D1F4A` and secondary `#243469`
+- `mrd-producer-webapp/lib/style-tokens.ts` contains an expanded version of brand tokens with M3 type scale, shapes, and error colors
+- The dashboard (unified homepage with tool cards + documents table) references this repo for styling decisions
+- Google Material 3 Expressive design system is the bridge between raw brand tokens and UI components
+
+## Consumers
+
+| Project | How it uses tokens |
+|---------|-------------------|
+| mrd-producer-webapp | M3 tonal palette derived from brand colors in globals.css, style-tokens.ts |
+| (future) | Direct CSS/SCSS/TS imports from build/ outputs |
+
 ## Gotchas
 
 - Style Dictionary v5 is ESM-only — build script must be `.mjs` or package must have `"type": "module"`
 - Composite token values (objects) don't serialize properly in CSS/SCSS — split into individual sub-tokens instead
 - The `json/flat` format handles composite values correctly (outputs nested JSON objects)
+- When deriving M3 tonal palettes from brand colors, use Google's Material Theme Builder or manually calculate — don't guess hex values

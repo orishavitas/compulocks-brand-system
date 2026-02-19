@@ -44,3 +44,13 @@
   - Workflow A (Code→Figma): GitHub push webhook → transform → store for plugin pull
   - Workflow B (Figma→Code): POST from plugin → transform → create branch → commit → open PR
 - **Docs:** `FIGMA_SYNC.md` rewritten with plugin + n8n setup guide
+
+## v0.3.0 — 2026-02-20
+
+**Session 3: Cross-project integration**
+
+### v0.3.1 — MRD Producer dashboard design reference
+- Brand tokens adopted as design reference for MRD Producer unified dashboard
+- `mrd-producer-webapp` globals.css now uses M3 Expressive palette derived from brand primary `#1D1F4A`
+- Dashboard design doc created referencing `compulocks-brand-system` for styling (tool cards, documents table, login page)
+- MRD Producer `style-tokens.ts` expanded with M3 tonal palette, shapes, and type scale alongside original brand variants
