@@ -1,0 +1,97 @@
+{
+  "name": "Compulocks: Code → Figma Token Sync",
+  "nodes": [
+    {
+      "name": "GitHub Push Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github-push",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      }
+    },
+    {
+      "name": "Filter Token Changes",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "parameters": {
+        "conditions": {
+          "string": [{
+            "value1": "={{ JSON.stringify($json.commits) }}",
+            "operation": "contains",
+            "value2": "tokens/"
+          }]
+        }
+      }
+    },
+    {
+      "name": "Fetch color.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/contents/tokens/color.json?ref={{$env.GITHUB_BRANCH}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Transform DTCG to Figma",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "parameters": {
+        "jsCode": "// Paste the contents of lib/dtcg-to-figma.mjs here (remove the 'export' keywords)\n// Then call the functions:\n\n// const color = JSON.parse(Buffer.from($node['Fetch color.json'].json.content, 'base64').toString());\n// const typography = JSON.parse(Buffer.from($node['Fetch typography.json'].json.content, 'base64').toString());\n// const spacing = JSON.parse(Buffer.from($node['Fetch spacing.json'].json.content, 'base64').toString());\n// const variables = dtcgToFigmaVariables({ color, spacing });\n// const textStyles = dtcgToFigmaTextStyles(typography);\n// return [{ json: { collections: variables.collections, textStyles } }];\n\nreturn [{ json: { collections: [], textStyles: [] } }];"
+      }
+    },
+    {
+      "name": "Store for Pull",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1120, 300],
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nstaticData.latestTokens = $input.first().json;\nreturn $input.all();"
+      }
+    },
+    {
+      "name": "Pull Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 500],
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "pull",
+        "responseMode": "lastNode",
+        "responseData": "allEntries"
+      }
+    },
+    {
+      "name": "Return Stored Tokens",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [460, 500],
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nreturn [{ json: staticData.latestTokens || { collections: [], textStyles: [] } }];"
+      }
+    }
+  ],
+  "connections": {
+    "GitHub Push Webhook": { "main": [[ { "node": "Filter Token Changes", "type": "main", "index": 0 } ]] },
+    "Filter Token Changes": { "main": [[ { "node": "Fetch color.json", "type": "main", "index": 0 } ]] },
+    "Fetch color.json": { "main": [[ { "node": "Transform DTCG to Figma", "type": "main", "index": 0 } ]] },
+    "Transform DTCG to Figma": { "main": [[ { "node": "Store for Pull", "type": "main", "index": 0 } ]] },
+    "Pull Webhook": { "main": [[ { "node": "Return Stored Tokens", "type": "main", "index": 0 } ]] }
+  }
+}

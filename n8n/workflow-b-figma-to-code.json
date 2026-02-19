@@ -1,0 +1,121 @@
+{
+  "name": "Compulocks: Figma → Code Token Sync",
+  "nodes": [
+    {
+      "name": "Push Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "push",
+        "responseMode": "lastNode",
+        "responseData": "allEntries"
+      }
+    },
+    {
+      "name": "Transform Figma to DTCG",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "// Paste the contents of lib/figma-to-dtcg.mjs here (remove the 'export' keywords)\n// Then call:\n// const figmaData = $input.first().json;\n// const tokenFiles = figmaToTokenFiles(figmaData);\n// return Object.entries(tokenFiles).map(([filename, content]) => ({\n//   json: { filename, content: JSON.stringify(content, null, 2) }\n// }));\n\nreturn [{ json: { filename: 'color.json', content: '{}' } }];"
+      }
+    },
+    {
+      "name": "Get Master SHA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/git/ref/heads/{{$env.GITHUB_BRANCH}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Branch",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [900, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/git/refs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "ref", "value": "=refs/heads/figma-sync/{{ new Date().toISOString().slice(0,19).replace(/:/g,'-') }}" },
+            { "name": "sha", "value": "={{ $node['Get Master SHA'].json.object.sha }}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Commit Files",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1120, 300],
+      "parameters": {
+        "jsCode": "// For each token file, commit it to the new branch\n// This is a placeholder — in practice, loop through the transformed files\n// and make PUT requests to the GitHub Contents API for each one.\n// See n8n/README.md for the full GitHub API call details.\nconst branchName = $node['Create Branch'].json.ref.replace('refs/heads/', '');\nreturn [{ json: { branchName, message: 'Files committed to ' + branchName } }];"
+      }
+    },
+    {
+      "name": "Create PR",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1340, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/pulls",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "title", "value": "=Figma token sync — {{ new Date().toISOString().slice(0,10) }}" },
+            { "name": "body", "value": "Automated sync from Figma plugin.\n\nReview the token changes and merge when ready." },
+            { "name": "head", "value": "={{ $node['Commit Files'].json.branchName }}" },
+            { "name": "base", "value": "={{ $env.GITHUB_BRANCH }}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Return PR URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1560, 300],
+      "parameters": {
+        "jsCode": "return [{ json: { prUrl: $node['Create PR'].json.html_url } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Push Webhook": { "main": [[ { "node": "Transform Figma to DTCG", "type": "main", "index": 0 } ]] },
+    "Transform Figma to DTCG": { "main": [[ { "node": "Get Master SHA", "type": "main", "index": 0 } ]] },
+    "Get Master SHA": { "main": [[ { "node": "Create Branch", "type": "main", "index": 0 } ]] },
+    "Create Branch": { "main": [[ { "node": "Commit Files", "type": "main", "index": 0 } ]] },
+    "Commit Files": { "main": [[ { "node": "Create PR", "type": "main", "index": 0 } ]] },
+    "Create PR": { "main": [[ { "node": "Return PR URL", "type": "main", "index": 0 } ]] }
+  }
+}
