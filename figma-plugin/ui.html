@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Inter, sans-serif; padding: 16px; background: #2c2c2c; color: #fff; }
+    h2 { font-size: 14px; margin-bottom: 12px; color: #e0e0e0; }
+    .config { margin-bottom: 16px; }
+    .config label { display: block; font-size: 11px; color: #999; margin-bottom: 4px; }
+    .config input {
+      width: 100%; padding: 8px; border: 1px solid #555; border-radius: 4px;
+      background: #3c3c3c; color: #fff; font-size: 12px;
+    }
+    .actions { display: flex; gap: 8px; margin-top: 16px; }
+    button {
+      flex: 1; padding: 10px; border: none; border-radius: 6px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .pull { background: #18A0FB; color: #fff; }
+    .push { background: #7B61FF; color: #fff; }
+    button:hover { opacity: 0.9; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    #status {
+      margin-top: 12px; padding: 8px; border-radius: 4px;
+      font-size: 11px; background: #3c3c3c; min-height: 24px;
+    }
+    .success { color: #1bc47d; }
+    .error { color: #f24822; }
+    .info { color: #18A0FB; }
+  </style>
+</head>
+<body>
+  <h2>Compulocks Token Sync</h2>
+
+  <div class="config">
+    <label>n8n Webhook URL</label>
+    <input type="text" id="webhookUrl" placeholder="https://your-n8n.example.com/webhook/..." />
+  </div>
+
+  <div class="actions">
+    <button class="pull" id="pullBtn">Pull from Repo</button>
+    <button class="push" id="pushBtn">Push to Repo</button>
+  </div>
+
+  <div id="status"></div>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const pullBtn = document.getElementById('pullBtn');
+    const pushBtn = document.getElementById('pushBtn');
+    const webhookInput = document.getElementById('webhookUrl');
+
+    function setStatus(msg, type = 'info') {
+      statusEl.innerHTML = `<span class="${type}">${msg}</span>`;
+    }
+
+    function getWebhookUrl() {
+      return webhookInput.value.trim();
+    }
+
+    pullBtn.addEventListener('click', async () => {
+      const url = getWebhookUrl();
+      if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
+
+      setStatus('Pulling tokens from repo...', 'info');
+      pullBtn.disabled = true;
+
+      try {
+        const res = await fetch(url + '/pull', { method: 'GET' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        parent.postMessage({ pluginMessage: { type: 'pull', data } }, '*');
+      } catch (err) {
+        setStatus(`Pull failed: ${err.message}`, 'error');
+        pullBtn.disabled = false;
+      }
+    });
+
+    pushBtn.addEventListener('click', () => {
+      setStatus('Reading Figma variables...', 'info');
+      pushBtn.disabled = true;
+      parent.postMessage({ pluginMessage: { type: 'push-request' } }, '*');
+    });
+
+    window.onmessage = async (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      if (msg.type === 'pull-complete') {
+        setStatus(`Pulled ${msg.count} variables successfully.`, 'success');
+        pullBtn.disabled = false;
+      }
+
+      if (msg.type === 'push-data') {
+        const url = getWebhookUrl();
+        try {
+          const res = await fetch(url + '/push', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(msg.data)
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const result = await res.json();
+          setStatus(`Pushed! PR created: ${result.prUrl || 'check n8n'}`, 'success');
+        } catch (err) {
+          setStatus(`Push failed: ${err.message}`, 'error');
+        }
+        pushBtn.disabled = false;
+      }
+
+      if (msg.type === 'error') {
+        setStatus(msg.message, 'error');
+        pullBtn.disabled = false;
+        pushBtn.disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>
