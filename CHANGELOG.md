@@ -30,3 +30,17 @@
 - Added design doc: `docs/plans/2026-02-19-figma-two-way-sync-design.md`
 - Added implementation plan: `docs/plans/2026-02-19-figma-two-way-sync-plan.md`
 - 7 tasks across 5 phases: token guide (HMI), format converters, Figma plugin, n8n workflows, docs
+
+### v0.2.2 — Implementation: Figma sync system (complete)
+- **Token guide:** `token_guide.md` auto-generated on every `npm run build` — color/typography/spacing tables for non-technical stakeholders
+- **Format converters:** `lib/dtcg-to-figma.mjs` and `lib/figma-to-dtcg.mjs` — pure JS, fully tested (11 tests, all passing)
+  - DTCG→Figma: hex→RGB (0-1), rem→px, nested paths→slash paths, `{reference}` resolution
+  - Figma→DTCG: RGB→hex, px→rem, slash paths→nested DTCG structure
+- **Figma plugin:** `figma-plugin/` — TypeScript plugin with Pull/Push UI
+  - Pull: fetches tokens from n8n, creates/updates Figma Variables (COLOR, FLOAT) and Text Styles
+  - Push: reads all Variables + Text Styles, POSTs to n8n for PR creation
+  - Compiled with esbuild (`npm run build:plugin`)
+- **n8n workflows:** `n8n/` — importable JSON configs + setup README
+  - Workflow A (Code→Figma): GitHub push webhook → transform → store for plugin pull
+  - Workflow B (Figma→Code): POST from plugin → transform → create branch → commit → open PR
+- **Docs:** `FIGMA_SYNC.md` rewritten with plugin + n8n setup guide
