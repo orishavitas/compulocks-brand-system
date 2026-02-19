@@ -9,8 +9,9 @@ Built on **Style Dictionary v5** — human-editable JSON tokens auto-generate pl
 ## Commands
 
 ```bash
-npm run build    # Generate all platform outputs from tokens/*.json
-npm run clean    # Remove build/ directory
+npm run build          # Generate all platform outputs + token_guide.md from tokens/*.json
+npm run build:plugin   # Compile Figma plugin TypeScript → JavaScript
+npm run clean          # Remove build/ directory
 ```
 
 ## Architecture
@@ -21,13 +22,31 @@ tokens/              # Source of truth — edit these
 ├── typography.json  # Font families, weights, text styles
 └── spacing.json     # 4px/8px grid spacing scale
 
-build-tokens.mjs     # Style Dictionary v5 build script
+lib/                 # Shared utilities
+├── dtcg-to-figma.mjs       # DTCG → Figma format converter
+└── figma-to-dtcg.mjs       # Figma → DTCG format converter
+
+figma-plugin/        # Custom Figma plugin (Pull/Push sync)
+├── manifest.json
+├── code.ts          # Main thread — reads/writes Figma Variables & Styles
+└── ui.html          # UI — Pull/Push buttons + status
+
+n8n/                 # n8n workflow configs + setup guide
+├── README.md
+├── workflow-a-code-to-figma.json
+└── workflow-b-figma-to-code.json
+
+docs/plans/          # Design docs and implementation plans
+build-tokens.mjs     # Style Dictionary v5 build script + token guide generator
+FIGMA_SYNC.md        # Setup guide for Figma plugin + n8n sync
 
 build/               # Auto-generated — do NOT edit
 ├── css/variables.css       # CSS custom properties
 ├── scss/_variables.scss    # SCSS variables
 ├── ts/tokens.ts            # TypeScript constants
 └── json/tokens.json        # Flat JSON for tools/plugins
+
+token_guide.md       # Auto-generated — human-readable token dictionary
 ```
 
 ## Token Structure

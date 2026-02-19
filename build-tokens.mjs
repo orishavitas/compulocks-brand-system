@@ -1,4 +1,5 @@
 import StyleDictionary from 'style-dictionary';
+import { readFileSync, writeFileSync } from 'fs';
 
 // Custom format: nested TypeScript constants
 function tsTokensFormat({ dictionary }) {
@@ -74,4 +75,98 @@ const sd = new StyleDictionary({
 });
 
 await sd.buildAllPlatforms();
+
+// Generate token guide markdown
+function generateTokenGuide() {
+  // Read token files
+  const colorTokens = JSON.parse(readFileSync('tokens/color.json', 'utf-8'));
+  const typographyTokens = JSON.parse(readFileSync('tokens/typography.json', 'utf-8'));
+  const spacingTokens = JSON.parse(readFileSync('tokens/spacing.json', 'utf-8'));
+
+  let markdown = `# Compulocks Brand Token Guide
+> Auto-generated from tokens/*.json — do not edit directly
+
+`;
+
+  // Colors section
+  markdown += `## Colors
+
+| Token | Value | Description |
+|-------|-------|-------------|
+`;
+
+  function addColorTokens(obj, prefix = '') {
+    Object.entries(obj).forEach(([key, val]) => {
+      const path = prefix ? `${prefix}.${key}` : `color.${key}`;
+      if (val && typeof val === 'object' && '$value' in val) {
+        markdown += `| \`${path}\` | \`${val.$value}\` | ${val.$description || ''} |
+`;
+      } else if (val && typeof val === 'object' && !('$value' in val)) {
+        addColorTokens(val, path);
+      }
+    });
+  }
+
+  addColorTokens(colorTokens.color);
+
+  // Typography section
+  markdown += `
+## Typography
+
+### Font Families & Weights
+
+| Token | Value | Description |
+|-------|-------|-------------|
+`;
+
+  // Font families
+  Object.entries(typographyTokens.font.family).forEach(([key, val]) => {
+    markdown += `| \`font.family.${key}\` | \`${val.$value}\` | ${val.$description || ''} |
+`;
+  });
+
+  // Font weights
+  Object.entries(typographyTokens.font.weight).forEach(([key, val]) => {
+    markdown += `| \`font.weight.${key}\` | \`${val.$value}\` | ${val.$description || ''} |
+`;
+  });
+
+  // Text Styles
+  markdown += `
+### Text Styles
+
+| Style | Font | Weight | Transform | Description |
+|-------|------|--------|-----------|-------------|
+`;
+
+  Object.entries(typographyTokens.textStyle).forEach(([key, val]) => {
+    const fontFamily = val.fontFamily?.$value || '';
+    const fontWeight = val.fontWeight?.$value || '';
+    const textTransform = val.textTransform?.$value || '';
+    const description = val.$description || '';
+    markdown += `| \`textStyle.${key}\` | ${fontFamily} | ${fontWeight} | ${textTransform} | ${description} |
+`;
+  });
+
+  // Spacing section
+  markdown += `
+## Spacing Scale
+
+| Token | Value | px | Description |
+|-------|-------|-----|-------------|
+`;
+
+  Object.entries(spacingTokens.spacing).forEach(([key, val]) => {
+    const remValue = val.$value;
+    const pxValue = val.$description;
+    markdown += `| \`spacing.${key}\` | \`${remValue}\` | ${pxValue} |
+`;
+  });
+
+  writeFileSync('token_guide.md', markdown, 'utf-8');
+  console.log('Token guide generated → token_guide.md');
+}
+
+generateTokenGuide();
+
 console.log('Build complete — outputs in build/');
