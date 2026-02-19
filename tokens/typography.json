@@ -1,0 +1,59 @@
+{
+  "font": {
+    "family": {
+      "primary": {
+        "$value": "'Barlow Condensed', sans-serif",
+        "$type": "fontFamily",
+        "$description": "Primary brand font — headlines and big text"
+      },
+      "secondary": {
+        "$value": "'Barlow', sans-serif",
+        "$type": "fontFamily",
+        "$description": "Secondary brand font — body text"
+      }
+    },
+    "weight": {
+      "regular": {
+        "$value": "400",
+        "$type": "fontWeight"
+      },
+      "medium": {
+        "$value": "500",
+        "$type": "fontWeight"
+      }
+    }
+  },
+  "textStyle": {
+    "bigShortTitle": {
+      "fontFamily": { "$value": "{font.family.primary}" },
+      "fontWeight": { "$value": "{font.weight.medium}" },
+      "textTransform": { "$value": "uppercase" },
+      "$description": "Large short headlines — all caps"
+    },
+    "bigLongTitle": {
+      "fontFamily": { "$value": "{font.family.primary}" },
+      "fontWeight": { "$value": "{font.weight.medium}" },
+      "textTransform": { "$value": "capitalize" },
+      "$description": "Large long headlines — title case"
+    },
+    "bigParagraph": {
+      "fontFamily": { "$value": "{font.family.primary}" },
+      "fontWeight": { "$value": "{font.weight.regular}" },
+      "textTransform": { "$value": "lowercase" },
+      "$description": "Large body text"
+    },
+    "smallParagraph": {
+      "fontFamily": { "$value": "{font.family.secondary}" },
+      "fontWeight": { "$value": "{font.weight.regular}" },
+      "textTransform": { "$value": "lowercase" },
+      "$description": "Small body text"
+    },
+    "smallText": {
+      "fontFamily": { "$value": "{font.family.secondary}" },
+      "fontWeight": { "$value": "{font.weight.regular}" },
+      "fontStyle": { "$value": "italic" },
+      "textTransform": { "$value": "lowercase" },
+      "$description": "Small italic text — captions, notes"
+    }
+  }
+}

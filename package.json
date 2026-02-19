@@ -1,0 +1,17 @@
+{
+  "name": "compulocks-brand-system",
+  "version": "1.0.0",
+  "description": "Compulocks brand design tokens — single source of truth for colors, typography, and spacing",
+  "main": "build/ts/tokens.ts",
+  "scripts": {
+    "build": "node build-tokens.mjs",
+    "clean": "rm -rf build/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "style-dictionary": "^5.3.1"
+  }
+}

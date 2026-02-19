@@ -1,0 +1,16 @@
+{
+  "color": {
+    "brand": {
+      "primary": {
+        "$value": "#1D1F4A",
+        "$type": "color",
+        "$description": "Main brand color — Compulocks navy"
+      },
+      "highlight": {
+        "$value": "#243469",
+        "$type": "color",
+        "$description": "Secondary brand highlight"
+      }
+    }
+  }
+}
