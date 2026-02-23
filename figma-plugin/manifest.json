@@ -6,6 +6,7 @@
   "ui": "ui.html",
   "editorType": ["figma"],
   "networkAccess": {
-    "allowedDomains": ["*"]
+    "allowedDomains": ["*"],
+    "reasoning": "Plugin connects to a user-configured n8n webhook URL to pull/push design tokens. The domain is not known at build time."
   }
 }

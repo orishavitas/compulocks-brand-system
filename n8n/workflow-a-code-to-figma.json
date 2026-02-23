@@ -32,12 +32,44 @@
       "name": "Fetch color.json",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 3,
-      "position": [680, 300],
+      "position": [680, 200],
       "parameters": {
         "method": "GET",
         "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/contents/tokens/color.json?ref={{$env.GITHUB_BRANCH}}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fetch typography.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/contents/tokens/typography.json?ref={{$env.GITHUB_BRANCH}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fetch spacing.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 400],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.github.com/repos/{{$env.GITHUB_OWNER}}/{{$env.GITHUB_REPO}}/contents/tokens/spacing.json?ref={{$env.GITHUB_BRANCH}}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -69,7 +101,7 @@
       "name": "Pull Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
-      "position": [240, 500],
+      "position": [240, 560],
       "parameters": {
         "httpMethod": "GET",
         "path": "pull",
@@ -81,7 +113,7 @@
       "name": "Return Stored Tokens",
       "type": "n8n-nodes-base.code",
       "typeVersion": 1,
-      "position": [460, 500],
+      "position": [460, 560],
       "parameters": {
         "jsCode": "const staticData = $getWorkflowStaticData('global');\nreturn [{ json: staticData.latestTokens || { collections: [], textStyles: [] } }];"
       }
@@ -89,8 +121,16 @@
   ],
   "connections": {
     "GitHub Push Webhook": { "main": [[ { "node": "Filter Token Changes", "type": "main", "index": 0 } ]] },
-    "Filter Token Changes": { "main": [[ { "node": "Fetch color.json", "type": "main", "index": 0 } ]] },
+    "Filter Token Changes": { "main": [
+      [
+        { "node": "Fetch color.json", "type": "main", "index": 0 },
+        { "node": "Fetch typography.json", "type": "main", "index": 0 },
+        { "node": "Fetch spacing.json", "type": "main", "index": 0 }
+      ]
+    ]},
     "Fetch color.json": { "main": [[ { "node": "Transform DTCG to Figma", "type": "main", "index": 0 } ]] },
+    "Fetch typography.json": { "main": [[ { "node": "Transform DTCG to Figma", "type": "main", "index": 1 } ]] },
+    "Fetch spacing.json": { "main": [[ { "node": "Transform DTCG to Figma", "type": "main", "index": 2 } ]] },
     "Transform DTCG to Figma": { "main": [[ { "node": "Store for Pull", "type": "main", "index": 0 } ]] },
     "Pull Webhook": { "main": [[ { "node": "Return Stored Tokens", "type": "main", "index": 0 } ]] }
   }

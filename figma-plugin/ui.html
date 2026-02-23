@@ -77,6 +77,8 @@
     });
 
     pushBtn.addEventListener('click', () => {
+      const url = getWebhookUrl();
+      if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
       setStatus('Reading Figma variables...', 'info');
       pushBtn.disabled = true;
       parent.postMessage({ pluginMessage: { type: 'push-request' } }, '*');

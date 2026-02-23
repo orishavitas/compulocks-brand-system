@@ -92,9 +92,43 @@ This repo is the **design reference** for:
 
 When adding tokens here, consider downstream consumers. Run `npm run build` and check that CSS/TS/JSON outputs are correct before pushing.
 
+## Implementation Status
+
+### Figma Plugin — Ready to Test
+All plugin files exist and are compiled:
+- `figma-plugin/manifest.json` — plugin metadata, network access to all domains
+- `figma-plugin/code.ts` — main thread source (TypeScript)
+- `figma-plugin/code.js` — compiled output (esbuild, ready to use)
+- `figma-plugin/ui.html` — Pull/Push UI with n8n webhook URL input
+
+**To load for testing:**
+1. Open Figma → Plugins → Development → Import plugin from manifest
+2. Select `figma-plugin/manifest.json`
+3. Run "Compulocks Token Sync" from Development plugins
+
+**To rebuild after code changes:**
+```bash
+npm run build:plugin
+```
+
+### n8n Workflows
+- `n8n/workflow-a-code-to-figma.json` — importable workflow for Code→Figma pull
+- `n8n/workflow-b-figma-to-code.json` — importable workflow for Figma→Code push (PR creation)
+- `n8n/README.md` — full setup instructions
+
+**n8n status (2026-02-23):**
+- Instance: `https://orishavit84.app.n8n.cloud/` (Community 2.6.4)
+- Both workflows published and active
+- GitHub webhook live and delivering to n8n ✓
+- Figma plugin base URL: `https://orishavit84.app.n8n.cloud/webhook`
+- Workflow A Transform node: use `require('axios')` — n8n 2.6.4 has no `fetch` or `$http`
+- Transform node fetches all 3 token files via GitHub Contents API, decodes base64, converts DTCG→Figma format
+- **In progress:** Transform node debugging — axios pending test
+
 ## Key Rules
 
 - NEVER edit files in `build/` — they are auto-generated
 - ALWAYS run `npm run build` after changing tokens
+- ALWAYS run `npm run build:plugin` after changing `figma-plugin/code.ts`
 - ALWAYS update `CHANGELOG.md` following the versioning rules above
 - Check `MEMORY.md` before starting work for accumulated context

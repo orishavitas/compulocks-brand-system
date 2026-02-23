@@ -36,9 +36,31 @@ Reference file: `references/uiref/stlyle_guide_ts.md.txt` in mrd-producer-webapp
 | mrd-producer-webapp | M3 tonal palette derived from brand colors in globals.css, style-tokens.ts |
 | (future) | Direct CSS/SCSS/TS imports from build/ outputs |
 
+## Figma Plugin Status (2026-02-23)
+
+- Plugin loads in Figma Desktop ✓ — loaded via Plugins → Development → Import plugin from manifest
+- UI opens correctly: Pull (blue) + Push (purple) buttons, webhook URL input, status display
+- Both buttons validate empty URL before firing ✓
+- Push correctly reads Figma variables from document before attempting HTTP call ✓
+- `resolveForConsumer({ mode: modeId })` is the API used to read variable values in the push flow
+- Font weight is stored in Figma Text Style's `fontName.style` (e.g. "Medium"), not as a numeric value — plugin currently defaults fontWeight to 400 on push, which is a known limitation
+
+## n8n Gotchas (v2.6.4 Community)
+
+- **No `fetch`** — not available in Code nodes
+- **No `$http`** — only available in newer versions
+- **Use `require('axios')`** — axios is bundled and works in Code nodes
+- **No Variables feature** — Community edition lacks Settings → Variables; hardcode values directly in node parameters
+- **Parallel branches don't merge** — if Filter node splits to 3 parallel HTTP nodes, they can't all feed into one Code node; consolidate into a single Code node that does all HTTP calls itself
+- **Static data persists across executions** — `$getWorkflowStaticData('global')` stores token cache between runs
+- **GitHub API returns base64** — file content comes back as `res.content` (base64), decode with `Buffer.from(res.content, 'base64').toString()`
+- **Filter Token Changes** — checking `JSON.stringify($json.commits)` for `"tokens/"` doesn't work reliably for empty commits; removed for now, restore later
+
 ## Gotchas
 
 - Style Dictionary v5 is ESM-only — build script must be `.mjs` or package must have `"type": "module"`
 - Composite token values (objects) don't serialize properly in CSS/SCSS — split into individual sub-tokens instead
 - The `json/flat` format handles composite values correctly (outputs nested JSON objects)
 - When deriving M3 tonal palettes from brand colors, use Google's Material Theme Builder or manually calculate — don't guess hex values
+- Figma plugin `code.js` must be recompiled with `npm run build:plugin` after any change to `code.ts`
+- The plugin's `networkAccess.allowedDomains` is set to `["*"]` for development — restrict to n8n domain before shipping

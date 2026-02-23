@@ -54,3 +54,23 @@
 - `mrd-producer-webapp` globals.css now uses M3 Expressive palette derived from brand primary `#1D1F4A`
 - Dashboard design doc created referencing `compulocks-brand-system` for styling (tool cards, documents table, login page)
 - MRD Producer `style-tokens.ts` expanded with M3 tonal palette, shapes, and type scale alongside original brand variants
+
+## v0.4.0 — 2026-02-23
+
+**Session 4: Figma plugin testing**
+
+### v0.4.1 — Plugin UI testing complete
+- Fixed `manifest.json`: added `reasoning` field to `networkAccess` (required by Figma API for wildcard domains)
+- Fixed `ui.html`: Push button now validates empty URL before firing (was crashing with fetch parse error)
+- Plugin loads in Figma Desktop, UI opens, Pull/Push buttons work correctly
+- Pull validates empty URL ✓, Push validates empty URL ✓, Push reads Figma variables ✓
+
+### v0.4.2 — n8n wiring in progress
+- n8n instance: `https://orishavit84.app.n8n.cloud/` (Community 2.6.4)
+- Both workflows imported and published
+- GitHub webhook configured: `https://orishavit84.app.n8n.cloud/webhook/github-push`
+- Figma plugin webhook base URL: `https://orishavit84.app.n8n.cloud/webhook`
+- Filter Token Changes node removed (was blocking all pushes — will restore later with correct path check)
+- Parallel fetch nodes (color/typography/spacing) consolidated into single Transform node using `axios` (n8n 2.6.4 has no `$http` or `fetch` — use `require('axios')`)
+- Transform node code: uses `axios.get` + `Buffer.from(res.content, 'base64')` to decode GitHub API responses
+- **Status: Transform node still being debugged — axios approach pending test**
