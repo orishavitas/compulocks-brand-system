@@ -4,7 +4,7 @@
       "primary": {
         "$value": "#1D1F4A",
         "$type": "color",
-        "$description": "Main brand color — Compulocks navy"
+        "$description": "Main brand color — Compulocks navy blue"
       },
       "highlight": {
         "$value": "#243469",
