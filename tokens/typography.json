@@ -15,11 +15,13 @@
     "weight": {
       "regular": {
         "$value": "400",
-        "$type": "fontWeight"
+        "$type": "fontWeight",
+        "$description": "Regular weight — body text and captions"
       },
       "medium": {
         "$value": "500",
-        "$type": "fontWeight"
+        "$type": "fontWeight",
+        "$description": "Medium weight — headlines and emphasis"
       }
     }
   },
