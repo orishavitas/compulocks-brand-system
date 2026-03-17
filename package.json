@@ -5,7 +5,7 @@
   "main": "build/ts/tokens.ts",
   "scripts": {
     "build": "node build-tokens.mjs",
-    "build:plugin": "npx esbuild figma-plugin/code.ts --bundle --outfile=figma-plugin/code.js --target=es2020",
+    "build:plugin": "npx esbuild figma-plugin/code.ts --bundle --outfile=figma-plugin/code.js --target=es6",
     "clean": "rm -rf build/"
   },
   "keywords": [],

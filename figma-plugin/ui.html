@@ -68,7 +68,10 @@
       try {
         const res = await fetch(url + '/pull', { method: 'GET' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+        const raw = await res.json();
+        // n8n wraps responses in an array: [{ json: {...} }] or just the object directly
+        const data = Array.isArray(raw) ? (raw[0]?.json ?? raw[0]) : raw;
+        if (!data || !data.collections) throw new Error('Invalid response shape from n8n');
         parent.postMessage({ pluginMessage: { type: 'pull', data } }, '*');
       } catch (err) {
         setStatus(`Pull failed: ${err.message}`, 'error');

@@ -34,6 +34,8 @@ interface PullData {
 async function applyVariables(data: PullData) {
   let count = 0;
 
+  if (!data || !data.collections) throw new Error('No collections in pull response');
+
   for (const collection of data.collections) {
     const existingCollections = figma.variables.getLocalVariableCollections();
     let varCollection = existingCollections.find(c => c.name === collection.name);
