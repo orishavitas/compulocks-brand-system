@@ -1,0 +1,169 @@
+{
+  "name": "Compulocks: Code → Figma Token Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github-push",
+        "options": {}
+      },
+      "name": "GitHub Push Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [688, 304],
+      "id": "8e2a88de-04b5-439f-b211-d43efdea481a",
+      "webhookId": "26944eb4-2c94-4b1c-a924-ba932dc5c5e9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ JSON.stringify($json.body.commits) }}",
+              "operation": "contains",
+              "value2": "tokens/"
+            }
+          ]
+        }
+      },
+      "name": "Filter Token Changes",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [912, 192],
+      "id": "4e5ec1e5-0d86-42d2-8019-9fe9937ad135"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/tokens/color.json?ref=master",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "User-Agent", "value": "n8n-compulocks" }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Fetch color.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1120, 304],
+      "id": "d6a2a2f7-3d55-4226-a35c-0cf703505eb6"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/tokens/typography.json?ref=master",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "User-Agent", "value": "n8n-compulocks" }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Fetch typography.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1344, 304],
+      "id": "1a0e3aca-5355-43c6-8e26-61a1ae5badeb"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/tokens/spacing.json?ref=master",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{$env.GITHUB_TOKEN}}" },
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "User-Agent", "value": "n8n-compulocks" }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Fetch spacing.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1568, 304],
+      "id": "a6d789f3-dc3a-4af2-a666-e35a44d55214"
+    },
+    {
+      "parameters": {
+        "jsCode": "// See n8n/transform-node-code.js for the full annotated version\nconst color = JSON.parse(Buffer.from($node[\"Fetch color.json\"].json.content, \"base64\").toString());\nconst typography = JSON.parse(Buffer.from($node[\"Fetch typography.json\"].json.content, \"base64\").toString());\nconst spacing = JSON.parse(Buffer.from($node[\"Fetch spacing.json\"].json.content, \"base64\").toString());\n\nfunction hexRgb(hex) {\n  const h = hex.replace(\"#\", \"\");\n  const r = Math.round(parseInt(h.slice(0,2),16)/255*1000)/1000;\n  const g = Math.round(parseInt(h.slice(2,4),16)/255*1000)/1000;\n  const b = Math.round(parseInt(h.slice(4,6),16)/255*1000)/1000;\n  return { r, g, b, a: 1 };\n}\nfunction remPx(v) { return parseFloat(v) * 16; }\nfunction collect(obj, prefix) {\n  if (!prefix) prefix = '';\n  const out = [];\n  for (const key of Object.keys(obj)) {\n    const val = obj[key];\n    const path = prefix ? prefix + '/' + key : key;\n    if (val && typeof val === 'object' && '$value' in val) {\n      out.push({ path, value: val['$value'], type: val['$type'], desc: val['$description'] || '' });\n    } else if (val && typeof val === 'object' && key[0] !== '$') {\n      const sub = collect(val, path);\n      for (const s of sub) out.push(s);\n    }\n  }\n  return out;\n}\nconst colorTokens = collect(color);\nconst spacingTokens = collect(spacing);\nconst collections = [\n  { name: 'Brand', variables: colorTokens.map(t => ({ name: t.path, type: 'COLOR', value: hexRgb(t.value), description: t.desc })) },\n  { name: 'Spacing', variables: spacingTokens.map(t => ({ name: t.path, type: 'FLOAT', value: remPx(t.value), description: t.desc })) }\n];\nconst typoTokens = collect(typography);\nconst lookup = {};\nfor (const t of typoTokens) lookup[t.path.replace(/\\//g, '.')] = t.value;\nfunction resolve(val) {\n  if (typeof val !== 'string') return val;\n  const m = val.match(/^\\{(.+)\\}$/);\n  if (m) return lookup[m[1]] || val;\n  return val;\n}\nconst textStyles = [];\nfor (const name of Object.keys(typography.textStyle || {})) {\n  const s = typography.textStyle[name];\n  const ff = s.fontFamily ? resolve(s.fontFamily['$value']).replace(/'/g,'').split(',')[0].trim() : '';\n  const fw = s.fontWeight ? Number(resolve(s.fontWeight['$value'])) : 400;\n  const tt = s.textTransform ? resolve(s.textTransform['$value']) : '';\n  const desc = s['$description'] || '';\n  textStyles.push({ name: 'Text Styles/' + name, fontFamily: ff, fontWeight: fw, description: tt ? desc + ' | textTransform: ' + tt : desc });\n}\nreturn [{ json: { collections, textStyles } }];"
+      },
+      "name": "Transform DTCG to Figma",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1792, 304],
+      "id": "e6ffd90f-b2b9-4953-afaa-47b70c00d5e3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nstaticData.latestTokens = $input.first().json;\nreturn $input.all();"
+      },
+      "name": "Store for Pull",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [2016, 304],
+      "id": "7a038df9-f1a8-466c-ba75-5cdf011b0a05"
+    },
+    {
+      "parameters": {
+        "path": "pull",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "name": "Pull Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [688, 480],
+      "id": "803cefc6-0763-4324-933f-39de2d438108",
+      "webhookId": "54dca2da-bb22-4589-9a7e-633e6301c621"
+    },
+    {
+      "parameters": {
+        "jsCode": "const staticData = $getWorkflowStaticData('global');\nreturn [{ json: staticData.latestTokens || { collections: [], textStyles: [] } }];"
+      },
+      "name": "Return Stored Tokens",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [912, 560],
+      "id": "63c81be6-0236-4a7b-8e8f-3c9c0de7461e"
+    }
+  ],
+  "connections": {
+    "GitHub Push Webhook": {
+      "main": [[{ "node": "Filter Token Changes", "type": "main", "index": 0 }]]
+    },
+    "Filter Token Changes": {
+      "main": [
+        [{ "node": "Fetch color.json", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Fetch color.json": {
+      "main": [[{ "node": "Fetch typography.json", "type": "main", "index": 0 }]]
+    },
+    "Fetch typography.json": {
+      "main": [[{ "node": "Fetch spacing.json", "type": "main", "index": 0 }]]
+    },
+    "Fetch spacing.json": {
+      "main": [[{ "node": "Transform DTCG to Figma", "type": "main", "index": 0 }]]
+    },
+    "Transform DTCG to Figma": {
+      "main": [[{ "node": "Store for Pull", "type": "main", "index": 0 }]]
+    },
+    "Pull Webhook": {
+      "main": [[{ "node": "Return Stored Tokens", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": true,
+  "id": "ZiELy9_nFZyX9TzDbIlWL",
+  "tags": [{ "name": "code>figma" }]
+}
