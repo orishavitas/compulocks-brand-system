@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-03-21T20:45:56.928Z",
+  "components": [
+    {
+      "name": "Badge",
+      "variants": [
+        "Brand",
+        "Neutral",
+        "Success",
+        "Error"
+      ],
+      "states": [],
+      "tokens": [],
+      "hash": "fefd452edf094d55a245b2e6b20ea565c06c6193"
+    },
+    {
+      "name": "Button",
+      "variants": [
+        "Primary",
+        "Secondary",
+        "Ghost",
+        "Disabled",
+        "Loading"
+      ],
+      "states": [
+        "disabled",
+        "loading"
+      ],
+      "tokens": [],
+      "hash": "c3e6f12c621bc00d81c26a1798fb0a313ce54248"
+    },
+    {
+      "name": "Card",
+      "variants": [
+        "Default",
+        "Elevated"
+      ],
+      "states": [],
+      "tokens": [],
+      "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96"
+    },
+    {
+      "name": "Input",
+      "variants": [
+        "Default",
+        "Error",
+        "Disabled"
+      ],
+      "states": [
+        "disabled"
+      ],
+      "tokens": [],
+      "hash": "a2c8e2a1278c3ad06bafaeb372245e128f757bd0"
+    },
+    {
+      "name": "Tag",
+      "variants": [
+        "Default",
+        "Removable"
+      ],
+      "states": [],
+      "tokens": [],
+      "hash": "d86af42b3009f380c2158e45374cf3a89d962ba8"
+    }
+  ]
+}
