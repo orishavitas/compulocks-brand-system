@@ -1,0 +1,12 @@
+/* Bridge: imports built token CSS for Storybook dev environment */
+/* Do not import this in production — consumers should import build/css/variables.css directly */
+@import '../build/css/variables.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  margin: 0;
+}
