@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+echo "[pre-push] Running export-manifest.mjs..."
+node scripts/export-manifest.mjs
+if git diff --quiet HEAD -- component-manifest.json && git diff --cached --quiet -- component-manifest.json; then
+  echo "[pre-push] component-manifest.json unchanged — nothing to commit"
+else
+  echo "[pre-push] component-manifest.json changed — auto-committing..."
+  git add component-manifest.json
+  git commit -m "chore(manifest): auto-update component-manifest.json [pre-push]"
+  echo "[pre-push] Committed updated manifest"
+fi
+echo "[pre-push] Done"
+exit 0
