@@ -98,6 +98,23 @@
       }
     },
     {
+      "name": "Fetch component-manifest.json",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1340, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/orishavit84/compulocks-brand-system/contents/component-manifest.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Accept", "value": "application/vnd.github.v3+json" },
+            { "name": "User-Agent", "value": "n8n" }
+          ]
+        }
+      }
+    },
+    {
       "name": "Pull Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
@@ -132,6 +149,7 @@
     "Fetch typography.json": { "main": [[ { "node": "Transform DTCG to Figma", "type": "main", "index": 1 } ]] },
     "Fetch spacing.json": { "main": [[ { "node": "Transform DTCG to Figma", "type": "main", "index": 2 } ]] },
     "Transform DTCG to Figma": { "main": [[ { "node": "Store for Pull", "type": "main", "index": 0 } ]] },
+    "Store for Pull": { "main": [[ { "node": "Fetch component-manifest.json", "type": "main", "index": 0 } ]] },
     "Pull Webhook": { "main": [[ { "node": "Return Stored Tokens", "type": "main", "index": 0 } ]] }
   }
 }
