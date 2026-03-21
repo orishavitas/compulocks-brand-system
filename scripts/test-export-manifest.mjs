@@ -1,29 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
-
-function extractTitle(source) {
-  const m = source.match(/title\s*:\s*['"`]([^'"`]+)['"`]/);
-  return m ? m[1] : null;
-}
-function extractNamedExports(source) {
-  const matches = [...source.matchAll(/^export\s+const\s+(\w+)\s*:/gm)];
-  return matches.map(m => m[1]).filter(name => name !== 'default');
-}
-function extractArgTypesKeys(source) {
-  const start = source.indexOf('argTypes');
-  if (start === -1) return [];
-  let depth = 0, begin = -1;
-  for (let i = start; i < source.length; i++) {
-    if (source[i] === '{') { depth++; if (depth === 1) begin = i; }
-    else if (source[i] === '}') { depth--; if (depth === 0) { const block = source.slice(begin + 1, i); const keys = []; let d = 0, key = ''; for (let j = 0; j < block.length; j++) { const c = block[j]; if (c === '{' || c === '[') d++; else if (c === '}' || c === ']') d--; else if (d === 0 && c === ':') { const k = key.trim(); if (k) keys.push(k); key = ''; continue; } else if (d === 0 && c !== ',') key += c; } return keys; } }
-  }
-  return [];
-}
-function computeHash(name, variants, states) {
-  const input = name + JSON.stringify([...variants].sort()) + JSON.stringify([...states].sort());
-  return createHash('sha1').update(input).digest('hex');
-}
+import { extractTitle, extractNamedExports, extractArgTypesKeys, computeHash } from './export-manifest.mjs';
 
 let passed = 0; let failed = 0;
 function test(label, fn) {

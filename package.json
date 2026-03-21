@@ -10,7 +10,8 @@
     "build:components": "tsup",
     "build:all": "npm run build && npm run build:components",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "export-manifest": "node scripts/export-manifest.mjs"
   },
   "keywords": [],
   "author": "",
