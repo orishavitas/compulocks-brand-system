@@ -12,6 +12,7 @@ Built on **Style Dictionary v5** — human-editable JSON tokens auto-generate pl
 npm run build          # Generate all platform outputs + token_guide.md from tokens/*.json
 npm run build:plugin   # Compile Figma plugin TypeScript → JavaScript
 npm run clean          # Remove build/ directory
+npm run export-manifest    # Generate component-manifest.json from stories
 ```
 
 ## Architecture
@@ -30,6 +31,10 @@ figma-plugin/        # Custom Figma plugin (Pull/Push sync)
 ├── manifest.json
 ├── code.ts          # Main thread — reads/writes Figma Variables & Styles
 └── ui.html          # UI — Pull/Push buttons + status
+
+scripts/
+├── export-manifest.mjs    # Static story parser → component-manifest.json
+└── test-export-manifest.mjs  # Unit tests for the parser
 
 n8n/                 # n8n workflow configs + setup guide
 ├── README.md
@@ -124,6 +129,13 @@ npm run build:plugin
 - Workflow A Transform node: use `require('axios')` — n8n 2.6.4 has no `fetch` or `$http`
 - Transform node fetches all 3 token files via GitHub Contents API, decodes base64, converts DTCG→Figma format
 - **In progress:** Transform node debugging — axios pending test
+
+### Manifest Pipeline — Complete
+- `scripts/export-manifest.mjs` — static story parser, SHA-1 hashing
+- `scripts/test-export-manifest.mjs` — unit tests, all passing
+- `.githooks/pre-push` — auto-commits manifest on push
+- `component-manifest.json` — committed to repo root, consumed by Figma plugin
+- `n8n/workflow-a-code-to-figma.json` — extended to fetch manifest on push
 
 ## Key Rules
 
