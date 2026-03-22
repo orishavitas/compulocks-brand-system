@@ -18,6 +18,7 @@
     }
     .pull { background: #18A0FB; color: #fff; }
     .push { background: #7B61FF; color: #fff; }
+    .sync { background: #1bc47d; color: #fff; }
     button:hover { opacity: 0.9; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
     #status {
@@ -37,9 +38,15 @@
     <input type="text" id="webhookUrl" placeholder="https://your-n8n.example.com/webhook/..." />
   </div>
 
+  <div class="config">
+    <label>Manifest URL</label>
+    <input type="text" id="manifestUrl" placeholder="https://raw.githubusercontent.com/org/compulocks-brand-system/master/component-manifest.json" />
+  </div>
+
   <div class="actions">
     <button class="pull" id="pullBtn">Pull from Repo</button>
     <button class="push" id="pushBtn">Push to Repo</button>
+    <button class="sync" id="syncBtn">Sync Components</button>
   </div>
 
   <div id="status"></div>
@@ -49,6 +56,8 @@
     const pullBtn = document.getElementById('pullBtn');
     const pushBtn = document.getElementById('pushBtn');
     const webhookInput = document.getElementById('webhookUrl');
+    const syncBtn = document.getElementById('syncBtn');
+    const manifestInput = document.getElementById('manifestUrl');
 
     function setStatus(msg, type = 'info') {
       statusEl.innerHTML = `<span class="${type}">${msg}</span>`;
@@ -76,6 +85,24 @@
       } catch (err) {
         setStatus(`Pull failed: ${err.message}`, 'error');
         pullBtn.disabled = false;
+      }
+    });
+
+    syncBtn.addEventListener('click', async () => {
+      const url = manifestInput.value.trim();
+      if (!url) { setStatus('Enter the Manifest URL first.', 'error'); return; }
+
+      setStatus('Fetching component manifest...', 'info');
+      syncBtn.disabled = true;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const manifest = await res.json();
+        parent.postMessage({ pluginMessage: { type: 'sync-components', manifest } }, '*');
+      } catch (err) {
+        setStatus(`Manifest fetch failed: ${err.message}`, 'error');
+        syncBtn.disabled = false;
       }
     });
 
@@ -113,10 +140,21 @@
         pushBtn.disabled = false;
       }
 
+      if (msg.type === 'sync-complete') {
+        setStatus(`Synced ${msg.created} created, ${msg.updated} updated, ${msg.skipped} skipped.`, 'success');
+        syncBtn.disabled = false;
+      }
+
+      if (msg.type === 'sync-error') {
+        setStatus(`Sync failed: ${msg.message}`, 'error');
+        syncBtn.disabled = false;
+      }
+
       if (msg.type === 'error') {
         setStatus(msg.message, 'error');
         pullBtn.disabled = false;
         pushBtn.disabled = false;
+        syncBtn.disabled = false;
       }
     };
   </script>
