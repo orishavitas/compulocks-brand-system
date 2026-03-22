@@ -1,0 +1,45 @@
+/**
+ * Compulocks Design Token CSS Custom Properties
+ * Auto-generated from tokens/*.json via Style Dictionary v5.
+ * Do NOT edit directly — run `npm run build` then `npm run build:components`.
+ * Consumer usage: import '@compulocks/ui/styles.css';
+ */
+
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --color-brand-primary: #1d1f4a; /** Main brand color — Compulocks navy blue */
+  --color-brand-highlight: #243469; /** Secondary brand highlight */
+  --spacing-1: 0.25rem; /** 4px */
+  --spacing-2: 0.5rem; /** 8px */
+  --spacing-3: 0.75rem; /** 12px */
+  --spacing-4: 1rem; /** 16px */
+  --spacing-5: 1.25rem; /** 20px */
+  --spacing-6: 1.5rem; /** 24px */
+  --spacing-8: 2rem; /** 32px */
+  --spacing-10: 2.5rem; /** 40px */
+  --spacing-12: 3rem; /** 48px */
+  --spacing-16: 4rem; /** 64px */
+  --font-family-primary: 'Barlow Condensed', sans-serif; /** Primary brand font — headlines and big text */
+  --font-family-secondary: 'Barlow', sans-serif; /** Secondary brand font — body text */
+  --font-weight-regular: 400; /** Regular weight — body text and captions */
+  --font-weight-medium: 500; /** Medium weight — headlines and emphasis */
+  --text-style-big-short-title-text-transform: uppercase;
+  --text-style-big-long-title-text-transform: capitalize;
+  --text-style-big-paragraph-text-transform: lowercase;
+  --text-style-small-paragraph-text-transform: lowercase;
+  --text-style-small-text-font-style: italic;
+  --text-style-small-text-text-transform: lowercase;
+  --text-style-big-short-title-font-family: var(--font-family-primary);
+  --text-style-big-short-title-font-weight: var(--font-weight-medium);
+  --text-style-big-long-title-font-family: var(--font-family-primary);
+  --text-style-big-long-title-font-weight: var(--font-weight-medium);
+  --text-style-big-paragraph-font-family: var(--font-family-primary);
+  --text-style-big-paragraph-font-weight: var(--font-weight-regular);
+  --text-style-small-paragraph-font-family: var(--font-family-secondary);
+  --text-style-small-paragraph-font-weight: var(--font-weight-regular);
+  --text-style-small-text-font-family: var(--font-family-secondary);
+  --text-style-small-text-font-weight: var(--font-weight-regular);
+}
