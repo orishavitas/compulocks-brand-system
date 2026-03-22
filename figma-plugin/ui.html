@@ -141,7 +141,8 @@
       }
 
       if (msg.type === 'sync-complete') {
-        setStatus(`Synced ${msg.created} created, ${msg.updated} updated, ${msg.skipped} skipped.`, 'success');
+        const now = new Date().toLocaleTimeString();
+        setStatus(`Synced at ${now} — ${msg.created} created, ${msg.updated} updated, ${msg.skipped} skipped.`, 'success');
         syncBtn.disabled = false;
       }
 

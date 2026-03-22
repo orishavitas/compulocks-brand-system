@@ -52,8 +52,7 @@ function sha1(str: string): string {
   return toHex(h0) + toHex(h1) + toHex(h2) + toHex(h3) + toHex(h4);
 }
 
-// Suppress unused variable warning — sha1 is available for future use
-void sha1;
+// Available for client-side hash verification if needed in future. Manifest hash is trusted from component-manifest.json.
 
 figma.showUI(__html__, { width: 320, height: 280 });
 
@@ -213,6 +212,8 @@ function ensurePage(name: string): PageNode {
 }
 
 async function buildStyleGuidePage(page: PageNode): Promise<void> {
+  await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
+
   // Remove existing style guide frames we own
   for (const node of [...page.children]) {
     if (node.getPluginData('styleGuideSection') !== '') node.remove();
@@ -244,6 +245,16 @@ async function buildStyleGuidePage(page: PageNode): Promise<void> {
     swatch.resize(80, 80);
     swatch.fills = [{ type: 'SOLID', color: { r: rgba.r, g: rgba.g, b: rgba.b }, opacity: rgba.a }];
     (swatch as FrameNode).cornerRadius = 6;
+
+    const label = figma.createText();
+    label.fontName = { family: 'Inter', style: 'Regular' };
+    label.characters = v.name;
+    label.fontSize = 8;
+    label.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+    label.x = 4;
+    label.y = 60;
+    swatch.appendChild(label);
+
     colorFrame.appendChild(swatch);
   }
 
@@ -301,6 +312,16 @@ async function buildStyleGuidePage(page: PageNode): Promise<void> {
     bar.name = v.name;
     bar.resize(Math.max(4, px), Math.max(4, px));
     bar.fills = [{ type: 'SOLID', color: { r: 0.11, g: 0.63, b: 0.49 } }];
+
+    const barLabel = figma.createText();
+    barLabel.fontName = { family: 'Inter', style: 'Regular' };
+    barLabel.characters = v.name;
+    barLabel.fontSize = 8;
+    barLabel.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+    barLabel.x = 2;
+    barLabel.y = 2;
+    bar.appendChild(barLabel);
+
     spacingFrame.appendChild(bar);
   }
 

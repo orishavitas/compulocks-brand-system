@@ -116,6 +116,7 @@
       }
       function buildStyleGuidePage(page) {
         return __async(this, null, function* () {
+          yield figma.loadFontAsync({ family: "Inter", style: "Regular" });
           for (const node of [...page.children]) {
             if (node.getPluginData("styleGuideSection") !== "") node.remove();
           }
@@ -140,6 +141,14 @@
             swatch.resize(80, 80);
             swatch.fills = [{ type: "SOLID", color: { r: rgba.r, g: rgba.g, b: rgba.b }, opacity: rgba.a }];
             swatch.cornerRadius = 6;
+            const label = figma.createText();
+            label.fontName = { family: "Inter", style: "Regular" };
+            label.characters = v.name;
+            label.fontSize = 8;
+            label.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+            label.x = 4;
+            label.y = 60;
+            swatch.appendChild(label);
             colorFrame.appendChild(swatch);
           }
           page.appendChild(colorFrame);
@@ -188,6 +197,14 @@
             bar.name = v.name;
             bar.resize(Math.max(4, px), Math.max(4, px));
             bar.fills = [{ type: "SOLID", color: { r: 0.11, g: 0.63, b: 0.49 } }];
+            const barLabel = figma.createText();
+            barLabel.fontName = { family: "Inter", style: "Regular" };
+            barLabel.characters = v.name;
+            barLabel.fontSize = 8;
+            barLabel.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+            barLabel.x = 2;
+            barLabel.y = 2;
+            bar.appendChild(barLabel);
             spacingFrame.appendChild(bar);
           }
           page.appendChild(spacingFrame);
