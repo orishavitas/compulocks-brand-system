@@ -357,9 +357,6 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest):
     const variantList = component.variants.length > 0 ? component.variants : ['default'];
     const stateList = component.states.length > 0 ? component.states : ['default'];
 
-    // Ensure current page is the components page before creating nodes
-    figma.currentPage = page;
-
     for (const variant of variantList) {
       for (const state of stateList) {
         const node = figma.createComponent();
@@ -376,6 +373,8 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest):
         label.y = 16;
         node.appendChild(label);
 
+        // Must be a child of the target page before combineAsVariants
+        page.appendChild(node);
         childNodes.push(node);
       }
     }

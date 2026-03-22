@@ -234,7 +234,6 @@
             const childNodes = [];
             const variantList = component.variants.length > 0 ? component.variants : ["default"];
             const stateList = component.states.length > 0 ? component.states : ["default"];
-            figma.currentPage = page;
             for (const variant of variantList) {
               for (const state of stateList) {
                 const node = figma.createComponent();
@@ -249,6 +248,7 @@
                 label.x = 8;
                 label.y = 16;
                 node.appendChild(label);
+                page.appendChild(node);
                 childNodes.push(node);
               }
             }
