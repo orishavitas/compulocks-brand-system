@@ -234,6 +234,7 @@
             const childNodes = [];
             const variantList = component.variants.length > 0 ? component.variants : ["default"];
             const stateList = component.states.length > 0 ? component.states : ["default"];
+            figma.currentPage = page;
             for (const variant of variantList) {
               for (const state of stateList) {
                 const node = figma.createComponent();
@@ -291,6 +292,7 @@
             }
             const styleGuidePage = ensurePage("\u{1F3A8} Style Guide");
             const componentsPage = ensurePage("\u{1F9E9} Components");
+            figma.currentPage = styleGuidePage;
             yield buildStyleGuidePage(styleGuidePage);
             figma.currentPage = componentsPage;
             const syncResult = yield buildComponentsPage(componentsPage, manifest);
