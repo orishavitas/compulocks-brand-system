@@ -39,8 +39,8 @@
   </div>
 
   <div class="config">
-    <label>Manifest URL</label>
-    <input type="text" id="manifestUrl" placeholder="https://raw.githubusercontent.com/org/compulocks-brand-system/master/component-manifest.json" />
+    <label>GitHub Token (for private repo)</label>
+    <input type="password" id="githubToken" placeholder="ghp_..." />
   </div>
 
   <div class="actions">
@@ -57,7 +57,7 @@
     const pushBtn = document.getElementById('pushBtn');
     const webhookInput = document.getElementById('webhookUrl');
     const syncBtn = document.getElementById('syncBtn');
-    const manifestInput = document.getElementById('manifestUrl');
+    const githubTokenInput = document.getElementById('githubToken');
 
     function setStatus(msg, type = 'info') {
       statusEl.innerHTML = `<span class="${type}">${msg}</span>`;
@@ -89,16 +89,25 @@
     });
 
     syncBtn.addEventListener('click', async () => {
-      const url = manifestInput.value.trim();
-      if (!url) { setStatus('Enter the Manifest URL first.', 'error'); return; }
+      const token = githubTokenInput.value.trim();
+      if (!token) { setStatus('Enter your GitHub token first.', 'error'); return; }
 
       setStatus('Fetching component manifest...', 'info');
       syncBtn.disabled = true;
 
       try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const manifest = await res.json();
+        // GitHub Contents API — works for private repos with a token
+        const apiUrl = 'https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/component-manifest.json';
+        const res = await fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (!res.ok) throw new Error(`GitHub API: HTTP ${res.status}`);
+        const json = await res.json();
+        // Contents API returns base64-encoded content
+        const manifest = JSON.parse(atob(json.content.replace(/\n/g, '')));
         parent.postMessage({ pluginMessage: { type: 'sync-components', manifest } }, '*');
       } catch (err) {
         setStatus(`Manifest fetch failed: ${err.message}`, 'error');
