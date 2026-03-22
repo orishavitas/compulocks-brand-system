@@ -74,3 +74,44 @@
 - Parallel fetch nodes (color/typography/spacing) consolidated into single Transform node using `axios` (n8n 2.6.4 has no `$http` or `fetch` — use `require('axios')`)
 - Transform node code: uses `axios.get` + `Buffer.from(res.content, 'base64')` to decode GitHub API responses
 - **Status: Transform node still being debugged — axios approach pending test**
+
+## v0.5.0 — 2026-03-22
+
+**Session 5: Full design system MVP**
+
+### v0.5.1 — Component infrastructure (Plan 1)
+- Added React 18 + TypeScript component library in `components/`
+- 5 components: Button (primary/secondary/ghost), Card (default/elevated), Input (default/error), Badge (brand/neutral/success/error), Tag (default/removable)
+- Storybook 10 with CSF3 stories (`npm run storybook` → localhost:6006)
+- tsup build config (`npm run build:components` → `dist/` CJS + ESM + types)
+- `components/tokens.css` — CSS bridge importing `build/css/variables.css` for Storybook
+
+### v0.5.2 — Manifest pipeline (Plan 2)
+- `scripts/export-manifest.mjs` — static regex parser for `*.stories.tsx`, SHA-1 hashing, no dependencies
+- `scripts/test-export-manifest.mjs` — 16 unit tests, all passing
+- `.githooks/pre-push` — auto-regenerates and commits `component-manifest.json` on every push
+- `component-manifest.json` — committed to repo root, 5 components with name/variants/states/hash
+- `n8n/workflow-a-code-to-figma.json` — extended with `Fetch component-manifest.json` httpRequest node
+- `package.json` — added `prepare` (sets core.hooksPath) and `export-manifest` scripts
+
+### v0.5.3 — Figma plugin component sync (Plan 3)
+- Plugin UI: added GitHub Token input (password field) + Sync Components button (green)
+- `figma-plugin/code.ts`: SHA-1 inline impl, `ensurePage`, `buildStyleGuidePage`, `buildComponentsPage`, `sync-components` handler
+- Style Guide page: color swatches with labels, typography specimens, spacing scale bars with labels
+- Components page: one `ComponentSetNode` per manifest component, children named `variant=X, state=Y`
+- Hash-based skip logic: `node.getPluginData('manifestHash')` vs `component.hash`
+- Manifest fetched via GitHub Contents API with Bearer token (private repo support)
+- **Tested and working in Figma Desktop**
+
+### v0.5.4 — npm package (Plan 4)
+- `package.json` name set to `@compulocks/ui`, version `0.1.0`
+- `styles.css` source file + tsup `onSuccess` hook copies to `dist/styles.css`
+- `test-consumer/` — local Vite + React app verifying `@compulocks/ui` imports and styles
+- `.npmignore` — excludes all dev files from published tarball
+- `CLAUDE.md` updated with Publishing section
+
+### v0.5.5 — Bug fixes
+- Push crash: `resolveForConsumer({mode})` → `v.valuesByMode[modeId]` (Figma API correction)
+- Pull URL: strip trailing slash before appending `/pull`
+- Sync Components: `page.appendChild(node)` before `figma.combineAsVariants()` — nodes must be on target page first
+- Push button (Figma→Code) returns HTTP 500 from n8n — deferred for next session

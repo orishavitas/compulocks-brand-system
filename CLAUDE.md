@@ -99,17 +99,20 @@ When adding tokens here, consider downstream consumers. Run `npm run build` and 
 
 ## Implementation Status
 
-### Figma Plugin — Ready to Test
-All plugin files exist and are compiled:
+### Figma Plugin — Working ✅
 - `figma-plugin/manifest.json` — plugin metadata, network access to all domains
-- `figma-plugin/code.ts` — main thread source (TypeScript)
-- `figma-plugin/code.js` — compiled output (esbuild, ready to use)
-- `figma-plugin/ui.html` — Pull/Push UI with n8n webhook URL input
+- `figma-plugin/code.ts` — Pull, Push, Sync Components handlers
+- `figma-plugin/code.js` — compiled output (esbuild)
+- `figma-plugin/ui.html` — 3 buttons (Pull / Push / Sync Components) + n8n webhook URL + GitHub token inputs
 
-**To load for testing:**
-1. Open Figma → Plugins → Development → Import plugin from manifest
-2. Select `figma-plugin/manifest.json`
-3. Run "Compulocks Token Sync" from Development plugins
+**Plugin inputs:**
+- n8n Webhook URL: `https://orishavit84.app.n8n.cloud/webhook` (no trailing slash)
+- GitHub Token: fine-grained or classic PAT with `repo` read scope (for private repo manifest fetch)
+
+**Buttons:**
+- **Pull** — fetches tokens from n8n → applies to Figma Variables + Text Styles ✅
+- **Push** — reads Figma Variables → POSTs to n8n (HTTP 500 from n8n — deferred) ⚠️
+- **Sync Components** — fetches manifest via GitHub Contents API → creates/updates Style Guide + Components pages ✅
 
 **To rebuild after code changes:**
 ```bash
@@ -117,25 +120,29 @@ npm run build:plugin
 ```
 
 ### n8n Workflows
-- `n8n/workflow-a-code-to-figma.json` — importable workflow for Code→Figma pull
-- `n8n/workflow-b-figma-to-code.json` — importable workflow for Figma→Code push (PR creation)
+- `n8n/workflow-a-code-to-figma.json` — Code→Figma pull (active, working)
+- `n8n/workflow-b-figma-to-code.json` — Figma→Code push PR (active, returns 500 — deferred)
 - `n8n/README.md` — full setup instructions
 
-**n8n status (2026-02-23):**
+**n8n status (2026-03-22):**
 - Instance: `https://orishavit84.app.n8n.cloud/` (Community 2.6.4)
-- Both workflows published and active
-- GitHub webhook live and delivering to n8n ✓
+- GitHub webhook live and delivering ✓
 - Figma plugin base URL: `https://orishavit84.app.n8n.cloud/webhook`
-- Workflow A Transform node: use `require('axios')` — n8n 2.6.4 has no `fetch` or `$http`
-- Transform node fetches all 3 token files via GitHub Contents API, decodes base64, converts DTCG→Figma format
-- **In progress:** Transform node debugging — axios pending test
+- Workflow A Transform node: uses `require('axios')` — n8n 2.6.4 has no `fetch` or `$http`
 
-### Manifest Pipeline — Complete
+### Manifest Pipeline — Complete ✅
 - `scripts/export-manifest.mjs` — static story parser, SHA-1 hashing
-- `scripts/test-export-manifest.mjs` — unit tests, all passing
-- `.githooks/pre-push` — auto-commits manifest on push
-- `component-manifest.json` — committed to repo root, consumed by Figma plugin
+- `scripts/test-export-manifest.mjs` — 16 unit tests, all passing
+- `.githooks/pre-push` — auto-commits manifest on every push
+- `component-manifest.json` — committed to repo root, 5 components
 - `n8n/workflow-a-code-to-figma.json` — extended to fetch manifest on push
+
+### Component Library — Complete ✅
+- `components/` — 5 React components (Button, Card, Input, Badge, Tag)
+- `npm run storybook` — Storybook 10 on localhost:6006
+- `npm run build:components` — tsup builds `dist/` (CJS + ESM + types + styles.css)
+- `test-consumer/` — local Vite app to verify `@compulocks/ui` imports
+- Package name: `@compulocks/ui` v0.1.0 — ready to publish to npm
 
 ## Key Rules
 
