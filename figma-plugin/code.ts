@@ -177,7 +177,7 @@ function readVariables() {
       const v = figma.variables.getVariableById(varId);
       if (!v) continue;
 
-      const value = v.resolveForConsumer({ mode: modeId }).value;
+      const value = v.valuesByMode[modeId];
       variables.push({
         name: v.name,
         type: v.resolvedType as 'COLOR' | 'FLOAT',

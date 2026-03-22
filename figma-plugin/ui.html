@@ -64,7 +64,7 @@
     }
 
     function getWebhookUrl() {
-      return webhookInput.value.trim();
+      return webhookInput.value.trim().replace(/\/+$/, '');
     }
 
     pullBtn.addEventListener('click', async () => {

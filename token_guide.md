@@ -5,7 +5,7 @@
 
 | Token | Value | Description |
 |-------|-------|-------------|
-| `color.brand.primary` | `#1D1F4A` | Main brand color — Compulocks navy |
+| `color.brand.primary` | `#1D1F4A` | Main brand color — Compulocks navy blue |
 | `color.brand.highlight` | `#243469` | Secondary brand highlight |
 
 ## Typography
@@ -16,8 +16,8 @@
 |-------|-------|-------------|
 | `font.family.primary` | `'Barlow Condensed', sans-serif` | Primary brand font — headlines and big text |
 | `font.family.secondary` | `'Barlow', sans-serif` | Secondary brand font — body text |
-| `font.weight.regular` | `400` |  |
-| `font.weight.medium` | `500` |  |
+| `font.weight.regular` | `400` | Regular weight — body text and captions |
+| `font.weight.medium` | `500` | Medium weight — headlines and emphasis |
 
 ### Text Styles
 
