@@ -144,3 +144,31 @@ npm run build:plugin
 - ALWAYS run `npm run build:plugin` after changing `figma-plugin/code.ts`
 - ALWAYS update `CHANGELOG.md` following the versioning rules above
 - Check `MEMORY.md` before starting work for accumulated context
+
+## Publishing
+
+### Package identity
+- **npm package name:** `@compulocks/ui`
+- **Registry:** public npm (`registry.npmjs.org`)
+
+### Pre-publish checklist
+1. `npm run build:all` — regenerate tokens + dist/
+2. `npm pack --dry-run` — verify only dist/ in tarball
+3. Verify `dist/styles.css` has `:root { ... }` token variables
+4. Bump version in `package.json`
+5. `cd test-consumer && npm run dev` — confirm no errors
+
+### Publish
+```bash
+npm login
+npm publish --access public
+```
+
+### Consumer usage
+```bash
+npm install @compulocks/ui
+```
+```tsx
+import { Button, Card, Badge, Tag, Input } from '@compulocks/ui';
+import '@compulocks/ui/styles.css';
+```
