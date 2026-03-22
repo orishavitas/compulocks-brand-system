@@ -1,8 +1,33 @@
 {
-  "name": "compulocks-brand-system",
-  "version": "1.0.0",
-  "description": "Compulocks brand design tokens — single source of truth for colors, typography, and spacing",
-  "main": "build/ts/tokens.ts",
+  "name": "@compulocks/ui",
+  "version": "0.1.0",
+  "description": "Compulocks brand design tokens and React component library",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "design-system",
+    "compulocks",
+    "react",
+    "design-tokens"
+  ],
+  "author": "Compulocks",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
   "scripts": {
     "build": "node build-tokens.mjs",
     "build:plugin": "npx esbuild figma-plugin/code.ts --bundle --outfile=figma-plugin/code.js --target=es6",
@@ -14,9 +39,6 @@
     "export-manifest": "node scripts/export-manifest.mjs",
     "prepare": "git config core.hooksPath .githooks"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "style-dictionary": "^5.3.1"
