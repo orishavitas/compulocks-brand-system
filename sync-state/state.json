@@ -1,0 +1,946 @@
+{
+  "version": 1,
+  "computedAt": "2026-03-24T11:34:30.102Z",
+  "primarySource": null,
+  "sources": [
+    "storybook",
+    "github"
+  ],
+  "entities": [
+    {
+      "entityId": "Badge",
+      "entityType": "component",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "present",
+          "hash": "bfb026b69b2e646383b60161133a1515b7423f0e",
+          "value": {
+            "id": "Badge",
+            "variants": [
+              "Brand",
+              "Neutral",
+              "Success",
+              "Error"
+            ],
+            "states": [],
+            "hash": "fefd452edf094d55a245b2e6b20ea565c06c6193"
+          },
+          "lastSeen": "2026-03-24T11:34:30.042Z"
+        },
+        "github": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "Button",
+      "entityType": "component",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "present",
+          "hash": "af472a921e46d420e272afa585aaec2ab24fbd0d",
+          "value": {
+            "id": "Button",
+            "variants": [
+              "Primary",
+              "Secondary",
+              "Ghost",
+              "Disabled",
+              "Loading"
+            ],
+            "states": [
+              "disabled",
+              "loading"
+            ],
+            "hash": "c3e6f12c621bc00d81c26a1798fb0a313ce54248"
+          },
+          "lastSeen": "2026-03-24T11:34:30.042Z"
+        },
+        "github": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "Card",
+      "entityType": "component",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "present",
+          "hash": "a833883b8c038bff67d1759afa9e18ed7590fc0d",
+          "value": {
+            "id": "Card",
+            "variants": [
+              "Default",
+              "Elevated"
+            ],
+            "states": [],
+            "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96"
+          },
+          "lastSeen": "2026-03-24T11:34:30.042Z"
+        },
+        "github": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "Input",
+      "entityType": "component",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "present",
+          "hash": "de88127d3a103875eee273f621e2e163cd12b04c",
+          "value": {
+            "id": "Input",
+            "variants": [
+              "Default",
+              "Error",
+              "Disabled"
+            ],
+            "states": [
+              "disabled"
+            ],
+            "hash": "a2c8e2a1278c3ad06bafaeb372245e128f757bd0"
+          },
+          "lastSeen": "2026-03-24T11:34:30.042Z"
+        },
+        "github": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "Tag",
+      "entityType": "component",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "present",
+          "hash": "9f70b0b5a4913d1d8e7f9e405c6dc62d5cbd2c81",
+          "value": {
+            "id": "Tag",
+            "variants": [
+              "Default",
+              "Removable"
+            ],
+            "states": [],
+            "hash": "d86af42b3009f380c2158e45374cf3a89d962ba8"
+          },
+          "lastSeen": "2026-03-24T11:34:30.042Z"
+        },
+        "github": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "color.brand.primary",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "4a4e0980a08d9f53f1e037cde37ce4e532776c13",
+          "value": {
+            "id": "color.brand.primary",
+            "type": "color",
+            "value": "#1D1F4A",
+            "description": "Main brand color — Compulocks navy blue"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "color.brand.highlight",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "2e152e04ef2174fe2a6a03942f711bb2941b5a2a",
+          "value": {
+            "id": "color.brand.highlight",
+            "type": "color",
+            "value": "#243469",
+            "description": "Secondary brand highlight"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "spacing.1",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "9c90fc88b4e3ea06b1924b87bda8cee90992f56a",
+          "value": {
+            "id": "spacing.1",
+            "type": "dimension",
+            "value": "0.25rem",
+            "description": "4px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.100Z"
+    },
+    {
+      "entityId": "spacing.2",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "15c81e62ae3b815e62603dc2fd5151915cfe95c7",
+          "value": {
+            "id": "spacing.2",
+            "type": "dimension",
+            "value": "0.5rem",
+            "description": "8px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.3",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "20cce4a21a21654ef243b16e49beb53adfb33eea",
+          "value": {
+            "id": "spacing.3",
+            "type": "dimension",
+            "value": "0.75rem",
+            "description": "12px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.4",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "a5b708ad6b808383b1c0438ec2c30d856fcbe076",
+          "value": {
+            "id": "spacing.4",
+            "type": "dimension",
+            "value": "1rem",
+            "description": "16px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.5",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "948f6619f7e5076f8b0d02db65d5a50a30951346",
+          "value": {
+            "id": "spacing.5",
+            "type": "dimension",
+            "value": "1.25rem",
+            "description": "20px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.6",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "53678b31e24e195b04216567e1349680009931e6",
+          "value": {
+            "id": "spacing.6",
+            "type": "dimension",
+            "value": "1.5rem",
+            "description": "24px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.8",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "008538f35a4369d5e16aa31a418963c30a2fe78c",
+          "value": {
+            "id": "spacing.8",
+            "type": "dimension",
+            "value": "2rem",
+            "description": "32px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.10",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "cc0071a81e07d4656addb895a359f3a06f1ce270",
+          "value": {
+            "id": "spacing.10",
+            "type": "dimension",
+            "value": "2.5rem",
+            "description": "40px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.12",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "5c82d342e7308f16913b1fc7069c4be900962cee",
+          "value": {
+            "id": "spacing.12",
+            "type": "dimension",
+            "value": "3rem",
+            "description": "48px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "spacing.16",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "a04b0e023cae42f88663eb14118171d5dc349156",
+          "value": {
+            "id": "spacing.16",
+            "type": "dimension",
+            "value": "4rem",
+            "description": "64px"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "font.family.primary",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "a95b5202bfcfb1793440265e927dbcd27c89b55e",
+          "value": {
+            "id": "font.family.primary",
+            "type": "fontFamily",
+            "value": "'Barlow Condensed', sans-serif",
+            "description": "Primary brand font — headlines and big text"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "font.family.secondary",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "dcc04a0eaae0710c37e846b2a46c638477a016de",
+          "value": {
+            "id": "font.family.secondary",
+            "type": "fontFamily",
+            "value": "'Barlow', sans-serif",
+            "description": "Secondary brand font — body text"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "font.weight.regular",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "1be4314ea8a1cf0215f38e4b40f752e70ad71146",
+          "value": {
+            "id": "font.weight.regular",
+            "type": "fontWeight",
+            "value": "400",
+            "description": "Regular weight — body text and captions"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "font.weight.medium",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "e92e839e1463cd384f0335aa9b3f71c8c26f7728",
+          "value": {
+            "id": "font.weight.medium",
+            "type": "fontWeight",
+            "value": "500",
+            "description": "Medium weight — headlines and emphasis"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigShortTitle.fontFamily",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "4f823f14c8c136a744d5223e920b09e024b28d9c",
+          "value": {
+            "id": "textStyle.bigShortTitle.fontFamily",
+            "type": "other",
+            "value": "{font.family.primary}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigShortTitle.fontWeight",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "cd225f1a6cd909f949c8c082cd6a0f068288d92a",
+          "value": {
+            "id": "textStyle.bigShortTitle.fontWeight",
+            "type": "other",
+            "value": "{font.weight.medium}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigShortTitle.textTransform",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "f3d6b805be34628a88947a164d42ae04a2ca10ed",
+          "value": {
+            "id": "textStyle.bigShortTitle.textTransform",
+            "type": "other",
+            "value": "uppercase"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigLongTitle.fontFamily",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "079287f05f3cebfbab09b1245a5e2a3c93e7fcc5",
+          "value": {
+            "id": "textStyle.bigLongTitle.fontFamily",
+            "type": "other",
+            "value": "{font.family.primary}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigLongTitle.fontWeight",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "8809fb8e8bf5ed5811650c69216e9d62b0599795",
+          "value": {
+            "id": "textStyle.bigLongTitle.fontWeight",
+            "type": "other",
+            "value": "{font.weight.medium}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigLongTitle.textTransform",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "9ad298c4562eda953db0a988bee4085caeacb91a",
+          "value": {
+            "id": "textStyle.bigLongTitle.textTransform",
+            "type": "other",
+            "value": "capitalize"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigParagraph.fontFamily",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "0b87835e7554fc24a456201ec7d2abc2acd6f61b",
+          "value": {
+            "id": "textStyle.bigParagraph.fontFamily",
+            "type": "other",
+            "value": "{font.family.primary}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigParagraph.fontWeight",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "63729623cf8daba7b10d99dc7671f08206341cc3",
+          "value": {
+            "id": "textStyle.bigParagraph.fontWeight",
+            "type": "other",
+            "value": "{font.weight.regular}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.bigParagraph.textTransform",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "038cf294acb342edf1e14069a5ede1dcd5852db5",
+          "value": {
+            "id": "textStyle.bigParagraph.textTransform",
+            "type": "other",
+            "value": "lowercase"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallParagraph.fontFamily",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "ea01356f350a6137dd77e8f21734d8eef9f6dbfd",
+          "value": {
+            "id": "textStyle.smallParagraph.fontFamily",
+            "type": "other",
+            "value": "{font.family.secondary}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallParagraph.fontWeight",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "27d11ddf111d42388660ed97b20471688bc9596a",
+          "value": {
+            "id": "textStyle.smallParagraph.fontWeight",
+            "type": "other",
+            "value": "{font.weight.regular}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallParagraph.textTransform",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "484d9b9c3c2a9aae09c3c058e0abf7d1a1d6885b",
+          "value": {
+            "id": "textStyle.smallParagraph.textTransform",
+            "type": "other",
+            "value": "lowercase"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallText.fontFamily",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "57919640b21d3be1adf06196a081bbba23062283",
+          "value": {
+            "id": "textStyle.smallText.fontFamily",
+            "type": "other",
+            "value": "{font.family.secondary}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallText.fontWeight",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "f604326041b8c67d193d4448a1c53576350ff251",
+          "value": {
+            "id": "textStyle.smallText.fontWeight",
+            "type": "other",
+            "value": "{font.weight.regular}"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallText.fontStyle",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "f955d72a9efdc67bb315e021f4539811495c50c7",
+          "value": {
+            "id": "textStyle.smallText.fontStyle",
+            "type": "other",
+            "value": "italic"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    },
+    {
+      "entityId": "textStyle.smallText.textTransform",
+      "entityType": "token",
+      "status": "only-in",
+      "perSource": {
+        "storybook": {
+          "status": "missing",
+          "hash": null,
+          "value": null,
+          "lastSeen": null
+        },
+        "github": {
+          "status": "present",
+          "hash": "e518fdec334b8dda5d6cda2cc4ec5de2e9ea80ff",
+          "value": {
+            "id": "textStyle.smallText.textTransform",
+            "type": "other",
+            "value": "lowercase"
+          },
+          "lastSeen": "2026-03-24T11:34:30.053Z"
+        }
+      },
+      "lastComputed": "2026-03-24T11:34:30.101Z"
+    }
+  ]
+}

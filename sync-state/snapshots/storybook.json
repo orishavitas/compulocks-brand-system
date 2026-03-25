@@ -1,0 +1,154 @@
+[
+  {
+    "entityId": "Badge",
+    "entityType": "component",
+    "source": "storybook",
+    "capturedAt": "2026-03-24T11:34:30.042Z",
+    "hash": "bfb026b69b2e646383b60161133a1515b7423f0e",
+    "value": {
+      "id": "Badge",
+      "variants": [
+        "Brand",
+        "Neutral",
+        "Success",
+        "Error"
+      ],
+      "states": [],
+      "hash": "fefd452edf094d55a245b2e6b20ea565c06c6193"
+    },
+    "raw": {
+      "name": "Badge",
+      "variants": [
+        "Brand",
+        "Neutral",
+        "Success",
+        "Error"
+      ],
+      "states": [],
+      "tokens": [],
+      "hash": "fefd452edf094d55a245b2e6b20ea565c06c6193"
+    }
+  },
+  {
+    "entityId": "Button",
+    "entityType": "component",
+    "source": "storybook",
+    "capturedAt": "2026-03-24T11:34:30.042Z",
+    "hash": "af472a921e46d420e272afa585aaec2ab24fbd0d",
+    "value": {
+      "id": "Button",
+      "variants": [
+        "Primary",
+        "Secondary",
+        "Ghost",
+        "Disabled",
+        "Loading"
+      ],
+      "states": [
+        "disabled",
+        "loading"
+      ],
+      "hash": "c3e6f12c621bc00d81c26a1798fb0a313ce54248"
+    },
+    "raw": {
+      "name": "Button",
+      "variants": [
+        "Primary",
+        "Secondary",
+        "Ghost",
+        "Disabled",
+        "Loading"
+      ],
+      "states": [
+        "disabled",
+        "loading"
+      ],
+      "tokens": [],
+      "hash": "c3e6f12c621bc00d81c26a1798fb0a313ce54248"
+    }
+  },
+  {
+    "entityId": "Card",
+    "entityType": "component",
+    "source": "storybook",
+    "capturedAt": "2026-03-24T11:34:30.042Z",
+    "hash": "a833883b8c038bff67d1759afa9e18ed7590fc0d",
+    "value": {
+      "id": "Card",
+      "variants": [
+        "Default",
+        "Elevated"
+      ],
+      "states": [],
+      "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96"
+    },
+    "raw": {
+      "name": "Card",
+      "variants": [
+        "Default",
+        "Elevated"
+      ],
+      "states": [],
+      "tokens": [],
+      "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96"
+    }
+  },
+  {
+    "entityId": "Input",
+    "entityType": "component",
+    "source": "storybook",
+    "capturedAt": "2026-03-24T11:34:30.042Z",
+    "hash": "de88127d3a103875eee273f621e2e163cd12b04c",
+    "value": {
+      "id": "Input",
+      "variants": [
+        "Default",
+        "Error",
+        "Disabled"
+      ],
+      "states": [
+        "disabled"
+      ],
+      "hash": "a2c8e2a1278c3ad06bafaeb372245e128f757bd0"
+    },
+    "raw": {
+      "name": "Input",
+      "variants": [
+        "Default",
+        "Error",
+        "Disabled"
+      ],
+      "states": [
+        "disabled"
+      ],
+      "tokens": [],
+      "hash": "a2c8e2a1278c3ad06bafaeb372245e128f757bd0"
+    }
+  },
+  {
+    "entityId": "Tag",
+    "entityType": "component",
+    "source": "storybook",
+    "capturedAt": "2026-03-24T11:34:30.042Z",
+    "hash": "9f70b0b5a4913d1d8e7f9e405c6dc62d5cbd2c81",
+    "value": {
+      "id": "Tag",
+      "variants": [
+        "Default",
+        "Removable"
+      ],
+      "states": [],
+      "hash": "d86af42b3009f380c2158e45374cf3a89d962ba8"
+    },
+    "raw": {
+      "name": "Tag",
+      "variants": [
+        "Default",
+        "Removable"
+      ],
+      "states": [],
+      "tokens": [],
+      "hash": "d86af42b3009f380c2158e45374cf3a89d962ba8"
+    }
+  }
+]

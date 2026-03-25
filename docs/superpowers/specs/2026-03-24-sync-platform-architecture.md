@@ -537,3 +537,48 @@ The current Figma plugin + n8n workflows continue to work unchanged. The sync pl
 | Should the librarian emit webhooks on state change? | Real-time dashboard updates | P2 |
 | How do we handle Figma component nodes that have no Storybook equivalent? | Missing-in logic | P1 |
 | Should sync-state/ be gitignored or committed? | Team workflow | P0 |
+
+---
+
+## 14. Decisions from First Real Sync (2026-03-24)
+
+First sync produced 37 entities (5 components from Storybook, 32 tokens from GitHub). All 37 showed `only-in` status — correct behaviour, but revealed three architectural decisions that must be made before adding the Figma adapter.
+
+### 14.1 Capability-Aware Cross-Referencing
+
+**Decision:** The Librarian must consult each adapter's `capabilities.entityTypes` before computing `missing-in` vs `only-in` status.
+
+- If a source doesn't declare support for an entity type, the entity should never be marked `missing-in` for that source
+- Example: Storybook `canRead: ["component"]` — tokens should show as `only-in` (correct), not `missing-in` (false alarm)
+- Implementation: `buildSyncRecord()` in `diff.ts` should filter `allSources` per entity type before computing status
+
+**Why Figma solves this:** Figma is the only source that supports both `token` AND `component`. Once the Figma adapter is wired, genuine cross-source comparisons become possible for the first time.
+
+### 14.2 Single-Source Entities Are Not Errors
+
+**Decision:** `only-in` status for tokens (GitHub-only) and components (Storybook-only) is expected and valid until Figma is connected. The dashboard should display these neutrally — no red warning, no action required.
+
+- `only-in` = "this entity type is not tracked in other sources yet" (informational)
+- `drifted` = "same entity is present in 2+ sources with different values" (actionable)
+- `missing-in` = "entity is expected in a source that supports its type but it's absent" (actionable)
+
+### 14.3 Token↔Component Linking (New Entity Type Required)
+
+**Problem:** No mechanism exists to connect a GitHub token (e.g., `color.brand.primary`) to a Storybook component that uses it (e.g., `Button`).
+
+**Planned solution:** Add a `TokenUsage` relational entity type:
+```typescript
+export interface TokenUsage {
+  tokenId: string;        // "color.brand.primary"
+  componentId: string;    // "Button"
+  usageContext: string;   // "background", "border", "text"
+  source: string;         // which adapter discovered this relationship
+}
+```
+
+**How to populate it:**
+1. **Short term:** `figma-design-system-extractor` MCP tool (extracts rendered HTML + styles from Storybook)
+2. **Medium term:** Figma MCP `get_design_context` — maps tokens applied within Figma component nodes
+3. **Long term:** Storybook Connect (Chromatic) — links Storybook stories to Figma designs directly
+
+This is a Phase 6+ addition — does not block the Figma adapter implementation.
