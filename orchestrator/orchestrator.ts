@@ -6,6 +6,7 @@ import type { LibrarianAgent } from "../librarian/types";
 import type { QAAgent } from "../qa/types";
 import type { SyncState } from "../librarian/types";
 import type { QAReport } from "../qa/types";
+import { registerAllAdapters } from "../adapters/index";
 
 export interface OrchestratorConfig {
   agents: PlatformAgent[];
@@ -38,6 +39,8 @@ export class MetaOrchestrator {
     this.agents = config.agents;
     this.librarian = config.librarian;
     this.qa = config.qa;
+    // Populate the adapter registry so diff.ts can do capability-aware filtering
+    registerAllAdapters();
   }
 
   async sync(req: SyncRequest = {}): Promise<SyncResult> {
