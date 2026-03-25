@@ -582,3 +582,24 @@ export interface TokenUsage {
 3. **Long term:** Storybook Connect (Chromatic) — links Storybook stories to Figma designs directly
 
 This is a Phase 6+ addition — does not block the Figma adapter implementation.
+
+---
+
+## 15. Figma Adapter Implementation Decision (2026-03-25)
+
+### Why the Figma MCP Server Was Not Used
+
+Research confirmed the Figma MCP server (`mcp.figma.com`) requires browser-based OAuth — there is no Personal Access Token or service account path. The available tools (`get_variable_defs`, `search_design_system`) are selection-scoped (require an open Figma document with a selection) and are designed for IDE-embedded AI agent workflows, not headless server-side adapters. The Figma REST Variables API (`/v1/files/:key/variables/local`) does support PAT auth but requires an Enterprise organization seat.
+
+### Implementation: Snapshot-File Bridge
+
+`FigmaAdapter.fetchAll()` reads from `sync-state/snapshots/figma.json`. This file is written by the existing Figma Plugin (via n8n webhook) when the user clicks "Push" in the plugin. The adapter bridges the plugin-push flow with the sync platform's pull-based architecture without requiring Enterprise or OAuth.
+
+This means:
+- The Figma adapter is not `canRead: true` in a polling sense — it reads the most recent push
+- `ping()` reports snapshot count and age (minutes since last write)
+- When Figma adds PAT auth to their MCP server, `fetchAll()` can be upgraded to call `get_variable_defs` / `search_design_system` without changing any upstream code
+
+### Write Path (Session H)
+
+`FigmaAdapter.write()` will push to Figma via the existing n8n webhook endpoint — the same path used by the Figma plugin's "Pull" button, but invoked programmatically from the sync platform rather than interactively from inside Figma.

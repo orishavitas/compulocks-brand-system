@@ -115,3 +115,17 @@
 - Pull URL: strip trailing slash before appending `/pull`
 - Sync Components: `page.appendChild(node)` before `figma.combineAsVariants()` — nodes must be on target page first
 - Push button (Figma→Code) returns HTTP 500 from n8n — deferred for next session
+
+## v0.6.0 — 2026-03-25
+
+**Session 6: Sync Platform documentation**
+
+### v0.6.1 — Executive technical briefs (Plan 1)
+- `docs/research/executive-brief-current-state-2026-03-25.md` — current state brief for senior engineers joining the project: what was built, five-layer architecture, live sync data (37 entities), stubbed components, and session roadmap through Session I
+- `docs/research/executive-brief-design-thinking-2026-03-25.md` — design thinking and AI-integrated architecture brief for technical leadership: source-as-peers principle, capability-aware diff rationale, git-as-database decision, QA-as-pipeline-step design, and NotebookLM MCP integration as cross-session architectural memory
+
+### v0.6.2 — Figma adapter: snapshot-file implementation (Plan 2)
+- `adapters/figma/adapter.ts` — implemented `fetchAll()` and `ping()` using `sync-state/snapshots/figma.json`
+- Figma MCP server confirmed OAuth-only (no PAT/headless path); REST Variables API requires Enterprise — snapshot-file bridges the existing Plugin/n8n push flow to the sync platform's pull architecture
+- `ping()` reports snapshot count and age in minutes; returns `ok: false` with actionable message if file absent
+- Both `tsconfig.sync.json` and `dashboard/tsconfig.json` pass with no errors
