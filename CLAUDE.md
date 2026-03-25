@@ -144,6 +144,59 @@ npm run build:plugin
 - `test-consumer/` — local Vite app to verify `@compulocks/ui` imports
 - Package name: `@compulocks/ui` v0.1.0 — ready to publish to npm
 
+## Sync Platform (added 2026-03-25)
+
+Full source-agnostic design system sync platform lives alongside existing token/component system.
+Specs: `docs/superpowers/specs/` | Research: `docs/research/`
+
+### TypeScript compilation
+```bash
+npx tsc --project tsconfig.sync.json   # sync platform (Node.js, CommonJS)
+cd dashboard && npx tsc --noEmit       # dashboard (Next.js bundler)
+```
+Both must pass before committing sync platform changes.
+
+### Run a sync (produces real data in sync-state/)
+```bash
+npx tsc --project tsconfig.sync.json --noEmit false --outDir .build-sync
+node -e "
+  const { StorybookAgent } = require('./.build-sync/agents/storybook-agent');
+  const { GitHubAgent } = require('./.build-sync/agents/github-agent');
+  const { Librarian } = require('./.build-sync/librarian/librarian');
+  const { QAAgentImpl } = require('./.build-sync/qa/qa-agent');
+  const { MetaOrchestrator } = require('./.build-sync/orchestrator/orchestrator');
+  const o = new MetaOrchestrator({ agents: [new StorybookAgent(), new GitHubAgent()], librarian: new Librarian(), qa: new QAAgentImpl() });
+  o.sync({}).then(r => console.log(r.librarianSyncState.entities.length, 'entities')).catch(console.error);
+"
+rm -rf .build-sync
+```
+
+### Sync platform directory structure
+```
+adapters/          # PlatformAdapter impls (storybook + github LIVE; figma/stitch stubs)
+agents/            # PlatformAgent wrappers with retry/logging
+librarian/         # Diff computation + sync-state/ persistence
+orchestrator/      # MetaOrchestrator coordinates agents
+qa/                # Text diff (live) + visual diff (stubbed, Session G)
+sync-state/        # Git-committed JSON — state.json + snapshots/ + log/
+dashboard/         # Next.js 15 dashboard (cd dashboard && npm run dev)
+```
+
+### Key architectural rules
+- `adapters/index.ts` — call `registerAllAdapters()` at any entry point so diff.ts can do capability-aware filtering
+- Storybook adapter reads `component-manifest.json` from repo root
+- GitHub adapter reads `tokens/*.json` (DTCG format) from repo root
+- Figma REST Variables API requires Enterprise — use MCP or Plugin API instead
+- `sync-state/` is committed to git (not gitignored) — Librarian writes here
+- `tsconfig.sync.json` uses `module: commonjs` + `@types/node` — separate from root tsconfig
+- Dashboard `tsconfig.json` includes `../{adapters,librarian,agents,orchestrator,qa}/**/*.ts` to resolve parent imports
+
+### NotebookLM knowledge base
+- URL: `https://notebooklm.google.com/notebook/e13977da-1275-4248-af68-d84c9302d415`
+- Sources: PRD, architecture doc, scaffold plan, research doc, executive brief
+- Query via `mcp__notebooklm__ask_question` — use session_id `775d6b70` to continue existing session
+- Feed new architecture decisions as sources after major sessions
+
 ## Key Rules
 
 - NEVER edit files in `build/` — they are auto-generated
