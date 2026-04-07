@@ -3,3 +3,4 @@ export * from './Card';
 export * from './Input';
 export * from './Badge';
 export * from './Tag';
+export * from './Chip';
