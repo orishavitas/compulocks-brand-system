@@ -1,0 +1,46 @@
+<h2>How do components get defined?</h2>
+<p class="subtitle">The tokens tell us colors/fonts/spacing — but buttons need states, variants, sizes. Where does that spec live?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Hardcoded in the plugin</h3>
+      <p>Plugin has a built-in set of components (button, card, input, badge, tag) with fixed states and variants. Simple, no extra files needed.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>New components.json in git</h3>
+      <p>Add a <code>tokens/components.json</code> that defines each component — its variants, states, which tokens it uses. Plugin reads this alongside color/type/spacing.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Storybook stories as the spec</h3>
+      <p>Write Storybook stories for each component. The plugin (or an n8n step) reads the stories to understand variants/states and builds matching Figma frames.</p>
+    </div>
+  </div>
+</div>
+
+<div id="notify-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#22c55e;color:#fff;padding:14px 24px;font-size:15px;font-weight:600;text-align:center;z-index:9999;">
+  ✓ Selection sent — Claude will pick it up automatically. No need to type anything.
+</div>
+
+<script>
+// Auto-notify on selection
+const orig = window.toggleSelect;
+window.toggleSelect = function(el) {
+  orig(el);
+  // Fire after a short delay so the selection registers
+  setTimeout(() => {
+    document.getElementById('notify-bar').style.display = 'block';
+    // Also POST to /notify endpoint so Claude can poll
+    fetch('/notify', { method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ choice: el.dataset.choice, text: el.querySelector('h3')?.textContent }) })
+      .catch(() => {}); // silent fail if endpoint doesn't exist
+  }, 150);
+};
+</script>

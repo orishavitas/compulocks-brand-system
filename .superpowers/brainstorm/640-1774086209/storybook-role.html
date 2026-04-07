@@ -1,0 +1,40 @@
+<h2>What role does Storybook play exactly?</h2>
+<p class="subtitle">You have git tokens → Storybook stories → Figma. Where does Storybook live in this pipeline?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Source of truth for component structure</h3>
+      <p>Stories define which components exist and their variants/props. The n8n workflow reads <code>*.stories.ts</code> files from git and uses that to build Figma frames. Storybook itself is the spec.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Visual preview — Figma mirrors what Storybook renders</h3>
+      <p>Storybook renders real React components. An n8n step screenshots each story and embeds the image into Figma as a reference frame alongside the token variables.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Both — spec + visual reference</h3>
+      <p>Stories define structure AND n8n screenshots the rendered output. Figma gets native frames (built from token data) + a reference image showing how it actually renders in code.</p>
+    </div>
+  </div>
+</div>
+
+<div id="notify-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#22c55e;color:#fff;padding:14px 24px;font-size:15px;font-weight:600;text-align:center;z-index:9999;">
+  ✓ Selection sent — Claude is watching automatically.
+</div>
+
+<script>
+const orig = window.toggleSelect;
+window.toggleSelect = function(el) {
+  orig(el);
+  setTimeout(() => {
+    document.getElementById('notify-bar').style.display = 'block';
+  }, 150);
+};
+</script>

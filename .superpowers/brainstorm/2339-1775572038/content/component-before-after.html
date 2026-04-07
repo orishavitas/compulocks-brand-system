@@ -1,0 +1,405 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@500;600&display=swap');
+
+  .comp-section {
+    margin-bottom: 2rem;
+  }
+  .comp-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+  }
+  .comp-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .col {
+    flex: 1;
+    min-width: 280px;
+  }
+  .col-header {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .col-header.before { background: #fee2e2; color: #991b1b; }
+  .col-header.after  { background: #dcfce7; color: #166534; }
+
+  .demo-box {
+    background: #f9f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* ── BEFORE styles ── */
+  .btn-before-primary {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: #1D1F4A;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn-before-secondary {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: transparent;
+    color: #1D1F4A;
+    border: 2px solid #1D1F4A;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn-before-ghost {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: transparent;
+    color: #1D1F4A;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .input-before {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid #1D1F4A;
+    border-radius: 4px;
+    width: 180px;
+    outline: none;
+  }
+  .card-before {
+    background: #fff;
+    border: 1px solid #1D1F4A;
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: #1D1F4A;
+  }
+  .tag-before {
+    display: inline-flex;
+    align-items: center;
+    background: #243469;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .badge-before {
+    display: inline-flex;
+    align-items: center;
+    background: #1D1F4A;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 9999px;
+  }
+
+  /* ── AFTER styles ── */
+  .btn-after-primary {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 20px;
+    background: #1D1F4A;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: background 0.15s;
+  }
+  .btn-after-cta {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 20px;
+    background: #009966;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+  .btn-after-outlined {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 20px;
+    background: transparent;
+    color: #1D1F4A;
+    border: 1.5px solid #1D1F4A;
+    border-radius: 9999px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+  .input-after {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    border: 1.5px solid #C5C6D0;
+    border-radius: 8px;
+    width: 180px;
+    outline: none;
+    background: #FDFBFF;
+    color: #1D1F4A;
+  }
+  .card-after {
+    background: #f2f2f2;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
+    padding: 24px;
+    width: 100%;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: #1D1F4A;
+    box-shadow: 0 4px 12px rgba(29,31,74,0.10);
+  }
+  .card-after strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .tag-after {
+    display: inline-flex;
+    align-items: center;
+    background: #243469;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 9999px;
+  }
+  .tag-after-removable {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #243469;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px 4px 12px;
+    border-radius: 9999px;
+  }
+  .chip-after {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    color: #1D1F4A;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 9999px;
+    border: 1.5px solid #C5C6D0;
+  }
+  .chip-after-selected {
+    display: inline-flex;
+    align-items: center;
+    background: #DEE1FF;
+    color: #1D1F4A;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 9999px;
+    border: 1.5px solid #243469;
+  }
+  .badge-after-brand {
+    display: inline-flex;
+    align-items: center;
+    background: #1D1F4A;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+  .badge-after-success {
+    display: inline-flex;
+    align-items: center;
+    background: #dcfce7;
+    color: #166534;
+    font-family: 'Barlow', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 1.5rem 0;
+  }
+</style>
+
+<h2>Component Before → After</h2>
+<p class="subtitle">Aligning the brand system to the Design Kit + production MRD webapp. Review each component — does this direction feel right?</p>
+
+<hr class="divider">
+
+<!-- BUTTONS -->
+<div class="comp-section">
+  <div class="comp-label">Buttons</div>
+  <div class="comp-row">
+    <div class="col">
+      <div class="col-header before">Before (Current)</div>
+      <div class="demo-box">
+        <button class="btn-before-primary">Primary</button>
+        <button class="btn-before-secondary">Secondary</button>
+        <button class="btn-before-ghost">Ghost</button>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">4px radius — sharp corners</p>
+    </div>
+    <div class="col">
+      <div class="col-header after">After (Proposed)</div>
+      <div class="demo-box">
+        <button class="btn-after-primary">Primary</button>
+        <button class="btn-after-cta">CTA / Green</button>
+        <button class="btn-after-outlined">Outlined</button>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">9999px radius — pill shape + new CTA (green) variant</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CARDS -->
+<div class="comp-section">
+  <div class="comp-label">Cards</div>
+  <div class="comp-row">
+    <div class="col">
+      <div class="col-header before">Before (Current)</div>
+      <div class="demo-box">
+        <div class="card-before">
+          <strong style="display:block;margin-bottom:4px;font-weight:600">Card Title</strong>
+          Some card content goes here with body text.
+        </div>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">8px radius, white bg, navy border, no shadow</p>
+    </div>
+    <div class="col">
+      <div class="col-header after">After (Proposed)</div>
+      <div class="demo-box">
+        <div class="card-after">
+          <strong>Card Title</strong>
+          Some card content goes here with body text.
+        </div>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">24px radius, #f2f2f2 bg, soft border + shadow — matches Design Kit spec</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- INPUTS -->
+<div class="comp-section">
+  <div class="comp-label">Text Inputs</div>
+  <div class="comp-row">
+    <div class="col">
+      <div class="col-header before">Before (Current)</div>
+      <div class="demo-box">
+        <input class="input-before" placeholder="Enter text..." />
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">4px radius, navy border</p>
+    </div>
+    <div class="col">
+      <div class="col-header after">After (Proposed)</div>
+      <div class="demo-box">
+        <input class="input-after" placeholder="Enter text..." />
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">8px radius, neutral outline, cream background — M3 outlined style</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- TAGS + CHIPS -->
+<div class="comp-section">
+  <div class="comp-label">Tags & Chips (new)</div>
+  <div class="comp-row">
+    <div class="col">
+      <div class="col-header before">Before (Current)</div>
+      <div class="demo-box">
+        <span class="tag-before">Product</span>
+        <span class="tag-before">Security</span>
+        <span class="tag-before">Design ×</span>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">4px radius — square tags only</p>
+    </div>
+    <div class="col">
+      <div class="col-header after">After (Proposed)</div>
+      <div class="demo-box">
+        <span class="tag-after">Product</span>
+        <span class="tag-after-removable">Security <span style="opacity:0.7;font-size:14px">×</span></span>
+        <span class="chip-after">Filter</span>
+        <span class="chip-after-selected">✓ Selected</span>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">All pills — tags (navy), + new Chip component (outlined/selected states)</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- BADGES -->
+<div class="comp-section">
+  <div class="comp-label">Badges</div>
+  <div class="comp-row">
+    <div class="col">
+      <div class="col-header before">Before (Current)</div>
+      <div class="demo-box">
+        <span class="badge-before">Brand</span>
+        <span style="display:inline-flex;align-items:center;background:#e5e7eb;color:#374151;font-family:Barlow,sans-serif;font-size:11px;font-weight:500;padding:4px 8px;border-radius:9999px">Neutral</span>
+        <span style="display:inline-flex;align-items:center;background:#dcfce7;color:#166534;font-family:Barlow,sans-serif;font-size:11px;font-weight:500;padding:4px 8px;border-radius:9999px">Success</span>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">Already pill ✅ — success uses generic green</p>
+    </div>
+    <div class="col">
+      <div class="col-header after">After (Proposed)</div>
+      <div class="demo-box">
+        <span class="badge-after-brand">Brand</span>
+        <span style="display:inline-flex;align-items:center;background:#e5e7eb;color:#374151;font-family:Barlow,sans-serif;font-size:11px;font-weight:500;padding:3px 10px;border-radius:9999px">Neutral</span>
+        <span class="badge-after-success">Success</span>
+        <span style="display:inline-flex;align-items:center;background:rgba(0,153,102,0.12);color:#009966;font-family:Barlow,sans-serif;font-size:11px;font-weight:500;padding:3px 10px;border-radius:9999px">Live</span>
+      </div>
+      <p style="font-family:Barlow,sans-serif;font-size:12px;color:#6b7280;margin-top:8px">Success uses brand green #009966 — + soft tonal variant</p>
+    </div>
+  </div>
+</div>

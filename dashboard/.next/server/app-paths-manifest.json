@@ -1,0 +1,11 @@
+{
+  "/api/primary-source/route": "app/api/primary-source/route.js",
+  "/api/qa/latest/route": "app/api/qa/latest/route.js",
+  "/api/sources/route": "app/api/sources/route.js",
+  "/api/state/route": "app/api/state/route.js",
+  "/api/sync/route": "app/api/sync/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/log/page": "app/log/page.js",
+  "/page": "app/page.js",
+  "/sources/page": "app/sources/page.js"
+}

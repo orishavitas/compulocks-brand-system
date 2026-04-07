@@ -1,0 +1,26 @@
+<h2>How do components get defined?</h2>
+<p class="subtitle">The tokens tell us colors/fonts/spacing — but buttons need states, variants, sizes. Where does that spec live?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Hardcoded in the plugin</h3>
+      <p>Plugin has a built-in set of components (button, card, input, badge, tag) with fixed states and variants. Simple, no extra files needed.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>New components.json in git</h3>
+      <p>Add a <code>tokens/components.json</code> that defines each component — its variants, states, which tokens it uses. Plugin reads this alongside color/type/spacing.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Storybook stories as the spec</h3>
+      <p>Write Storybook stories for each component. The plugin (or an n8n step) reads the stories to understand variants/states and builds matching Figma frames.</p>
+    </div>
+  </div>
+</div>

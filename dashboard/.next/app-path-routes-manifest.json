@@ -1,0 +1,11 @@
+{
+  "/api/primary-source/route": "/api/primary-source",
+  "/api/qa/latest/route": "/api/qa/latest",
+  "/api/sources/route": "/api/sources",
+  "/api/state/route": "/api/state",
+  "/api/sync/route": "/api/sync",
+  "/_not-found/page": "/_not-found",
+  "/log/page": "/log",
+  "/page": "/",
+  "/sources/page": "/sources"
+}
