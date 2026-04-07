@@ -6,7 +6,12 @@
 | Token | Value | Description |
 |-------|-------|-------------|
 | `color.brand.primary` | `#1D1F4A` | Main brand color — Compulocks navy blue |
-| `color.brand.highlight` | `#243469` | Secondary brand highlight |
+| `color.brand.highlight` | `#243469` | Secondary brand highlight — lighter navy |
+| `color.brand.green-dark` | `#009966` | Primary CTA green — buttons, success metrics, key data points |
+| `color.brand.green-light` | `#1db274` | Secondary accent green — gradients, hover states |
+| `color.brand.surface` | `#f2f2f2` | Light background — card surfaces, slide backgrounds |
+| `color.brand.white` | `#ffffff` | White surface |
+| `color.brand.outline` | `#e0e0e0` | Subtle border color for cards and dividers |
 
 ## Typography
 
@@ -43,3 +48,29 @@
 | `spacing.10` | `2.5rem` | 40px |
 | `spacing.12` | `3rem` | 48px |
 | `spacing.16` | `4rem` | 64px |
+
+## Border Radius
+
+| Token | Value | Description |
+|-------|-------|-------------|
+| `borderRadius.sm` | `6px` | Small radius — minor elements |
+| `borderRadius.md` | `8px` | Medium radius — inputs, outlined fields |
+| `borderRadius.lg` | `12px` | Large radius — containers |
+| `borderRadius.xl` | `24px` | Extra large radius — cards (Design Kit standard) |
+| `borderRadius.full` | `9999px` | Full pill radius — buttons, chips, tags, badges |
+
+## Shadows
+
+| Token | Value | Description |
+|-------|-------|-------------|
+| `shadow.sm` | `0 1px 3px rgba(29,31,74,0.10)` | Subtle shadow — elevated cards |
+| `shadow.md` | `0 4px 12px rgba(29,31,74,0.14)` | Medium shadow — popovers, elevated containers |
+| `shadow.lg` | `0 10px 15px rgba(29,31,74,0.15)` | Large shadow — modals, deep elevation |
+
+## Animation Durations
+
+| Token | Value | Description |
+|-------|-------|-------------|
+| `duration.fast` | `120ms` | Snappy micro-interactions |
+| `duration.normal` | `200ms` | Default state transitions |
+| `duration.slow` | `350ms` | Slower, prominent animations |

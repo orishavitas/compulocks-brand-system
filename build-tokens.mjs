@@ -82,6 +82,9 @@ function generateTokenGuide() {
   const colorTokens = JSON.parse(readFileSync('tokens/color.json', 'utf-8'));
   const typographyTokens = JSON.parse(readFileSync('tokens/typography.json', 'utf-8'));
   const spacingTokens = JSON.parse(readFileSync('tokens/spacing.json', 'utf-8'));
+  const borderRadiusTokens = JSON.parse(readFileSync('tokens/borderRadius.json', 'utf-8'));
+  const shadowTokens = JSON.parse(readFileSync('tokens/shadow.json', 'utf-8'));
+  const animationTokens = JSON.parse(readFileSync('tokens/animation.json', 'utf-8'));
 
   let markdown = `# Compulocks Brand Token Guide
 > Auto-generated from tokens/*.json — do not edit directly
@@ -160,6 +163,42 @@ function generateTokenGuide() {
     const remValue = val.$value;
     const pxValue = val.$description;
     markdown += `| \`spacing.${key}\` | \`${remValue}\` | ${pxValue} |
+`;
+  });
+
+  // Border Radius section
+  markdown += `
+## Border Radius
+
+| Token | Value | Description |
+|-------|-------|-------------|
+`;
+  Object.entries(borderRadiusTokens.borderRadius).forEach(([key, val]) => {
+    markdown += `| \`borderRadius.${key}\` | \`${val.$value}\` | ${val.$description || ''} |
+`;
+  });
+
+  // Shadow section
+  markdown += `
+## Shadows
+
+| Token | Value | Description |
+|-------|-------|-------------|
+`;
+  Object.entries(shadowTokens.shadow).forEach(([key, val]) => {
+    markdown += `| \`shadow.${key}\` | \`${val.$value}\` | ${val.$description || ''} |
+`;
+  });
+
+  // Animation section
+  markdown += `
+## Animation Durations
+
+| Token | Value | Description |
+|-------|-------|-------------|
+`;
+  Object.entries(animationTokens.duration).forEach(([key, val]) => {
+    markdown += `| \`duration.${key}\` | \`${val.$value}\` | ${val.$description || ''} |
 `;
   });
 

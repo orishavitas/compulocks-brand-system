@@ -1,0 +1,19 @@
+{
+  "duration": {
+    "fast": {
+      "$value": "120ms",
+      "$type": "duration",
+      "$description": "Snappy micro-interactions"
+    },
+    "normal": {
+      "$value": "200ms",
+      "$type": "duration",
+      "$description": "Default state transitions"
+    },
+    "slow": {
+      "$value": "350ms",
+      "$type": "duration",
+      "$description": "Slower, prominent animations"
+    }
+  }
+}

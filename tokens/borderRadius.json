@@ -1,0 +1,29 @@
+{
+  "borderRadius": {
+    "sm": {
+      "$value": "6px",
+      "$type": "dimension",
+      "$description": "Small radius — minor elements"
+    },
+    "md": {
+      "$value": "8px",
+      "$type": "dimension",
+      "$description": "Medium radius — inputs, outlined fields"
+    },
+    "lg": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$description": "Large radius — containers"
+    },
+    "xl": {
+      "$value": "24px",
+      "$type": "dimension",
+      "$description": "Extra large radius — cards (Design Kit standard)"
+    },
+    "full": {
+      "$value": "9999px",
+      "$type": "dimension",
+      "$description": "Full pill radius — buttons, chips, tags, badges"
+    }
+  }
+}
