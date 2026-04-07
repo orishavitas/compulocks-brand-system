@@ -14,13 +14,14 @@ export const Tag: React.FC<TagProps> = ({ variant = 'default', children, onRemov
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 'var(--spacing-1)',
+        gap: '6px',
         background: 'var(--color-brand-highlight)',
         color: '#ffffff',
         fontFamily: 'var(--font-family-secondary)',
         fontSize: '12px',
-        padding: 'var(--spacing-1) var(--spacing-2)',
-        borderRadius: '4px',
+        fontWeight: 500,
+        padding: variant === 'removable' ? '4px 8px 4px 12px' : '4px 12px',
+        borderRadius: '9999px',
       }}
     >
       {children}
@@ -35,6 +36,9 @@ export const Tag: React.FC<TagProps> = ({ variant = 'default', children, onRemov
             padding: '0',
             lineHeight: 1,
             fontSize: '14px',
+            opacity: 0.7,
+            display: 'inline-flex',
+            alignItems: 'center',
           }}
           aria-label="Remove"
         >
