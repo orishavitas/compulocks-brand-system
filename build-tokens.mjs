@@ -208,4 +208,51 @@ function generateTokenGuide() {
 
 generateTokenGuide();
 
+// Generate typography utility classes
+// (writeFileSync is already imported at the top of the file)
+const typographyUtilities = `/* Compulocks Typography Utility Classes */
+/* Auto-generated from COMPULOCKS R&D AI Design Kit — do not edit */
+
+.section-heading {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: 69px;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--color-brand-primary);
+}
+
+.slide-title {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--color-brand-primary);
+}
+
+.small-title {
+  font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--color-brand-primary);
+}
+
+.paragraph-text {
+  font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-brand-primary);
+}
+
+.small-text {
+  font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-brand-primary);
+}
+`;
+
+writeFileSync('build/css/typography.css', typographyUtilities, 'utf-8');
+console.log('Typography utilities generated → build/css/typography.css');
+
 console.log('Build complete — outputs in build/');
