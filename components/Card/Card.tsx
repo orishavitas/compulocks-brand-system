@@ -11,11 +11,11 @@ export const Card: React.FC<CardProps> = ({ variant = 'default', children }) => 
   return (
     <div
       style={{
-        background: '#ffffff',
-        border: `1px solid var(--color-brand-primary)`,
-        borderRadius: '8px',
-        padding: 'var(--spacing-4)',
-        boxShadow: variant === 'elevated' ? '0 4px 16px rgba(29,31,74,0.12)' : 'none',
+        background: 'var(--color-brand-surface)',
+        border: '1px solid var(--color-brand-outline)',
+        borderRadius: 'var(--border-radius-xl)',
+        padding: '32px',
+        boxShadow: variant === 'elevated' ? 'var(--shadow-sm)' : 'none',
         fontFamily: 'var(--font-family-secondary)',
       }}
     >
