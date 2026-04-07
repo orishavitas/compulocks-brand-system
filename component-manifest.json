@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-03-22T21:57:40.765Z",
+  "generatedAt": "2026-04-07T21:16:15.886Z",
   "components": [
     {
       "name": "Badge",
@@ -8,11 +8,12 @@
         "Brand",
         "Neutral",
         "Success",
-        "Error"
+        "Error",
+        "Tonal"
       ],
       "states": [],
       "tokens": [],
-      "hash": "fefd452edf094d55a245b2e6b20ea565c06c6193"
+      "hash": "f50c7dda669839204f4962a1abd2cd1a978bb812"
     },
     {
       "name": "Button",
@@ -20,6 +21,7 @@
         "Primary",
         "Secondary",
         "Ghost",
+        "CTA",
         "Disabled",
         "Loading"
       ],
@@ -28,7 +30,7 @@
         "loading"
       ],
       "tokens": [],
-      "hash": "c3e6f12c621bc00d81c26a1798fb0a313ce54248"
+      "hash": "989786cdfa9f4928e44a81d391a0a0fda2af6933"
     },
     {
       "name": "Card",
@@ -39,6 +41,19 @@
       "states": [],
       "tokens": [],
       "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96"
+    },
+    {
+      "name": "Chip",
+      "variants": [
+        "Default",
+        "Selected",
+        "Disabled"
+      ],
+      "states": [
+        "disabled"
+      ],
+      "tokens": [],
+      "hash": "72f3deac12d137d59f5a545e04b4a690c487e47e"
     },
     {
       "name": "Input",
