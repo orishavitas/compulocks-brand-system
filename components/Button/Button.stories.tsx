@@ -5,7 +5,7 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   argTypes: {
-    variant: { control: 'select', options: ['primary', 'secondary', 'ghost'] },
+    variant: { control: 'select', options: ['primary', 'secondary', 'ghost', 'cta'] },
     disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
   },
@@ -24,6 +24,10 @@ export const Secondary: Story = {
 
 export const Ghost: Story = {
   args: { variant: 'ghost', children: 'Button' },
+};
+
+export const CTA: Story = {
+  args: { variant: 'cta', children: 'Get Started' },
 };
 
 export const Disabled: Story = {
