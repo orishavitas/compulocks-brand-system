@@ -9,7 +9,32 @@
       "highlight": {
         "$value": "#243469",
         "$type": "color",
-        "$description": "Secondary brand highlight"
+        "$description": "Secondary brand highlight — lighter navy"
+      },
+      "green-dark": {
+        "$value": "#009966",
+        "$type": "color",
+        "$description": "Primary CTA green — buttons, success metrics, key data points"
+      },
+      "green-light": {
+        "$value": "#1db274",
+        "$type": "color",
+        "$description": "Secondary accent green — gradients, hover states"
+      },
+      "surface": {
+        "$value": "#f2f2f2",
+        "$type": "color",
+        "$description": "Light background — card surfaces, slide backgrounds"
+      },
+      "white": {
+        "$value": "#ffffff",
+        "$type": "color",
+        "$description": "White surface"
+      },
+      "outline": {
+        "$value": "#e0e0e0",
+        "$type": "color",
+        "$description": "Subtle border color for cards and dividers"
       }
     }
   }
