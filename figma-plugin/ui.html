@@ -11,6 +11,19 @@
       width: 100%; padding: 8px; border: 1px solid #555; border-radius: 4px;
       background: #3c3c3c; color: #fff; font-size: 12px;
     }
+    .mode-section { margin-bottom: 16px; }
+    .mode-section label { display: block; font-size: 11px; color: #999; margin-bottom: 6px; }
+    .mode-pills {
+      display: flex; gap: 4px; flex-wrap: wrap;
+    }
+    .mode-pill {
+      flex: 1; padding: 6px 8px; border: 1px solid #555; border-radius: 20px;
+      font-size: 11px; font-weight: 500; cursor: pointer; background: #3c3c3c;
+      color: #ccc; text-align: center; transition: all 0.15s;
+      min-width: 60px;
+    }
+    .mode-pill:hover { border-color: #888; color: #fff; }
+    .mode-pill.active { background: #18A0FB; border-color: #18A0FB; color: #fff; }
     .actions { display: flex; gap: 8px; margin-top: 16px; }
     button {
       flex: 1; padding: 10px; border: none; border-radius: 6px;
@@ -43,10 +56,20 @@
     <input type="password" id="githubToken" placeholder="ghp_..." />
   </div>
 
+  <div class="mode-section">
+    <label>Scope</label>
+    <div class="mode-pills">
+      <button class="mode-pill active" data-mode="tokens">Tokens</button>
+      <button class="mode-pill" data-mode="components">Components</button>
+      <button class="mode-pill" data-mode="style-guide">Style Guide</button>
+      <button class="mode-pill" data-mode="all">All</button>
+    </div>
+  </div>
+
   <div class="actions">
-    <button class="pull" id="pullBtn">Pull from Repo</button>
-    <button class="push" id="pushBtn">Push to Repo</button>
-    <button class="sync" id="syncBtn">Sync Components</button>
+    <button class="pull" id="pullBtn">Pull</button>
+    <button class="push" id="pushBtn">Push</button>
+    <button class="sync" id="syncBtn">Sync</button>
   </div>
 
   <div id="status"></div>
@@ -59,6 +82,16 @@
     const syncBtn = document.getElementById('syncBtn');
     const githubTokenInput = document.getElementById('githubToken');
 
+    // --- Mode selector ---
+    let selectedMode = 'tokens';
+    document.querySelectorAll('.mode-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        selectedMode = pill.dataset.mode;
+      });
+    });
+
     function setStatus(msg, type = 'info') {
       statusEl.innerHTML = `<span class="${type}">${msg}</span>`;
     }
@@ -67,60 +100,81 @@
       return webhookInput.value.trim().replace(/\/+$/, '');
     }
 
+    function allButtons() { return [pullBtn, pushBtn, syncBtn]; }
+    function disableAll() { allButtons().forEach(b => b.disabled = true); }
+    function enableAll() { allButtons().forEach(b => b.disabled = false); }
+
     pullBtn.addEventListener('click', async () => {
       const url = getWebhookUrl();
       if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
 
-      setStatus('Pulling tokens from repo...', 'info');
-      pullBtn.disabled = true;
+      const mode = selectedMode;
+      setStatus(`Pulling [${mode}] from repo…`, 'info');
+      disableAll();
 
-      try {
-        const res = await fetch(url + '/pull', { method: 'GET' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const raw = await res.json();
-        // n8n wraps responses in an array: [{ json: {...} }] or just the object directly
-        const data = Array.isArray(raw) ? (raw[0]?.json ?? raw[0]) : raw;
-        if (!data || !data.collections) throw new Error('Invalid response shape from n8n');
-        parent.postMessage({ pluginMessage: { type: 'pull', data } }, '*');
-      } catch (err) {
-        setStatus(`Pull failed: ${err.message}`, 'error');
-        pullBtn.disabled = false;
+      // tokens mode: fetch from n8n
+      if (mode === 'tokens' || mode === 'all') {
+        try {
+          const res = await fetch(url + '/pull', { method: 'GET' });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const raw = await res.json();
+          const data = Array.isArray(raw) ? (raw[0]?.json ?? raw[0]) : raw;
+          if (!data || !data.collections) throw new Error('Invalid response shape from n8n');
+          parent.postMessage({ pluginMessage: { type: 'pull', data, mode } }, '*');
+        } catch (err) {
+          setStatus(`Pull failed: ${err.message}`, 'error');
+          enableAll();
+        }
+      } else {
+        setStatus(`Pull [${mode}] is not yet supported — use Sync for components and style guide.`, 'info');
+        enableAll();
       }
     });
 
+    async function fetchManifest(token) {
+      const apiUrl = 'https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/component-manifest.json';
+      const res = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (!res.ok) throw new Error(`GitHub API: HTTP ${res.status}`);
+      const json = await res.json();
+      return JSON.parse(atob(json.content.replace(/\n/g, '')));
+    }
+
     syncBtn.addEventListener('click', async () => {
       const token = githubTokenInput.value.trim();
+      const mode = selectedMode;
+
+      // tokens-only sync doesn't need GitHub token — uses n8n
+      if (mode === 'tokens') {
+        setStatus('Use Pull to sync tokens from n8n.', 'info');
+        return;
+      }
+
       if (!token) { setStatus('Enter your GitHub token first.', 'error'); return; }
 
-      setStatus('Fetching component manifest...', 'info');
-      syncBtn.disabled = true;
+      setStatus(`Syncing [${mode}]…`, 'info');
+      disableAll();
 
       try {
-        // GitHub Contents API — works for private repos with a token
-        const apiUrl = 'https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/component-manifest.json';
-        const res = await fetch(apiUrl, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-        if (!res.ok) throw new Error(`GitHub API: HTTP ${res.status}`);
-        const json = await res.json();
-        // Contents API returns base64-encoded content
-        const manifest = JSON.parse(atob(json.content.replace(/\n/g, '')));
-        parent.postMessage({ pluginMessage: { type: 'sync-components', manifest } }, '*');
+        const manifest = await fetchManifest(token);
+        parent.postMessage({ pluginMessage: { type: 'sync-components', manifest, mode } }, '*');
       } catch (err) {
         setStatus(`Manifest fetch failed: ${err.message}`, 'error');
-        syncBtn.disabled = false;
+        enableAll();
       }
     });
 
     pushBtn.addEventListener('click', () => {
       const url = getWebhookUrl();
       if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
-      setStatus('Reading Figma variables...', 'info');
-      pushBtn.disabled = true;
-      parent.postMessage({ pluginMessage: { type: 'push-request' } }, '*');
+      const mode = selectedMode;
+      setStatus(`Reading Figma variables [${mode}]…`, 'info');
+      disableAll();
+      parent.postMessage({ pluginMessage: { type: 'push-request', mode } }, '*');
     });
 
     window.onmessage = async (event) => {

@@ -28,7 +28,7 @@
   // figma-plugin/code.ts
   var require_code = __commonJS({
     "figma-plugin/code.ts"(exports) {
-      figma.showUI(__html__, { width: 320, height: 280 });
+      figma.showUI(__html__, { width: 320, height: 360 });
       function applyVariables(data) {
         return __async(this, null, function* () {
           let count = 0;
@@ -268,6 +268,7 @@
         });
       }
       figma.ui.onmessage = (msg) => __async(null, null, function* () {
+        var _a;
         if (msg.type === "pull") {
           try {
             const count = yield applyVariables(msg.data);
@@ -287,20 +288,29 @@
         if (msg.type === "sync-components") {
           try {
             const manifest = msg.manifest;
+            const mode = (_a = msg.mode) != null ? _a : "all";
             if (!manifest || !Array.isArray(manifest.components)) {
               throw new Error("Invalid manifest: missing components array");
             }
-            const styleGuidePage = ensurePage("\u{1F3A8} Style Guide");
-            const componentsPage = ensurePage("\u{1F9E9} Components");
-            figma.currentPage = styleGuidePage;
-            yield buildStyleGuidePage(styleGuidePage);
-            figma.currentPage = componentsPage;
-            const syncResult = yield buildComponentsPage(componentsPage, manifest);
+            const result = { created: 0, updated: 0, skipped: 0 };
+            if (mode === "style-guide" || mode === "all") {
+              const styleGuidePage = ensurePage("\u{1F3A8} Style Guide");
+              figma.currentPage = styleGuidePage;
+              yield buildStyleGuidePage(styleGuidePage);
+            }
+            if (mode === "components" || mode === "all") {
+              const componentsPage = ensurePage("\u{1F9E9} Components");
+              figma.currentPage = componentsPage;
+              const syncResult = yield buildComponentsPage(componentsPage, manifest);
+              result.created += syncResult.created;
+              result.updated += syncResult.updated;
+              result.skipped += syncResult.skipped;
+            }
             figma.ui.postMessage({
               type: "sync-complete",
-              created: syncResult.created,
-              updated: syncResult.updated,
-              skipped: syncResult.skipped
+              created: result.created,
+              updated: result.updated,
+              skipped: result.skipped
             });
           } catch (err) {
             figma.ui.postMessage({ type: "sync-error", message: err.message });

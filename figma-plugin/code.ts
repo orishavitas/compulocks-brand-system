@@ -54,7 +54,7 @@ function sha1(str: string): string {
 
 // Available for client-side hash verification if needed in future. Manifest hash is trusted from component-manifest.json.
 
-figma.showUI(__html__, { width: 320, height: 280 });
+figma.showUI(__html__, { width: 320, height: 360 });
 
 // --- PULL: Apply tokens from repo to Figma ---
 
@@ -421,24 +421,34 @@ figma.ui.onmessage = async (msg) => {
   if (msg.type === 'sync-components') {
     try {
       const manifest = msg.manifest as ComponentManifest;
+      const mode: string = msg.mode ?? 'all';
+
       if (!manifest || !Array.isArray(manifest.components)) {
         throw new Error('Invalid manifest: missing components array');
       }
 
-      const styleGuidePage = ensurePage('🎨 Style Guide');
-      const componentsPage = ensurePage('🧩 Components');
+      const result: SyncResult = { created: 0, updated: 0, skipped: 0 };
 
-      figma.currentPage = styleGuidePage;
-      await buildStyleGuidePage(styleGuidePage);
+      if (mode === 'style-guide' || mode === 'all') {
+        const styleGuidePage = ensurePage('🎨 Style Guide');
+        figma.currentPage = styleGuidePage;
+        await buildStyleGuidePage(styleGuidePage);
+      }
 
-      figma.currentPage = componentsPage;
-      const syncResult = await buildComponentsPage(componentsPage, manifest);
+      if (mode === 'components' || mode === 'all') {
+        const componentsPage = ensurePage('🧩 Components');
+        figma.currentPage = componentsPage;
+        const syncResult = await buildComponentsPage(componentsPage, manifest);
+        result.created += syncResult.created;
+        result.updated += syncResult.updated;
+        result.skipped += syncResult.skipped;
+      }
 
       figma.ui.postMessage({
         type: 'sync-complete',
-        created: syncResult.created,
-        updated: syncResult.updated,
-        skipped: syncResult.skipped
+        created: result.created,
+        updated: result.updated,
+        skipped: result.skipped
       });
     } catch (err: any) {
       figma.ui.postMessage({ type: 'sync-error', message: err.message });
