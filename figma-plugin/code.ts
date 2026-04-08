@@ -214,7 +214,7 @@ function ensurePage(name: string): PageNode {
 async function buildStyleGuidePage(page: PageNode): Promise<void> {
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
 
-  // Remove existing style guide frames we own
+  // Remove existing style guide frames we own (tagged with non-empty styleGuideSection)
   for (const node of [...page.children]) {
     if (node.getPluginData('styleGuideSection') !== '') node.remove();
   }
@@ -330,7 +330,7 @@ async function buildStyleGuidePage(page: PageNode): Promise<void> {
   spacingFrame.y = yOffset;
 }
 
-async function buildComponentsPage(page: PageNode, manifest: ComponentManifest): Promise<SyncResult> {
+async function buildComponentsPage(page: PageNode, manifest: ComponentManifest, force = false): Promise<SyncResult> {
   const result: SyncResult = { created: 0, updated: 0, skipped: 0 };
   let xCursor = 0;
   const COL_GAP = 60;
@@ -345,7 +345,7 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest):
 
     if (existing) {
       const storedHash = existing.getPluginData('manifestHash');
-      if (storedHash === component.hash) {
+      if (!force && storedHash === component.hash) {
         result.skipped++;
         xCursor += existing.width + COL_GAP;
         continue;
@@ -438,7 +438,7 @@ figma.ui.onmessage = async (msg) => {
       if (mode === 'components' || mode === 'all') {
         const componentsPage = ensurePage('🧩 Components');
         figma.currentPage = componentsPage;
-        const syncResult = await buildComponentsPage(componentsPage, manifest);
+        const syncResult = await buildComponentsPage(componentsPage, manifest, true);
         result.created += syncResult.created;
         result.updated += syncResult.updated;
         result.skipped += syncResult.skipped;

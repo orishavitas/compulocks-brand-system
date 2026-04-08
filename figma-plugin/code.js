@@ -212,7 +212,7 @@
           spacingFrame.y = yOffset;
         });
       }
-      function buildComponentsPage(page, manifest) {
+      function buildComponentsPage(page, manifest, force = false) {
         return __async(this, null, function* () {
           const result = { created: 0, updated: 0, skipped: 0 };
           let xCursor = 0;
@@ -224,7 +224,7 @@
             );
             if (existing) {
               const storedHash = existing.getPluginData("manifestHash");
-              if (storedHash === component.hash) {
+              if (!force && storedHash === component.hash) {
                 result.skipped++;
                 xCursor += existing.width + COL_GAP;
                 continue;
@@ -301,7 +301,7 @@
             if (mode === "components" || mode === "all") {
               const componentsPage = ensurePage("\u{1F9E9} Components");
               figma.currentPage = componentsPage;
-              const syncResult = yield buildComponentsPage(componentsPage, manifest);
+              const syncResult = yield buildComponentsPage(componentsPage, manifest, true);
               result.created += syncResult.created;
               result.updated += syncResult.updated;
               result.skipped += syncResult.skipped;

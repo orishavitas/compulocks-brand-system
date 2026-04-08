@@ -59,10 +59,10 @@
   <div class="mode-section">
     <label>Scope</label>
     <div class="mode-pills">
-      <button class="mode-pill active" data-mode="tokens">Tokens</button>
-      <button class="mode-pill" data-mode="components">Components</button>
-      <button class="mode-pill" data-mode="style-guide">Style Guide</button>
-      <button class="mode-pill" data-mode="all">All</button>
+      <button type="button" class="mode-pill active" data-mode="tokens">Tokens</button>
+      <button type="button" class="mode-pill" data-mode="components">Components</button>
+      <button type="button" class="mode-pill" data-mode="style-guide">Style Guide</button>
+      <button type="button" class="mode-pill" data-mode="all">All</button>
     </div>
   </div>
 
@@ -104,29 +104,23 @@
     function disableAll() { allButtons().forEach(b => b.disabled = true); }
     function enableAll() { allButtons().forEach(b => b.disabled = false); }
 
+    // Pull — always tokens from n8n (mode-independent)
     pullBtn.addEventListener('click', async () => {
       const url = getWebhookUrl();
       if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
 
-      const mode = selectedMode;
-      setStatus(`Pulling [${mode}] from repo…`, 'info');
+      setStatus('Pulling tokens from n8n…', 'info');
       disableAll();
 
-      // tokens mode: fetch from n8n
-      if (mode === 'tokens' || mode === 'all') {
-        try {
-          const res = await fetch(url + '/pull', { method: 'GET' });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const raw = await res.json();
-          const data = Array.isArray(raw) ? (raw[0]?.json ?? raw[0]) : raw;
-          if (!data || !data.collections) throw new Error('Invalid response shape from n8n');
-          parent.postMessage({ pluginMessage: { type: 'pull', data, mode } }, '*');
-        } catch (err) {
-          setStatus(`Pull failed: ${err.message}`, 'error');
-          enableAll();
-        }
-      } else {
-        setStatus(`Pull [${mode}] is not yet supported — use Sync for components and style guide.`, 'info');
+      try {
+        const res = await fetch(url + '/pull', { method: 'GET' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const raw = await res.json();
+        const data = Array.isArray(raw) ? (raw[0]?.json ?? raw[0]) : raw;
+        if (!data || !data.collections) throw new Error('Invalid response shape from n8n');
+        parent.postMessage({ pluginMessage: { type: 'pull', data } }, '*');
+      } catch (err) {
+        setStatus(`Pull failed: ${err.message}`, 'error');
         enableAll();
       }
     });
@@ -144,19 +138,19 @@
       return JSON.parse(atob(json.content.replace(/\n/g, '')));
     }
 
+    // Sync — uses mode selector: components / style-guide / all
     syncBtn.addEventListener('click', async () => {
       const token = githubTokenInput.value.trim();
       const mode = selectedMode;
 
-      // tokens-only sync doesn't need GitHub token — uses n8n
       if (mode === 'tokens') {
-        setStatus('Use Pull to sync tokens from n8n.', 'info');
+        setStatus('Select Components, Style Guide, or All — then click Sync.', 'info');
         return;
       }
 
       if (!token) { setStatus('Enter your GitHub token first.', 'error'); return; }
 
-      setStatus(`Syncing [${mode}]…`, 'info');
+      setStatus(`Syncing [${mode}] from GitHub…`, 'info');
       disableAll();
 
       try {
