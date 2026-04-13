@@ -404,67 +404,61 @@ function solidFill(color: RGBA): SolidPaint {
   return { type: 'SOLID', color: { r: color.r, g: color.g, b: color.b }, opacity: color.a };
 }
 
-/** Render a styled component node — one node per story variant (no state cross-product) */
+/** Render a styled component node — one node per story variant, FIXED sizing throughout */
 async function renderComponentNode(
   componentName: string,
   variant: string
 ): Promise<ComponentNode> {
   const node = figma.createComponent();
   node.name = `variant=${variant}`;
-  node.layoutMode = 'HORIZONTAL';
-  node.primaryAxisAlignItems = 'CENTER';
-  node.counterAxisAlignItems = 'CENTER';
-  node.primaryAxisSizingMode = 'AUTO';
-  node.counterAxisSizingMode = 'AUTO';
 
   const lowerName = componentName.toLowerCase();
   const lowerVariant = variant.toLowerCase();
   const isDisabled = lowerVariant === 'disabled';
-  const isSelected = lowerVariant === 'selected';
   const isError = lowerVariant === 'error';
+  const isSelected = lowerVariant === 'selected';
 
   // --- Button ---
   if (lowerName === 'button') {
+    node.layoutMode = 'HORIZONTAL';
+    node.primaryAxisAlignItems = 'CENTER';
+    node.counterAxisAlignItems = 'CENTER';
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
+    node.resize(140, 40);
     node.cornerRadius = 9999;
     node.paddingLeft = node.paddingRight = 20;
     node.paddingTop = node.paddingBottom = 10;
 
     let bg: RGBA;
     let fg: RGBA = COLOR.white;
-    let hasStroke = false;
-
-    if (lowerVariant === 'cta') {
-      bg = resolveColor('color/brand/green-dark', COLOR.green);
-    } else if (lowerVariant === 'secondary') {
-      bg = { r: 1, g: 1, b: 1, a: 0 };
-      fg = resolveColor('color/brand/primary', COLOR.navy);
-      hasStroke = true;
-    } else if (lowerVariant === 'ghost') {
-      bg = { r: 0, g: 0, b: 0, a: 0 };
-      fg = resolveColor('color/brand/primary', COLOR.navy);
-    } else {
-      // primary / disabled / loading all use navy bg
-      bg = resolveColor('color/brand/primary', COLOR.navy);
-    }
+    if (lowerVariant === 'cta')       { bg = resolveColor('color/brand/green-dark', COLOR.green); }
+    else if (lowerVariant === 'secondary') { bg = { r: 1, g: 1, b: 1, a: 0 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
+    else if (lowerVariant === 'ghost')    { bg = { r: 0, g: 0, b: 0, a: 0 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
+    else                              { bg = resolveColor('color/brand/primary', COLOR.navy); }
 
     node.fills = [solidFill(bg)];
-    if (hasStroke) {
+    if (lowerVariant === 'secondary') {
       node.strokes = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
       node.strokeWeight = 1.5;
     }
 
-    const label = figma.createText();
-    label.fontName = { family: 'Inter', style: 'SemiBold' };
-    label.characters = lowerVariant === 'loading' ? 'Loading...' : variant;
-    label.fontSize = 14;
-    label.fills = [solidFill(fg)];
-    node.appendChild(label);
-
+    const t = figma.createText();
+    t.fontName = { family: 'Inter', style: 'SemiBold' };
+    t.characters = lowerVariant === 'loading' ? 'Loading...' : variant;
+    t.fontSize = 14;
+    t.fills = [solidFill(fg)];
+    node.appendChild(t);
     if (isDisabled) node.opacity = 0.5;
   }
 
   // --- Badge ---
   else if (lowerName === 'badge') {
+    node.layoutMode = 'HORIZONTAL';
+    node.primaryAxisAlignItems = 'CENTER';
+    node.counterAxisAlignItems = 'CENTER';
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
     node.resize(80, 28);
     node.cornerRadius = 9999;
     node.paddingLeft = node.paddingRight = 12;
@@ -472,24 +466,29 @@ async function renderComponentNode(
 
     let bg: RGBA;
     let fg: RGBA = COLOR.white;
-    if (lowerVariant === 'success') { bg = resolveColor('color/brand/green-dark', COLOR.green); }
-    else if (lowerVariant === 'error') { bg = COLOR.error; }
-    else if (lowerVariant === 'neutral') { bg = COLOR.neutral; }
-    else if (lowerVariant === 'tonal') { bg = { ...resolveColor('color/brand/primary', COLOR.navy), a: 0.12 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
-    else { bg = resolveColor('color/brand/primary', COLOR.navy); }
+    if (lowerVariant === 'success')   { bg = resolveColor('color/brand/green-dark', COLOR.green); }
+    else if (lowerVariant === 'error')  { bg = COLOR.error; }
+    else if (lowerVariant === 'neutral'){ bg = COLOR.neutral; }
+    else if (lowerVariant === 'tonal')  { bg = { ...resolveColor('color/brand/primary', COLOR.navy), a: 0.12 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
+    else                              { bg = resolveColor('color/brand/primary', COLOR.navy); }
 
     node.fills = [solidFill(bg)];
-    const label = figma.createText();
-    label.fontName = { family: 'Inter', style: 'Medium' };
-    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
-    label.fontSize = 12;
-    label.fills = [solidFill(fg)];
-    node.appendChild(label);
+    const t = figma.createText();
+    t.fontName = { family: 'Inter', style: 'Medium' };
+    t.characters = variant;
+    t.fontSize = 11;
+    t.fills = [solidFill(fg)];
+    node.appendChild(t);
   }
 
   // --- Tag ---
   else if (lowerName === 'tag') {
-    node.resize(80, 32);
+    node.layoutMode = 'HORIZONTAL';
+    node.primaryAxisAlignItems = 'CENTER';
+    node.counterAxisAlignItems = 'CENTER';
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
+    node.resize(100, 32);
     node.cornerRadius = 9999;
     node.paddingLeft = node.paddingRight = 12;
     node.paddingTop = node.paddingBottom = 6;
@@ -497,117 +496,115 @@ async function renderComponentNode(
     node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
     node.strokeWeight = 1;
 
-    const label = figma.createText();
-    label.fontName = { family: 'Inter', style: 'Regular' };
-    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
-    label.fontSize = 12;
-    label.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
-    node.appendChild(label);
+    const t = figma.createText();
+    t.fontName = { family: 'Inter', style: 'Regular' };
+    t.characters = lowerVariant === 'removable' ? `${variant}  ×` : variant;
+    t.fontSize = 12;
+    t.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+    node.appendChild(t);
   }
 
   // --- Chip ---
   else if (lowerName === 'chip') {
-    node.resize(90, 32);
+    node.layoutMode = 'HORIZONTAL';
+    node.primaryAxisAlignItems = 'CENTER';
+    node.counterAxisAlignItems = 'CENTER';
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
+    node.resize(100, 32);
     node.cornerRadius = 9999;
     node.paddingLeft = node.paddingRight = 16;
     node.paddingTop = node.paddingBottom = 6;
 
-    const selected = isSelected;
-    const bg = selected
-      ? resolveColor('color/brand/primary', COLOR.navy)
-      : resolveColor('color/brand/surface', COLOR.surface);
-    const fg = selected ? COLOR.white : resolveColor('color/brand/primary', COLOR.navy);
-
+    const bg = isSelected ? resolveColor('color/brand/primary', COLOR.navy) : resolveColor('color/brand/surface', COLOR.surface);
+    const fg = isSelected ? COLOR.white : resolveColor('color/brand/primary', COLOR.navy);
     node.fills = [solidFill(bg)];
-    if (!selected) {
-      node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
-      node.strokeWeight = 1;
-    }
+    if (!isSelected) { node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))]; node.strokeWeight = 1; }
 
-    const label = figma.createText();
-    label.fontName = { family: 'Inter', style: 'Regular' };
-    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
-    label.fontSize = 12;
-    label.fills = [solidFill(fg)];
-    node.appendChild(label);
+    const t = figma.createText();
+    t.fontName = { family: 'Inter', style: 'Regular' };
+    t.characters = variant;
+    t.fontSize = 12;
+    t.fills = [solidFill(fg)];
+    node.appendChild(t);
+    if (isDisabled) node.opacity = 0.4;
   }
 
   // --- Card ---
   else if (lowerName === 'card') {
+    node.layoutMode = 'VERTICAL';
+    node.primaryAxisAlignItems = 'MIN';
+    node.counterAxisAlignItems = 'MIN';
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
     node.resize(240, 120);
     node.cornerRadius = 24;
     node.paddingLeft = node.paddingRight = 24;
     node.paddingTop = node.paddingBottom = 24;
-    node.layoutMode = 'VERTICAL';
     node.itemSpacing = 8;
-    node.primaryAxisSizingMode = 'FIXED';
-    node.counterAxisSizingMode = 'FIXED';
     node.fills = [solidFill(resolveColor('color/brand/surface', COLOR.surface))];
     node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
     node.strokeWeight = 1;
 
     if (lowerVariant === 'elevated') {
-      node.effects = [{
-        type: 'DROP_SHADOW',
-        color: { r: 0.11, g: 0.13, b: 0.29, a: 0.12 },
-        offset: { x: 0, y: 2 },
-        radius: 8,
-        spread: 0,
-        visible: true,
-        blendMode: 'NORMAL'
-      }];
+      node.effects = [{ type: 'DROP_SHADOW', color: { r: 0.11, g: 0.13, b: 0.29, a: 0.12 }, offset: { x: 0, y: 2 }, radius: 8, spread: 0, visible: true, blendMode: 'NORMAL' }];
     }
 
-    const title = figma.createText();
-    title.fontName = { family: 'Inter', style: 'SemiBold' };
-    title.characters = `Card — ${variant}`;
-    title.fontSize = 14;
-    title.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
-    node.appendChild(title);
+    const t1 = figma.createText();
+    t1.fontName = { family: 'Inter', style: 'SemiBold' };
+    t1.characters = `Card — ${variant}`;
+    t1.fontSize = 14;
+    t1.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+    node.appendChild(t1);
 
-    const sub = figma.createText();
-    sub.fontName = { family: 'Inter', style: 'Regular' };
-    sub.characters = lowerVariant === 'elevated' ? 'With drop shadow' : 'Default surface';
-    sub.fontSize = 12;
-    sub.fills = [solidFill(COLOR.neutral)];
-    node.appendChild(sub);
+    const t2 = figma.createText();
+    t2.fontName = { family: 'Inter', style: 'Regular' };
+    t2.characters = lowerVariant === 'elevated' ? 'With drop shadow' : 'Default surface';
+    t2.fontSize = 12;
+    t2.fills = [solidFill(COLOR.neutral)];
+    node.appendChild(t2);
   }
 
   // --- Input ---
   else if (lowerName === 'input') {
+    node.layoutMode = 'HORIZONTAL';
+    node.primaryAxisAlignItems = 'CENTER';
+    node.counterAxisAlignItems = 'CENTER';
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
     node.resize(200, 48);
     node.cornerRadius = 8;
     node.paddingLeft = node.paddingRight = 12;
     node.paddingTop = node.paddingBottom = 12;
-    node.layoutMode = 'HORIZONTAL';
     node.fills = [solidFill(hexToRgba('#FDFBFF'))];
     node.strokes = [solidFill(isError ? COLOR.error : resolveColor('color/brand/outline', COLOR.outline))];
     node.strokeWeight = isError ? 2 : 1;
 
-    const placeholder = figma.createText();
-    placeholder.fontName = { family: 'Inter', style: 'Regular' };
-    placeholder.characters = isError ? 'Error state' : 'Placeholder text';
-    placeholder.fontSize = 14;
-    placeholder.fills = [solidFill({ ...COLOR.neutral, a: isError ? 1 : 0.5 })];
-    node.appendChild(placeholder);
+    const t = figma.createText();
+    t.fontName = { family: 'Inter', style: 'Regular' };
+    t.characters = isError ? 'Error — invalid value' : 'Placeholder text';
+    t.fontSize = 14;
+    t.fills = [solidFill({ ...COLOR.neutral, a: isError ? 1 : 0.5 })];
+    node.appendChild(t);
+    if (isDisabled) node.opacity = 0.4;
   }
 
-  // --- Fallback for unknown components ---
+  // --- Fallback ---
   else {
+    node.layoutMode = 'NONE';
     node.resize(160, 48);
     node.cornerRadius = 6;
     node.fills = [solidFill(resolveColor('color/brand/surface', COLOR.surface))];
     node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
     node.strokeWeight = 1;
 
-    const label = figma.createText();
-    label.fontName = { family: 'Inter', style: 'Regular' };
-    label.characters = `${componentName} / ${variant}`;
-    label.fontSize = 10;
-    label.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
-    label.x = 8;
-    label.y = 16;
-    node.appendChild(label);
+    const t = figma.createText();
+    t.fontName = { family: 'Inter', style: 'Regular' };
+    t.characters = `${componentName} / ${variant}`;
+    t.fontSize = 10;
+    t.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+    t.x = 8; t.y = 16;
+    node.appendChild(t);
   }
 
   return node;
@@ -623,53 +620,52 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest, 
   await figma.loadFontAsync({ family: 'Inter', style: 'SemiBold' });
 
   for (const component of manifest.components) {
-    const existing = page.children.find(
-      (n): n is ComponentSetNode =>
-        n.type === 'COMPONENT_SET' && n.name === component.name
-    );
+    try {
+      const existing = page.children.find(
+        (n): n is ComponentSetNode =>
+          n.type === 'COMPONENT_SET' && n.name === component.name
+      );
 
-    if (existing) {
-      const storedHash = existing.getPluginData('manifestHash');
-      if (!force && storedHash === component.hash) {
-        result.skipped++;
-        xCursor += existing.width + COL_GAP;
-        continue;
+      if (existing) {
+        const storedHash = existing.getPluginData('manifestHash');
+        if (!force && storedHash === component.hash) {
+          result.skipped++;
+          xCursor += existing.width + COL_GAP;
+          continue;
+        }
+        existing.remove();
       }
-      existing.remove();
-    }
 
-    const childNodes: ComponentNode[] = [];
-    const variantList = component.variants.length > 0 ? component.variants : ['Default'];
+      const variantList = component.variants.length > 0 ? component.variants : ['Default'];
+      const childNodes: ComponentNode[] = [];
 
-    for (const variant of variantList) {
-      const node = await renderComponentNode(component.name, variant);
-      // Must be a child of the target page before combineAsVariants
-      page.appendChild(node);
-      childNodes.push(node);
-    }
+      for (const variant of variantList) {
+        const node = await renderComponentNode(component.name, variant);
+        page.appendChild(node);
+        childNodes.push(node);
+      }
 
-    let setWidth: number;
-    if (childNodes.length === 1) {
-      // combineAsVariants requires 2+ nodes — place single node directly
-      childNodes[0].setPluginData('manifestHash', component.hash);
-      childNodes[0].x = xCursor;
-      childNodes[0].y = 0;
-      setWidth = childNodes[0].width;
-    } else {
-      const componentSet = figma.combineAsVariants(childNodes, page as any);
-      componentSet.name = component.name;
-      componentSet.setPluginData('manifestHash', component.hash);
-      componentSet.x = xCursor;
-      componentSet.y = 0;
-      setWidth = componentSet.width;
-    }
+      let setWidth: number;
+      if (childNodes.length === 1) {
+        childNodes[0].name = component.name;
+        childNodes[0].setPluginData('manifestHash', component.hash);
+        childNodes[0].x = xCursor;
+        childNodes[0].y = 0;
+        setWidth = childNodes[0].width;
+      } else {
+        const componentSet = figma.combineAsVariants(childNodes, page as any);
+        componentSet.name = component.name;
+        componentSet.setPluginData('manifestHash', component.hash);
+        componentSet.x = xCursor;
+        componentSet.y = 0;
+        setWidth = componentSet.width;
+      }
 
-    xCursor += setWidth + COL_GAP;
-
-    if (existing) {
-      result.updated++;
-    } else {
-      result.created++;
+      xCursor += setWidth + COL_GAP;
+      if (existing) { result.updated++; } else { result.created++; }
+    } catch (err: any) {
+      figma.ui.postMessage({ type: 'sync-error', message: `${component.name}: ${err?.message ?? String(err)}` });
+      return result;
     }
   }
 
