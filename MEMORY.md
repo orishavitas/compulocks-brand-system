@@ -29,6 +29,33 @@ Reference file: `references/uiref/stlyle_guide_ts.md.txt` in mrd-producer-webapp
 - The dashboard (unified homepage with tool cards + documents table) references this repo for styling decisions
 - Google Material 3 Expressive design system is the bridge between raw brand tokens and UI components
 
+## Token System (2026-04-08)
+
+- **Full token set**: color (7), borderRadius (5), shadow (3), animation/duration (3), spacing (10), typography
+- **Design Kit is hard truth**: `COMPULOCKS R&D AI Design Kit.txt` overrides all prior decisions on colors, typography, card spec
+- **Card spec**: `border-radius: 24px`, `padding: 32px`, `background: #f2f2f2`, `border: 1px solid #e0e0e0` — do not deviate
+- **Typography hierarchy**: section-heading 69px BC/500 → slide-title 36px BC/500 → small-title 21px B/600 → paragraph 18px B/400 → small-text 12px B/400 italic
+- **Green `#009966`** is the primary CTA color — never use teal `#0f766e`
+- `build/css/typography.css` contains Design Kit utility classes, auto-generated on `npm run build`
+
+## Component Library (2026-04-08)
+
+- 6 components: Button, Card, Input, Badge, Tag, Chip
+- All use inline React CSSProperties — no CSS modules
+- All pill-shaped interactive elements (buttons, chips, tags, badges) use `border-radius: 9999px`
+- Button has `cta` variant (green), hover states via useState
+- Chip is a new controlled component — parent manages selected state via `variant` prop
+- `npm run build:components` → `dist/` (CJS + ESM + types)
+- `npm run export-manifest` → `component-manifest.json` (6 components)
+
+## Figma Plugin Status (2026-04-08)
+
+- **Pull** = applies design tokens as Figma Variables + Text Styles (works ✅)
+- **Push** = reads Figma Variables → sends to n8n (HTTP 500 from n8n, deferred ⚠️)
+- **Sync Components** = creates ComponentSet placeholders from manifest (structural scaffolding, not visual ⚠️)
+- **Known gap**: Pull/Push moves tokens only, not component visuals. Sync Components shows placeholder boxes.
+- **Proposed next**: Expandable sync mode selector (Tokens | Components | Style Guide | All) to make each button's scope explicit and allow component visual rendering
+
 ## Consumers
 
 | Project | How it uses tokens |

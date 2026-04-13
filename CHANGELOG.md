@@ -129,3 +129,49 @@
 - Figma MCP server confirmed OAuth-only (no PAT/headless path); REST Variables API requires Enterprise — snapshot-file bridges the existing Plugin/n8n push flow to the sync platform's pull architecture
 - `ping()` reports snapshot count and age in minutes; returns `ok: false` with actionable message if file absent
 - Both `tsconfig.sync.json` and `dashboard/tsconfig.json` pass with no errors
+
+## v0.7.0 — 2026-04-08
+
+**Session 7: Component redesign — Design Kit alignment**
+
+### v0.7.1 — Token expansion
+- Added color tokens: `green-dark` (#009966), `green-light` (#1db274), `surface` (#f2f2f2), `white`, `outline` (#e0e0e0)
+- New `tokens/borderRadius.json`: sm/md/lg/xl/full (6–9999px)
+- New `tokens/shadow.json`: sm/md/lg (navy rgba shadows)
+- New `tokens/animation.json`: fast/normal/slow (120/200/350ms)
+- `build-tokens.mjs` generates `build/css/typography.css` with 5 Design Kit utility classes
+- `token_guide.md` extended with Border Radius, Shadows, Animation sections
+
+### v0.7.2 — Component redesign (Design Kit hard rules)
+- **Button**: pill radius (9999px), CTA variant (green #009966), hover states, weight 600
+- **Card**: 24px radius, #f2f2f2 bg, #e0e0e0 border, shadow token — matches Design Kit `.content-card` spec
+- **Input**: 8px radius, neutral outline #C5C6D0, cream bg #FDFBFF, focus ring via useState
+- **Badge**: success uses brand green (#009966), new `tonal` variant (navy tint)
+- **Tag**: pill radius (9999px), asymmetric padding on removable variant
+- **Chip** (new): filter/selection component, default/selected variants, aria-pressed, pill shape
+
+### v0.7.3 — Manifest + distribution
+- `component-manifest.json` regenerated with 6 components (added Chip)
+- `dist/index.d.ts` exports Chip, ChipProps, ChipVariant
+- `test-consumer` build verified
+
+### Known issues / next session
+- Figma plugin Pull/Push only moves design tokens (Variables), not component visuals
+- Sync Components creates placeholder scaffolding, not real visual components
+- Proposed: expandable sync UI with mode selector (Tokens | Components | Style Guide | All)
+- Naming conventions for components/tokens — deferred
+
+## v0.8.0 — 2026-04-13
+
+**Session 8: Push fix + real component visuals**
+
+### v0.8.1 — n8n workflow-b: Push now fully implemented
+- `n8n/workflow-b-figma-to-code.json` — `Transform Figma to DTCG` node now contains the full inline converter (was a stub returning `{}`)
+- `Commit Files` node now makes real GitHub Contents API PUT requests for each token file, fetching existing SHA for updates
+- Push flow: Figma Variables → DTCG JSON → branch → commit → PR
+
+### v0.8.2 — Figma plugin: real component visuals in Sync
+- `figma-plugin/code.ts` — `buildComponentsPage` now renders styled component visuals instead of navy placeholders
+- Each component type (Button, Badge, Tag, Chip, Card, Input) renders with correct Design Kit styles: radius, colors, padding, typography weight
+- `renderComponentNode()` helper reads live token values via `figma.variables.getLocalVariables()` with hex fallbacks
+- `figma-plugin/code.js` rebuilt (23.6kb)

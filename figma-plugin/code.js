@@ -1,6 +1,25 @@
 "use strict";
 (() => {
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
@@ -212,12 +231,224 @@
           spacingFrame.y = yOffset;
         });
       }
+      function getColorToken(name) {
+        const v = figma.variables.getLocalVariables().find(
+          (lv) => lv.resolvedType === "COLOR" && lv.name === name
+        );
+        if (!v) return null;
+        const modeId = Object.keys(v.valuesByMode)[0];
+        return v.valuesByMode[modeId];
+      }
+      function hexToRgba(hex) {
+        const h = hex.replace("#", "");
+        return {
+          r: parseInt(h.slice(0, 2), 16) / 255,
+          g: parseInt(h.slice(2, 4), 16) / 255,
+          b: parseInt(h.slice(4, 6), 16) / 255,
+          a: 1
+        };
+      }
+      var COLOR = {
+        navy: hexToRgba("#1D1F4A"),
+        green: hexToRgba("#009966"),
+        surface: hexToRgba("#F2F2F2"),
+        white: hexToRgba("#FFFFFF"),
+        outline: hexToRgba("#E0E0E0"),
+        purple: hexToRgba("#7B61FF"),
+        error: hexToRgba("#B00020"),
+        neutral: hexToRgba("#555555")
+      };
+      function resolveColor(tokenName, fallback) {
+        var _a;
+        return (_a = getColorToken(tokenName)) != null ? _a : fallback;
+      }
+      function solidFill(color) {
+        return { type: "SOLID", color: { r: color.r, g: color.g, b: color.b }, opacity: color.a };
+      }
+      function renderComponentNode(componentName, variant, state) {
+        return __async(this, null, function* () {
+          const node = figma.createComponent();
+          node.name = `variant=${variant}, state=${state}`;
+          node.layoutMode = "HORIZONTAL";
+          node.primaryAxisAlignItems = "CENTER";
+          node.counterAxisAlignItems = "CENTER";
+          node.primaryAxisSizingMode = "FIXED";
+          node.counterAxisSizingMode = "FIXED";
+          const isDisabled = state === "disabled";
+          const isSelected = state === "selected" || variant === "selected";
+          const isError = state === "error";
+          const lowerName = componentName.toLowerCase();
+          const lowerVariant = variant.toLowerCase();
+          if (lowerName === "button") {
+            node.resize(120, 40);
+            node.cornerRadius = 9999;
+            node.paddingLeft = node.paddingRight = 20;
+            node.paddingTop = node.paddingBottom = 10;
+            let bg;
+            let fg = COLOR.white;
+            if (lowerVariant === "cta") {
+              bg = resolveColor("color/brand/green-dark", COLOR.green);
+            } else if (lowerVariant === "secondary") {
+              bg = COLOR.white;
+              fg = resolveColor("color/brand/primary", COLOR.navy);
+            } else if (lowerVariant === "ghost") {
+              bg = __spreadProps(__spreadValues({}, COLOR.white), { a: 0 });
+              fg = resolveColor("color/brand/primary", COLOR.navy);
+            } else {
+              bg = resolveColor("color/brand/primary", COLOR.navy);
+            }
+            if (isDisabled) {
+              bg = __spreadProps(__spreadValues({}, bg), { a: 0.4 });
+            }
+            node.fills = [solidFill(bg)];
+            if (lowerVariant === "secondary" || lowerVariant === "ghost") {
+              node.strokes = [solidFill(resolveColor("color/brand/outline", COLOR.outline))];
+              node.strokeWeight = 1;
+            }
+            const label = figma.createText();
+            label.fontName = { family: "Inter", style: "SemiBold" };
+            label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+            label.fontSize = 14;
+            label.fills = [solidFill(fg)];
+            node.appendChild(label);
+          } else if (lowerName === "badge") {
+            node.resize(80, 28);
+            node.cornerRadius = 9999;
+            node.paddingLeft = node.paddingRight = 12;
+            node.paddingTop = node.paddingBottom = 4;
+            let bg;
+            let fg = COLOR.white;
+            if (lowerVariant === "success") {
+              bg = resolveColor("color/brand/green-dark", COLOR.green);
+            } else if (lowerVariant === "error") {
+              bg = COLOR.error;
+            } else if (lowerVariant === "neutral") {
+              bg = COLOR.neutral;
+            } else if (lowerVariant === "tonal") {
+              bg = __spreadProps(__spreadValues({}, resolveColor("color/brand/primary", COLOR.navy)), { a: 0.12 });
+              fg = resolveColor("color/brand/primary", COLOR.navy);
+            } else {
+              bg = resolveColor("color/brand/primary", COLOR.navy);
+            }
+            node.fills = [solidFill(bg)];
+            const label = figma.createText();
+            label.fontName = { family: "Inter", style: "Medium" };
+            label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+            label.fontSize = 12;
+            label.fills = [solidFill(fg)];
+            node.appendChild(label);
+          } else if (lowerName === "tag") {
+            node.resize(80, 32);
+            node.cornerRadius = 9999;
+            node.paddingLeft = node.paddingRight = 12;
+            node.paddingTop = node.paddingBottom = 6;
+            node.fills = [solidFill(resolveColor("color/brand/surface", COLOR.surface))];
+            node.strokes = [solidFill(resolveColor("color/brand/outline", COLOR.outline))];
+            node.strokeWeight = 1;
+            const label = figma.createText();
+            label.fontName = { family: "Inter", style: "Regular" };
+            label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+            label.fontSize = 12;
+            label.fills = [solidFill(resolveColor("color/brand/primary", COLOR.navy))];
+            node.appendChild(label);
+          } else if (lowerName === "chip") {
+            node.resize(90, 32);
+            node.cornerRadius = 9999;
+            node.paddingLeft = node.paddingRight = 16;
+            node.paddingTop = node.paddingBottom = 6;
+            const selected = isSelected;
+            const bg = selected ? resolveColor("color/brand/primary", COLOR.navy) : resolveColor("color/brand/surface", COLOR.surface);
+            const fg = selected ? COLOR.white : resolveColor("color/brand/primary", COLOR.navy);
+            node.fills = [solidFill(bg)];
+            if (!selected) {
+              node.strokes = [solidFill(resolveColor("color/brand/outline", COLOR.outline))];
+              node.strokeWeight = 1;
+            }
+            const label = figma.createText();
+            label.fontName = { family: "Inter", style: "Regular" };
+            label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+            label.fontSize = 12;
+            label.fills = [solidFill(fg)];
+            node.appendChild(label);
+          } else if (lowerName === "card") {
+            node.resize(240, 120);
+            node.cornerRadius = 24;
+            node.paddingLeft = node.paddingRight = 24;
+            node.paddingTop = node.paddingBottom = 24;
+            node.layoutMode = "VERTICAL";
+            node.itemSpacing = 8;
+            node.primaryAxisSizingMode = "FIXED";
+            node.counterAxisSizingMode = "FIXED";
+            node.fills = [solidFill(resolveColor("color/brand/surface", COLOR.surface))];
+            node.strokes = [solidFill(resolveColor("color/brand/outline", COLOR.outline))];
+            node.strokeWeight = 1;
+            if (lowerVariant === "elevated") {
+              node.effects = [{
+                type: "DROP_SHADOW",
+                color: { r: 0.11, g: 0.13, b: 0.29, a: 0.12 },
+                offset: { x: 0, y: 2 },
+                radius: 8,
+                spread: 0,
+                visible: true,
+                blendMode: "NORMAL"
+              }];
+            }
+            const title = figma.createText();
+            title.fontName = { family: "Inter", style: "SemiBold" };
+            title.characters = `${componentName} / ${variant}`;
+            title.fontSize = 14;
+            title.fills = [solidFill(resolveColor("color/brand/primary", COLOR.navy))];
+            node.appendChild(title);
+            const sub = figma.createText();
+            sub.fontName = { family: "Inter", style: "Regular" };
+            sub.characters = state;
+            sub.fontSize = 12;
+            sub.fills = [solidFill(COLOR.neutral)];
+            node.appendChild(sub);
+          } else if (lowerName === "input") {
+            node.resize(200, 48);
+            node.cornerRadius = 8;
+            node.paddingLeft = node.paddingRight = 12;
+            node.paddingTop = node.paddingBottom = 12;
+            node.layoutMode = "HORIZONTAL";
+            node.fills = [solidFill(hexToRgba("#FDFBFF"))];
+            node.strokes = [solidFill(isError ? COLOR.error : resolveColor("color/brand/outline", COLOR.outline))];
+            node.strokeWeight = isError ? 2 : 1;
+            const placeholder = figma.createText();
+            placeholder.fontName = { family: "Inter", style: "Regular" };
+            placeholder.characters = isError ? "Error state" : "Placeholder text";
+            placeholder.fontSize = 14;
+            placeholder.fills = [solidFill(__spreadProps(__spreadValues({}, COLOR.neutral), { a: isError ? 1 : 0.5 }))];
+            node.appendChild(placeholder);
+          } else {
+            node.resize(160, 48);
+            node.cornerRadius = 6;
+            node.fills = [solidFill(resolveColor("color/brand/surface", COLOR.surface))];
+            node.strokes = [solidFill(resolveColor("color/brand/outline", COLOR.outline))];
+            node.strokeWeight = 1;
+            const label = figma.createText();
+            label.fontName = { family: "Inter", style: "Regular" };
+            label.characters = `${componentName} / ${variant} / ${state}`;
+            label.fontSize = 10;
+            label.fills = [solidFill(resolveColor("color/brand/primary", COLOR.navy))];
+            label.x = 8;
+            label.y = 16;
+            node.appendChild(label);
+          }
+          if (isDisabled) {
+            node.opacity = 0.4;
+          }
+          return node;
+        });
+      }
       function buildComponentsPage(page, manifest, force = false) {
         return __async(this, null, function* () {
           const result = { created: 0, updated: 0, skipped: 0 };
           let xCursor = 0;
           const COL_GAP = 60;
           yield figma.loadFontAsync({ family: "Inter", style: "Regular" });
+          yield figma.loadFontAsync({ family: "Inter", style: "Medium" });
+          yield figma.loadFontAsync({ family: "Inter", style: "SemiBold" });
           for (const component of manifest.components) {
             const existing = page.children.find(
               (n) => n.type === "COMPONENT_SET" && n.name === component.name
@@ -236,18 +467,7 @@
             const stateList = component.states.length > 0 ? component.states : ["default"];
             for (const variant of variantList) {
               for (const state of stateList) {
-                const node = figma.createComponent();
-                node.name = `variant=${variant}, state=${state}`;
-                node.resize(160, 48);
-                node.fills = [{ type: "SOLID", color: { r: 0.11, g: 0.13, b: 0.29 } }];
-                const label = figma.createText();
-                label.fontName = { family: "Inter", style: "Regular" };
-                label.characters = `${component.name} / ${variant} / ${state}`;
-                label.fontSize = 10;
-                label.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
-                label.x = 8;
-                label.y = 16;
-                node.appendChild(label);
+                const node = yield renderComponentNode(component.name, variant, state);
                 page.appendChild(node);
                 childNodes.push(node);
               }

@@ -330,12 +330,269 @@ async function buildStyleGuidePage(page: PageNode): Promise<void> {
   spacingFrame.y = yOffset;
 }
 
+// --- Token helpers for component rendering ---
+
+/** Read a local COLOR variable by name, returns RGBA or null */
+function getColorToken(name: string): RGBA | null {
+  const v = figma.variables.getLocalVariables().find(
+    lv => lv.resolvedType === 'COLOR' && lv.name === name
+  );
+  if (!v) return null;
+  const modeId = Object.keys(v.valuesByMode)[0];
+  return v.valuesByMode[modeId] as RGBA;
+}
+
+/** Read a local FLOAT variable by name, returns number or fallback */
+function getFloatToken(name: string, fallback: number): number {
+  const v = figma.variables.getLocalVariables().find(
+    lv => lv.resolvedType === 'FLOAT' && lv.name === name
+  );
+  if (!v) return fallback;
+  const modeId = Object.keys(v.valuesByMode)[0];
+  return v.valuesByMode[modeId] as number;
+}
+
+/** Hex string → RGBA (0-1 range) */
+function hexToRgba(hex: string): RGBA {
+  const h = hex.replace('#', '');
+  return {
+    r: parseInt(h.slice(0, 2), 16) / 255,
+    g: parseInt(h.slice(2, 4), 16) / 255,
+    b: parseInt(h.slice(4, 6), 16) / 255,
+    a: 1
+  };
+}
+
+// Design Kit color constants (fallbacks when tokens not loaded)
+const COLOR = {
+  navy:    hexToRgba('#1D1F4A'),
+  green:   hexToRgba('#009966'),
+  surface: hexToRgba('#F2F2F2'),
+  white:   hexToRgba('#FFFFFF'),
+  outline: hexToRgba('#E0E0E0'),
+  purple:  hexToRgba('#7B61FF'),
+  error:   hexToRgba('#B00020'),
+  neutral: hexToRgba('#555555'),
+};
+
+function resolveColor(tokenName: string, fallback: RGBA): RGBA {
+  return getColorToken(tokenName) ?? fallback;
+}
+
+function solidFill(color: RGBA): SolidPaint {
+  return { type: 'SOLID', color: { r: color.r, g: color.g, b: color.b }, opacity: color.a };
+}
+
+/** Render a styled component node based on its name and variant/state */
+async function renderComponentNode(
+  componentName: string,
+  variant: string,
+  state: string
+): Promise<ComponentNode> {
+  const node = figma.createComponent();
+  node.name = `variant=${variant}, state=${state}`;
+  node.layoutMode = 'HORIZONTAL';
+  node.primaryAxisAlignItems = 'CENTER';
+  node.counterAxisAlignItems = 'CENTER';
+  node.primaryAxisSizingMode = 'FIXED';
+  node.counterAxisSizingMode = 'FIXED';
+
+  const isDisabled = state === 'disabled';
+  const isSelected = state === 'selected' || variant === 'selected';
+  const isError = state === 'error';
+
+  const lowerName = componentName.toLowerCase();
+  const lowerVariant = variant.toLowerCase();
+
+  // --- Button ---
+  if (lowerName === 'button') {
+    node.resize(120, 40);
+    node.cornerRadius = 9999;
+    node.paddingLeft = node.paddingRight = 20;
+    node.paddingTop = node.paddingBottom = 10;
+
+    let bg: RGBA;
+    let fg: RGBA = COLOR.white;
+    if (lowerVariant === 'cta') { bg = resolveColor('color/brand/green-dark', COLOR.green); }
+    else if (lowerVariant === 'secondary') { bg = COLOR.white; fg = resolveColor('color/brand/primary', COLOR.navy); }
+    else if (lowerVariant === 'ghost') { bg = { ...COLOR.white, a: 0 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
+    else { bg = resolveColor('color/brand/primary', COLOR.navy); }
+
+    if (isDisabled) { bg = { ...bg, a: 0.4 }; }
+    node.fills = [solidFill(bg)];
+
+    if (lowerVariant === 'secondary' || lowerVariant === 'ghost') {
+      node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
+      node.strokeWeight = 1;
+    }
+
+    const label = figma.createText();
+    label.fontName = { family: 'Inter', style: 'SemiBold' };
+    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+    label.fontSize = 14;
+    label.fills = [solidFill(fg)];
+    node.appendChild(label);
+  }
+
+  // --- Badge ---
+  else if (lowerName === 'badge') {
+    node.resize(80, 28);
+    node.cornerRadius = 9999;
+    node.paddingLeft = node.paddingRight = 12;
+    node.paddingTop = node.paddingBottom = 4;
+
+    let bg: RGBA;
+    let fg: RGBA = COLOR.white;
+    if (lowerVariant === 'success') { bg = resolveColor('color/brand/green-dark', COLOR.green); }
+    else if (lowerVariant === 'error') { bg = COLOR.error; }
+    else if (lowerVariant === 'neutral') { bg = COLOR.neutral; }
+    else if (lowerVariant === 'tonal') { bg = { ...resolveColor('color/brand/primary', COLOR.navy), a: 0.12 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
+    else { bg = resolveColor('color/brand/primary', COLOR.navy); }
+
+    node.fills = [solidFill(bg)];
+    const label = figma.createText();
+    label.fontName = { family: 'Inter', style: 'Medium' };
+    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+    label.fontSize = 12;
+    label.fills = [solidFill(fg)];
+    node.appendChild(label);
+  }
+
+  // --- Tag ---
+  else if (lowerName === 'tag') {
+    node.resize(80, 32);
+    node.cornerRadius = 9999;
+    node.paddingLeft = node.paddingRight = 12;
+    node.paddingTop = node.paddingBottom = 6;
+    node.fills = [solidFill(resolveColor('color/brand/surface', COLOR.surface))];
+    node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
+    node.strokeWeight = 1;
+
+    const label = figma.createText();
+    label.fontName = { family: 'Inter', style: 'Regular' };
+    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+    label.fontSize = 12;
+    label.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+    node.appendChild(label);
+  }
+
+  // --- Chip ---
+  else if (lowerName === 'chip') {
+    node.resize(90, 32);
+    node.cornerRadius = 9999;
+    node.paddingLeft = node.paddingRight = 16;
+    node.paddingTop = node.paddingBottom = 6;
+
+    const selected = isSelected;
+    const bg = selected
+      ? resolveColor('color/brand/primary', COLOR.navy)
+      : resolveColor('color/brand/surface', COLOR.surface);
+    const fg = selected ? COLOR.white : resolveColor('color/brand/primary', COLOR.navy);
+
+    node.fills = [solidFill(bg)];
+    if (!selected) {
+      node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
+      node.strokeWeight = 1;
+    }
+
+    const label = figma.createText();
+    label.fontName = { family: 'Inter', style: 'Regular' };
+    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+    label.fontSize = 12;
+    label.fills = [solidFill(fg)];
+    node.appendChild(label);
+  }
+
+  // --- Card ---
+  else if (lowerName === 'card') {
+    node.resize(240, 120);
+    node.cornerRadius = 24;
+    node.paddingLeft = node.paddingRight = 24;
+    node.paddingTop = node.paddingBottom = 24;
+    node.layoutMode = 'VERTICAL';
+    node.itemSpacing = 8;
+    node.primaryAxisSizingMode = 'FIXED';
+    node.counterAxisSizingMode = 'FIXED';
+    node.fills = [solidFill(resolveColor('color/brand/surface', COLOR.surface))];
+    node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
+    node.strokeWeight = 1;
+
+    if (lowerVariant === 'elevated') {
+      node.effects = [{
+        type: 'DROP_SHADOW',
+        color: { r: 0.11, g: 0.13, b: 0.29, a: 0.12 },
+        offset: { x: 0, y: 2 },
+        radius: 8,
+        spread: 0,
+        visible: true,
+        blendMode: 'NORMAL'
+      }];
+    }
+
+    const title = figma.createText();
+    title.fontName = { family: 'Inter', style: 'SemiBold' };
+    title.characters = `${componentName} / ${variant}`;
+    title.fontSize = 14;
+    title.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+    node.appendChild(title);
+
+    const sub = figma.createText();
+    sub.fontName = { family: 'Inter', style: 'Regular' };
+    sub.characters = state;
+    sub.fontSize = 12;
+    sub.fills = [solidFill(COLOR.neutral)];
+    node.appendChild(sub);
+  }
+
+  // --- Input ---
+  else if (lowerName === 'input') {
+    node.resize(200, 48);
+    node.cornerRadius = 8;
+    node.paddingLeft = node.paddingRight = 12;
+    node.paddingTop = node.paddingBottom = 12;
+    node.layoutMode = 'HORIZONTAL';
+    node.fills = [solidFill(hexToRgba('#FDFBFF'))];
+    node.strokes = [solidFill(isError ? COLOR.error : resolveColor('color/brand/outline', COLOR.outline))];
+    node.strokeWeight = isError ? 2 : 1;
+
+    const placeholder = figma.createText();
+    placeholder.fontName = { family: 'Inter', style: 'Regular' };
+    placeholder.characters = isError ? 'Error state' : 'Placeholder text';
+    placeholder.fontSize = 14;
+    placeholder.fills = [solidFill({ ...COLOR.neutral, a: isError ? 1 : 0.5 })];
+    node.appendChild(placeholder);
+  }
+
+  // --- Fallback for unknown components ---
+  else {
+    node.resize(160, 48);
+    node.cornerRadius = 6;
+    node.fills = [solidFill(resolveColor('color/brand/surface', COLOR.surface))];
+    node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
+    node.strokeWeight = 1;
+
+    const label = figma.createText();
+    label.fontName = { family: 'Inter', style: 'Regular' };
+    label.characters = `${componentName} / ${variant} / ${state}`;
+    label.fontSize = 10;
+    label.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+    label.x = 8;
+    label.y = 16;
+    node.appendChild(label);
+  }
+
+  if (isDisabled) { node.opacity = 0.4; }
+  return node;
+}
+
 async function buildComponentsPage(page: PageNode, manifest: ComponentManifest, force = false): Promise<SyncResult> {
   const result: SyncResult = { created: 0, updated: 0, skipped: 0 };
   let xCursor = 0;
   const COL_GAP = 60;
 
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
+  await figma.loadFontAsync({ family: 'Inter', style: 'Medium' });
+  await figma.loadFontAsync({ family: 'Inter', style: 'SemiBold' });
 
   for (const component of manifest.components) {
     const existing = page.children.find(
@@ -359,20 +616,7 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest, 
 
     for (const variant of variantList) {
       for (const state of stateList) {
-        const node = figma.createComponent();
-        node.name = `variant=${variant}, state=${state}`;
-        node.resize(160, 48);
-        node.fills = [{ type: 'SOLID', color: { r: 0.11, g: 0.13, b: 0.29 } }];
-
-        const label = figma.createText();
-        label.fontName = { family: 'Inter', style: 'Regular' };
-        label.characters = `${component.name} / ${variant} / ${state}`;
-        label.fontSize = 10;
-        label.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
-        label.x = 8;
-        label.y = 16;
-        node.appendChild(label);
-
+        const node = await renderComponentNode(component.name, variant, state);
         // Must be a child of the target page before combineAsVariants
         page.appendChild(node);
         childNodes.push(node);
