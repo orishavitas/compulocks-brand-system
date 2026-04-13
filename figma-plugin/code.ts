@@ -76,6 +76,8 @@ interface FigmaTextStyle {
   name: string;
   fontFamily: string;
   fontWeight: number;
+  fontSize?: number;
+  italic?: boolean;
   description: string;
 }
 
@@ -154,8 +156,14 @@ async function applyVariables(data: PullData) {
         style.name = ts.name;
       }
 
-      await figma.loadFontAsync({ family: ts.fontFamily, style: 'Regular' });
-      style.fontName = { family: ts.fontFamily, style: 'Regular' };
+      const figmaWeight = ts.fontWeight >= 600 ? 'SemiBold'
+        : ts.fontWeight >= 500 ? 'Medium'
+        : 'Regular';
+      const figmaStyle = ts.italic ? `${figmaWeight} Italic`.trim() : figmaWeight;
+
+      await figma.loadFontAsync({ family: ts.fontFamily, style: figmaStyle });
+      style.fontName = { family: ts.fontFamily, style: figmaStyle };
+      if (ts.fontSize) style.fontSize = ts.fontSize;
       style.description = ts.description;
       count++;
     }
@@ -264,24 +272,37 @@ async function buildStyleGuidePage(page: PageNode): Promise<void> {
   yOffset += colorFrame.height + GAP;
 
   // --- Typography specimens ---
+  // Defined directly from token values — do not rely on local text styles (no size/weight stored there)
+  const BARLOW_CONDENSED = 'Barlow Condensed';
+  const BARLOW = 'Barlow';
+  const typoSpecs: Array<{ name: string; family: string; style: string; size: number; label: string }> = [
+    { name: 'bigShortTitle',  family: BARLOW_CONDENSED, style: 'Medium',  size: 40, label: 'bigShortTitle — BIG SHORT TITLE' },
+    { name: 'bigLongTitle',   family: BARLOW_CONDENSED, style: 'Medium',  size: 32, label: 'bigLongTitle — Big Long Title' },
+    { name: 'bigParagraph',   family: BARLOW_CONDENSED, style: 'Regular', size: 24, label: 'bigParagraph — big paragraph text' },
+    { name: 'smallParagraph', family: BARLOW,           style: 'Regular', size: 16, label: 'smallParagraph — small paragraph text' },
+    { name: 'smallText',      family: BARLOW,           style: 'Italic',  size: 12, label: 'smallText — small italic caption' },
+  ];
+
+  for (const spec of typoSpecs) {
+    await figma.loadFontAsync({ family: spec.family, style: spec.style });
+  }
+
   const typoFrame = figma.createFrame();
   typoFrame.name = 'Typography';
   typoFrame.setPluginData('styleGuideSection', 'typography');
   typoFrame.layoutMode = 'VERTICAL';
-  typoFrame.itemSpacing = 16;
-  typoFrame.paddingLeft = typoFrame.paddingRight = 16;
-  typoFrame.paddingTop = typoFrame.paddingBottom = 16;
+  typoFrame.itemSpacing = 24;
+  typoFrame.paddingLeft = typoFrame.paddingRight = 24;
+  typoFrame.paddingTop = typoFrame.paddingBottom = 24;
   typoFrame.fills = [{ type: 'SOLID', color: { r: 0.12, g: 0.12, b: 0.12 } }];
   typoFrame.primaryAxisSizingMode = 'AUTO';
   typoFrame.counterAxisSizingMode = 'AUTO';
 
-  const textStyles = figma.getLocalTextStyles();
-  for (const ts of textStyles) {
-    await figma.loadFontAsync(ts.fontName);
+  for (const spec of typoSpecs) {
     const textNode = figma.createText();
-    textNode.fontName = ts.fontName;
-    textNode.textStyleId = ts.id;
-    textNode.characters = ts.name + ' — The quick brown fox';
+    textNode.fontName = { family: spec.family, style: spec.style };
+    textNode.fontSize = spec.size;
+    textNode.characters = spec.label;
     textNode.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     typoFrame.appendChild(textNode);
   }
@@ -627,13 +648,23 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest, 
       childNodes.push(node);
     }
 
-    const componentSet = figma.combineAsVariants(childNodes, page as any);
-    componentSet.name = component.name;
-    componentSet.setPluginData('manifestHash', component.hash);
-    componentSet.x = xCursor;
-    componentSet.y = 0;
+    let setWidth: number;
+    if (childNodes.length === 1) {
+      // combineAsVariants requires 2+ nodes — place single node directly
+      childNodes[0].setPluginData('manifestHash', component.hash);
+      childNodes[0].x = xCursor;
+      childNodes[0].y = 0;
+      setWidth = childNodes[0].width;
+    } else {
+      const componentSet = figma.combineAsVariants(childNodes, page as any);
+      componentSet.name = component.name;
+      componentSet.setPluginData('manifestHash', component.hash);
+      componentSet.x = xCursor;
+      componentSet.y = 0;
+      setWidth = componentSet.width;
+    }
 
-    xCursor += componentSet.width + COL_GAP;
+    xCursor += setWidth + COL_GAP;
 
     if (existing) {
       result.updated++;
