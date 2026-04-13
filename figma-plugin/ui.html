@@ -11,208 +11,198 @@
       width: 100%; padding: 8px; border: 1px solid #555; border-radius: 4px;
       background: #3c3c3c; color: #fff; font-size: 12px;
     }
-    .mode-section { margin-bottom: 16px; }
-    .mode-section label { display: block; font-size: 11px; color: #999; margin-bottom: 6px; }
-    .mode-pills {
-      display: flex; gap: 4px; flex-wrap: wrap;
+    .actions { margin-top: 16px; }
+    button.pull {
+      width: 100%; padding: 12px; border: none; border-radius: 6px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      background: #18A0FB; color: #fff;
     }
-    .mode-pill {
-      flex: 1; padding: 6px 8px; border: 1px solid #555; border-radius: 20px;
-      font-size: 11px; font-weight: 500; cursor: pointer; background: #3c3c3c;
-      color: #ccc; text-align: center; transition: all 0.15s;
-      min-width: 60px;
-    }
-    .mode-pill:hover { border-color: #888; color: #fff; }
-    .mode-pill.active { background: #18A0FB; border-color: #18A0FB; color: #fff; }
-    .actions { display: flex; gap: 8px; margin-top: 16px; }
-    button {
-      flex: 1; padding: 10px; border: none; border-radius: 6px;
-      font-size: 13px; font-weight: 600; cursor: pointer;
-    }
-    .pull { background: #18A0FB; color: #fff; }
-    .push { background: #7B61FF; color: #fff; }
-    .sync { background: #1bc47d; color: #fff; }
-    button:hover { opacity: 0.9; }
-    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    button.pull:hover { opacity: 0.9; }
+    button.pull:disabled { opacity: 0.4; cursor: not-allowed; }
     #status {
       margin-top: 12px; padding: 8px; border-radius: 4px;
       font-size: 11px; background: #3c3c3c; min-height: 24px;
+      line-height: 1.5;
     }
     .success { color: #1bc47d; }
-    .error { color: #f24822; }
-    .info { color: #18A0FB; }
+    .error   { color: #f24822; }
+    .info    { color: #18A0FB; }
   </style>
 </head>
 <body>
   <h2>Compulocks Token Sync</h2>
 
   <div class="config">
-    <label>n8n Webhook URL</label>
-    <input type="text" id="webhookUrl" placeholder="https://your-n8n.example.com/webhook/..." />
-  </div>
-
-  <div class="config">
-    <label>GitHub Token (for private repo)</label>
+    <label>GitHub Token (repo read scope)</label>
     <input type="password" id="githubToken" placeholder="ghp_..." />
   </div>
 
-  <div class="mode-section">
-    <label>Scope</label>
-    <div class="mode-pills">
-      <button type="button" class="mode-pill active" data-mode="tokens">Tokens</button>
-      <button type="button" class="mode-pill" data-mode="components">Components</button>
-      <button type="button" class="mode-pill" data-mode="style-guide">Style Guide</button>
-      <button type="button" class="mode-pill" data-mode="all">All</button>
-    </div>
-  </div>
-
   <div class="actions">
-    <button class="pull" id="pullBtn">Pull</button>
-    <button class="push" id="pushBtn">Push</button>
-    <button class="sync" id="syncBtn">Sync</button>
+    <button class="pull" id="pullBtn">Pull Everything</button>
   </div>
 
-  <div id="status"></div>
+  <div id="status"><span class="info">Enter your GitHub token and click Pull.</span></div>
 
   <script>
-    const statusEl = document.getElementById('status');
-    const pullBtn = document.getElementById('pullBtn');
-    const pushBtn = document.getElementById('pushBtn');
-    const webhookInput = document.getElementById('webhookUrl');
-    const syncBtn = document.getElementById('syncBtn');
-    const githubTokenInput = document.getElementById('githubToken');
+    const statusEl  = document.getElementById('status');
+    const pullBtn   = document.getElementById('pullBtn');
+    const tokenInput = document.getElementById('githubToken');
 
-    // --- Mode selector ---
-    let selectedMode = 'tokens';
-    document.querySelectorAll('.mode-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        selectedMode = pill.dataset.mode;
-      });
-    });
+    const REPO = 'orishavitas/compulocks-brand-system';
+    const BRANCH = 'master';
 
     function setStatus(msg, type = 'info') {
       statusEl.innerHTML = `<span class="${type}">${msg}</span>`;
     }
 
-    function getWebhookUrl() {
-      return webhookInput.value.trim().replace(/\/+$/, '');
-    }
-
-    function allButtons() { return [pullBtn, pushBtn, syncBtn]; }
-    function disableAll() { allButtons().forEach(b => b.disabled = true); }
-    function enableAll() { allButtons().forEach(b => b.disabled = false); }
-
-    // Pull — always tokens from n8n (mode-independent)
-    pullBtn.addEventListener('click', async () => {
-      const url = getWebhookUrl();
-      if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
-
-      setStatus('Pulling tokens from n8n…', 'info');
-      disableAll();
-
-      try {
-        const res = await fetch(url + '/pull', { method: 'GET' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const raw = await res.json();
-        const data = Array.isArray(raw) ? (raw[0]?.json ?? raw[0]) : raw;
-        if (!data || !data.collections) throw new Error('Invalid response shape from n8n');
-        parent.postMessage({ pluginMessage: { type: 'pull', data } }, '*');
-      } catch (err) {
-        setStatus(`Pull failed: ${err.message}`, 'error');
-        enableAll();
-      }
-    });
-
-    async function fetchManifest(token) {
-      const apiUrl = 'https://api.github.com/repos/orishavitas/compulocks-brand-system/contents/component-manifest.json';
-      const res = await fetch(apiUrl, {
+    async function ghFetch(path, token) {
+      const url = `https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}`;
+      const res = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/vnd.github.v3+json'
         }
       });
-      if (!res.ok) throw new Error(`GitHub API: HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`GitHub API ${res.status} for ${path}`);
       const json = await res.json();
       return JSON.parse(atob(json.content.replace(/\n/g, '')));
     }
 
-    // Sync — uses mode selector: components / style-guide / all
-    syncBtn.addEventListener('click', async () => {
-      const token = githubTokenInput.value.trim();
-      const mode = selectedMode;
+    // --- DTCG → Figma converters (inlined, no build step needed) ---
 
-      if (mode === 'tokens') {
-        setStatus('Select Components, Style Guide, or All — then click Sync.', 'info');
-        return;
+    function hexToFigmaRgb(hex) {
+      const h = hex.replace('#', '');
+      return {
+        r: Math.round(parseInt(h.slice(0,2), 16) / 255 * 1000) / 1000,
+        g: Math.round(parseInt(h.slice(2,4), 16) / 255 * 1000) / 1000,
+        b: Math.round(parseInt(h.slice(4,6), 16) / 255 * 1000) / 1000,
+        a: 1
+      };
+    }
+
+    function remToPx(v) { return parseFloat(v) * 16; }
+
+    function collectTokens(obj, prefix) {
+      prefix = prefix || '';
+      const out = [];
+      for (const key of Object.keys(obj)) {
+        const val = obj[key];
+        const path = prefix ? prefix + '/' + key : key;
+        if (val && typeof val === 'object' && '$value' in val) {
+          out.push({ path, value: val['$value'], type: val['$type'], description: val['$description'] || '' });
+        } else if (val && typeof val === 'object' && !key.startsWith('$')) {
+          out.push(...collectTokens(val, path));
+        }
+      }
+      return out;
+    }
+
+    function buildCollections(color, spacing) {
+      const collections = [];
+      if (color) {
+        collections.push({
+          name: 'Brand Colors',
+          variables: collectTokens(color).map(t => ({
+            name: t.path,
+            type: 'COLOR',
+            value: hexToFigmaRgb(t.value),
+            description: t.description
+          }))
+        });
+      }
+      if (spacing) {
+        collections.push({
+          name: 'Spacing',
+          variables: collectTokens(spacing).map(t => ({
+            name: t.path,
+            type: 'FLOAT',
+            value: remToPx(t.value),
+            description: t.description
+          }))
+        });
+      }
+      return collections;
+    }
+
+    function buildTextStyles(typography) {
+      const styles = typography.textStyle || {};
+      const allTokens = collectTokens(typography);
+      const refLookup = {};
+      for (const t of allTokens) refLookup[t.path.replace(/\//g, '.')] = t.value;
+
+      function resolve(val) {
+        if (typeof val !== 'string') return val;
+        const m = val.match(/^\{(.+)\}$/);
+        return m ? (refLookup[m[1]] || val) : val;
+      }
+      function cleanFamily(val) {
+        return val.replace(/'/g, '').split(',')[0].trim();
       }
 
+      return Object.keys(styles).map(name => {
+        const s = styles[name];
+        const fontFamily  = s.fontFamily  ? cleanFamily(resolve(s.fontFamily['$value']))  : '';
+        const fontWeight  = s.fontWeight  ? Number(resolve(s.fontWeight['$value']))       : 400;
+        const fontSize    = s.fontSize    ? Number(resolve(s.fontSize['$value']))         : undefined;
+        const italic      = s.fontStyle   ? resolve(s.fontStyle['$value']) === 'italic'   : false;
+        const textTransform = s.textTransform ? resolve(s.textTransform['$value'])        : '';
+        const desc = (s['$description'] || '') + (textTransform ? ` | textTransform: ${textTransform}` : '');
+        return { name: `Text Styles/${name}`, fontFamily, fontWeight, fontSize, italic, description: desc };
+      });
+    }
+
+    pullBtn.addEventListener('click', async () => {
+      const token = tokenInput.value.trim();
       if (!token) { setStatus('Enter your GitHub token first.', 'error'); return; }
 
-      setStatus(`Syncing [${mode}] from GitHub…`, 'info');
-      disableAll();
+      pullBtn.disabled = true;
+      setStatus('Fetching tokens from GitHub…', 'info');
 
       try {
-        const manifest = await fetchManifest(token);
-        parent.postMessage({ pluginMessage: { type: 'sync-components', manifest, mode } }, '*');
+        // 1. Fetch all source files in parallel
+        const [color, typography, spacing, manifest] = await Promise.all([
+          ghFetch('tokens/color.json',      token),
+          ghFetch('tokens/typography.json', token),
+          ghFetch('tokens/spacing.json',    token),
+          ghFetch('component-manifest.json', token)
+        ]);
+
+        setStatus('Applying to Figma…', 'info');
+
+        const collections = buildCollections(color, spacing);
+        const textStyles  = buildTextStyles(typography);
+
+        parent.postMessage({
+          pluginMessage: {
+            type: 'full-pull',
+            collections,
+            textStyles,
+            manifest
+          }
+        }, '*');
+
       } catch (err) {
-        setStatus(`Manifest fetch failed: ${err.message}`, 'error');
-        enableAll();
+        setStatus(`Fetch failed: ${err.message}`, 'error');
+        pullBtn.disabled = false;
       }
     });
 
-    pushBtn.addEventListener('click', () => {
-      const url = getWebhookUrl();
-      if (!url) { setStatus('Enter your n8n webhook URL first.', 'error'); return; }
-      const mode = selectedMode;
-      setStatus(`Reading Figma variables [${mode}]…`, 'info');
-      disableAll();
-      parent.postMessage({ pluginMessage: { type: 'push-request', mode } }, '*');
-    });
-
-    window.onmessage = async (event) => {
+    window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
       if (!msg) return;
 
-      if (msg.type === 'pull-complete') {
-        setStatus(`Pulled ${msg.count} variables successfully.`, 'success');
+      if (msg.type === 'full-pull-complete') {
+        setStatus(
+          `Done — ${msg.vars} variables, ${msg.styles} text styles, ` +
+          `${msg.created} components created, ${msg.updated} updated, ${msg.skipped} skipped.`,
+          'success'
+        );
         pullBtn.disabled = false;
       }
 
-      if (msg.type === 'push-data') {
-        const url = getWebhookUrl();
-        try {
-          const res = await fetch(url + '/push', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(msg.data)
-          });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const result = await res.json();
-          setStatus(`Pushed! PR created: ${result.prUrl || 'check n8n'}`, 'success');
-        } catch (err) {
-          setStatus(`Push failed: ${err.message}`, 'error');
-        }
-        pushBtn.disabled = false;
-      }
-
-      if (msg.type === 'sync-complete') {
-        const now = new Date().toLocaleTimeString();
-        setStatus(`Synced at ${now} — ${msg.created} created, ${msg.updated} updated, ${msg.skipped} skipped.`, 'success');
-        syncBtn.disabled = false;
-      }
-
-      if (msg.type === 'sync-error') {
-        setStatus(`Sync failed: ${msg.message}`, 'error');
-        syncBtn.disabled = false;
-      }
-
-      if (msg.type === 'error') {
-        setStatus(msg.message, 'error');
+      if (msg.type === 'full-pull-error') {
+        setStatus(`Error: ${msg.message}`, 'error');
         pullBtn.disabled = false;
-        pushBtn.disabled = false;
-        syncBtn.disabled = false;
       }
     };
   </script>

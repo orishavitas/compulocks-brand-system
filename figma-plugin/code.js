@@ -101,32 +101,6 @@
           return count;
         });
       }
-      function readVariables() {
-        const collections = [];
-        for (const vc of figma.variables.getLocalVariableCollections()) {
-          const variables = [];
-          const modeId = vc.modes[0].modeId;
-          for (const varId of vc.variableIds) {
-            const v = figma.variables.getVariableById(varId);
-            if (!v) continue;
-            const value = v.valuesByMode[modeId];
-            variables.push({
-              name: v.name,
-              type: v.resolvedType,
-              value,
-              description: v.description
-            });
-          }
-          collections.push({ name: vc.name, variables });
-        }
-        const textStyles = figma.getLocalTextStyles().map((s) => ({
-          name: s.name,
-          fontFamily: s.fontName.family,
-          fontWeight: 400,
-          description: s.description
-        }));
-        return { collections, textStyles };
-      }
       function ensurePage(name) {
         const existing = figma.root.children.find(
           (n) => n.type === "PAGE" && n.name === name
@@ -524,52 +498,34 @@
         });
       }
       figma.ui.onmessage = (msg) => __async(null, null, function* () {
-        var _a;
-        if (msg.type === "pull") {
+        var _a, _b;
+        if (msg.type === "full-pull") {
           try {
-            const count = yield applyVariables(msg.data);
-            figma.ui.postMessage({ type: "pull-complete", count });
-          } catch (err) {
-            figma.ui.postMessage({ type: "error", message: `Pull error: ${err.message}` });
-          }
-        }
-        if (msg.type === "push-request") {
-          try {
-            const data = readVariables();
-            figma.ui.postMessage({ type: "push-data", data });
-          } catch (err) {
-            figma.ui.postMessage({ type: "error", message: `Push error: ${err.message}` });
-          }
-        }
-        if (msg.type === "sync-components") {
-          try {
+            const pullData = {
+              collections: msg.collections,
+              textStyles: msg.textStyles
+            };
+            const varCount = yield applyVariables(pullData);
             const manifest = msg.manifest;
-            const mode = (_a = msg.mode) != null ? _a : "all";
             if (!manifest || !Array.isArray(manifest.components)) {
               throw new Error("Invalid manifest: missing components array");
             }
-            const result = { created: 0, updated: 0, skipped: 0 };
-            if (mode === "style-guide" || mode === "all") {
-              const styleGuidePage = ensurePage("\u{1F3A8} Style Guide");
-              figma.currentPage = styleGuidePage;
-              yield buildStyleGuidePage(styleGuidePage);
-            }
-            if (mode === "components" || mode === "all") {
-              const componentsPage = ensurePage("\u{1F9E9} Components");
-              figma.currentPage = componentsPage;
-              const syncResult = yield buildComponentsPage(componentsPage, manifest, true);
-              result.created += syncResult.created;
-              result.updated += syncResult.updated;
-              result.skipped += syncResult.skipped;
-            }
+            const styleGuidePage = ensurePage("\u{1F3A8} Style Guide");
+            figma.currentPage = styleGuidePage;
+            yield buildStyleGuidePage(styleGuidePage);
+            const componentsPage = ensurePage("\u{1F9E9} Components");
+            figma.currentPage = componentsPage;
+            const syncResult = yield buildComponentsPage(componentsPage, manifest, true);
             figma.ui.postMessage({
-              type: "sync-complete",
-              created: result.created,
-              updated: result.updated,
-              skipped: result.skipped
+              type: "full-pull-complete",
+              vars: varCount,
+              styles: (_b = (_a = pullData.textStyles) == null ? void 0 : _a.length) != null ? _b : 0,
+              created: syncResult.created,
+              updated: syncResult.updated,
+              skipped: syncResult.skipped
             });
           } catch (err) {
-            figma.ui.postMessage({ type: "sync-error", message: err.message });
+            figma.ui.postMessage({ type: "full-pull-error", message: err.message });
           }
         }
       });
