@@ -265,52 +265,51 @@
       function solidFill(color) {
         return { type: "SOLID", color: { r: color.r, g: color.g, b: color.b }, opacity: color.a };
       }
-      function renderComponentNode(componentName, variant, state) {
+      function renderComponentNode(componentName, variant) {
         return __async(this, null, function* () {
           const node = figma.createComponent();
-          node.name = `variant=${variant}, state=${state}`;
+          node.name = `variant=${variant}`;
           node.layoutMode = "HORIZONTAL";
           node.primaryAxisAlignItems = "CENTER";
           node.counterAxisAlignItems = "CENTER";
-          node.primaryAxisSizingMode = "FIXED";
-          node.counterAxisSizingMode = "FIXED";
-          const isDisabled = state === "disabled";
-          const isSelected = state === "selected" || variant === "selected";
-          const isError = state === "error";
+          node.primaryAxisSizingMode = "AUTO";
+          node.counterAxisSizingMode = "AUTO";
           const lowerName = componentName.toLowerCase();
           const lowerVariant = variant.toLowerCase();
+          const isDisabled = lowerVariant === "disabled";
+          const isSelected = lowerVariant === "selected";
+          const isError = lowerVariant === "error";
           if (lowerName === "button") {
-            node.resize(120, 40);
             node.cornerRadius = 9999;
             node.paddingLeft = node.paddingRight = 20;
             node.paddingTop = node.paddingBottom = 10;
             let bg;
             let fg = COLOR.white;
+            let hasStroke = false;
             if (lowerVariant === "cta") {
               bg = resolveColor("color/brand/green-dark", COLOR.green);
             } else if (lowerVariant === "secondary") {
-              bg = COLOR.white;
+              bg = { r: 1, g: 1, b: 1, a: 0 };
               fg = resolveColor("color/brand/primary", COLOR.navy);
+              hasStroke = true;
             } else if (lowerVariant === "ghost") {
-              bg = __spreadProps(__spreadValues({}, COLOR.white), { a: 0 });
+              bg = { r: 0, g: 0, b: 0, a: 0 };
               fg = resolveColor("color/brand/primary", COLOR.navy);
             } else {
               bg = resolveColor("color/brand/primary", COLOR.navy);
             }
-            if (isDisabled) {
-              bg = __spreadProps(__spreadValues({}, bg), { a: 0.4 });
-            }
             node.fills = [solidFill(bg)];
-            if (lowerVariant === "secondary" || lowerVariant === "ghost") {
-              node.strokes = [solidFill(resolveColor("color/brand/outline", COLOR.outline))];
-              node.strokeWeight = 1;
+            if (hasStroke) {
+              node.strokes = [solidFill(resolveColor("color/brand/primary", COLOR.navy))];
+              node.strokeWeight = 1.5;
             }
             const label = figma.createText();
             label.fontName = { family: "Inter", style: "SemiBold" };
-            label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+            label.characters = lowerVariant === "loading" ? "Loading..." : variant;
             label.fontSize = 14;
             label.fills = [solidFill(fg)];
             node.appendChild(label);
+            if (isDisabled) node.opacity = 0.5;
           } else if (lowerName === "badge") {
             node.resize(80, 28);
             node.cornerRadius = 9999;
@@ -395,13 +394,13 @@
             }
             const title = figma.createText();
             title.fontName = { family: "Inter", style: "SemiBold" };
-            title.characters = `${componentName} / ${variant}`;
+            title.characters = `Card \u2014 ${variant}`;
             title.fontSize = 14;
             title.fills = [solidFill(resolveColor("color/brand/primary", COLOR.navy))];
             node.appendChild(title);
             const sub = figma.createText();
             sub.fontName = { family: "Inter", style: "Regular" };
-            sub.characters = state;
+            sub.characters = lowerVariant === "elevated" ? "With drop shadow" : "Default surface";
             sub.fontSize = 12;
             sub.fills = [solidFill(COLOR.neutral)];
             node.appendChild(sub);
@@ -428,15 +427,12 @@
             node.strokeWeight = 1;
             const label = figma.createText();
             label.fontName = { family: "Inter", style: "Regular" };
-            label.characters = `${componentName} / ${variant} / ${state}`;
+            label.characters = `${componentName} / ${variant}`;
             label.fontSize = 10;
             label.fills = [solidFill(resolveColor("color/brand/primary", COLOR.navy))];
             label.x = 8;
             label.y = 16;
             node.appendChild(label);
-          }
-          if (isDisabled) {
-            node.opacity = 0.4;
           }
           return node;
         });
@@ -463,14 +459,11 @@
               existing.remove();
             }
             const childNodes = [];
-            const variantList = component.variants.length > 0 ? component.variants : ["default"];
-            const stateList = component.states.length > 0 ? component.states : ["default"];
+            const variantList = component.variants.length > 0 ? component.variants : ["Default"];
             for (const variant of variantList) {
-              for (const state of stateList) {
-                const node = yield renderComponentNode(component.name, variant, state);
-                page.appendChild(node);
-                childNodes.push(node);
-              }
+              const node = yield renderComponentNode(component.name, variant);
+              page.appendChild(node);
+              childNodes.push(node);
             }
             const componentSet = figma.combineAsVariants(childNodes, page);
             componentSet.name = component.name;

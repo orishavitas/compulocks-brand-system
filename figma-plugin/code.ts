@@ -383,55 +383,63 @@ function solidFill(color: RGBA): SolidPaint {
   return { type: 'SOLID', color: { r: color.r, g: color.g, b: color.b }, opacity: color.a };
 }
 
-/** Render a styled component node based on its name and variant/state */
+/** Render a styled component node — one node per story variant (no state cross-product) */
 async function renderComponentNode(
   componentName: string,
-  variant: string,
-  state: string
+  variant: string
 ): Promise<ComponentNode> {
   const node = figma.createComponent();
-  node.name = `variant=${variant}, state=${state}`;
+  node.name = `variant=${variant}`;
   node.layoutMode = 'HORIZONTAL';
   node.primaryAxisAlignItems = 'CENTER';
   node.counterAxisAlignItems = 'CENTER';
-  node.primaryAxisSizingMode = 'FIXED';
-  node.counterAxisSizingMode = 'FIXED';
-
-  const isDisabled = state === 'disabled';
-  const isSelected = state === 'selected' || variant === 'selected';
-  const isError = state === 'error';
+  node.primaryAxisSizingMode = 'AUTO';
+  node.counterAxisSizingMode = 'AUTO';
 
   const lowerName = componentName.toLowerCase();
   const lowerVariant = variant.toLowerCase();
+  const isDisabled = lowerVariant === 'disabled';
+  const isSelected = lowerVariant === 'selected';
+  const isError = lowerVariant === 'error';
 
   // --- Button ---
   if (lowerName === 'button') {
-    node.resize(120, 40);
     node.cornerRadius = 9999;
     node.paddingLeft = node.paddingRight = 20;
     node.paddingTop = node.paddingBottom = 10;
 
     let bg: RGBA;
     let fg: RGBA = COLOR.white;
-    if (lowerVariant === 'cta') { bg = resolveColor('color/brand/green-dark', COLOR.green); }
-    else if (lowerVariant === 'secondary') { bg = COLOR.white; fg = resolveColor('color/brand/primary', COLOR.navy); }
-    else if (lowerVariant === 'ghost') { bg = { ...COLOR.white, a: 0 }; fg = resolveColor('color/brand/primary', COLOR.navy); }
-    else { bg = resolveColor('color/brand/primary', COLOR.navy); }
+    let hasStroke = false;
 
-    if (isDisabled) { bg = { ...bg, a: 0.4 }; }
+    if (lowerVariant === 'cta') {
+      bg = resolveColor('color/brand/green-dark', COLOR.green);
+    } else if (lowerVariant === 'secondary') {
+      bg = { r: 1, g: 1, b: 1, a: 0 };
+      fg = resolveColor('color/brand/primary', COLOR.navy);
+      hasStroke = true;
+    } else if (lowerVariant === 'ghost') {
+      bg = { r: 0, g: 0, b: 0, a: 0 };
+      fg = resolveColor('color/brand/primary', COLOR.navy);
+    } else {
+      // primary / disabled / loading all use navy bg
+      bg = resolveColor('color/brand/primary', COLOR.navy);
+    }
+
     node.fills = [solidFill(bg)];
-
-    if (lowerVariant === 'secondary' || lowerVariant === 'ghost') {
-      node.strokes = [solidFill(resolveColor('color/brand/outline', COLOR.outline))];
-      node.strokeWeight = 1;
+    if (hasStroke) {
+      node.strokes = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
+      node.strokeWeight = 1.5;
     }
 
     const label = figma.createText();
     label.fontName = { family: 'Inter', style: 'SemiBold' };
-    label.characters = variant.charAt(0).toUpperCase() + variant.slice(1);
+    label.characters = lowerVariant === 'loading' ? 'Loading...' : variant;
     label.fontSize = 14;
     label.fills = [solidFill(fg)];
     node.appendChild(label);
+
+    if (isDisabled) node.opacity = 0.5;
   }
 
   // --- Badge ---
@@ -531,14 +539,14 @@ async function renderComponentNode(
 
     const title = figma.createText();
     title.fontName = { family: 'Inter', style: 'SemiBold' };
-    title.characters = `${componentName} / ${variant}`;
+    title.characters = `Card — ${variant}`;
     title.fontSize = 14;
     title.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
     node.appendChild(title);
 
     const sub = figma.createText();
     sub.fontName = { family: 'Inter', style: 'Regular' };
-    sub.characters = state;
+    sub.characters = lowerVariant === 'elevated' ? 'With drop shadow' : 'Default surface';
     sub.fontSize = 12;
     sub.fills = [solidFill(COLOR.neutral)];
     node.appendChild(sub);
@@ -573,7 +581,7 @@ async function renderComponentNode(
 
     const label = figma.createText();
     label.fontName = { family: 'Inter', style: 'Regular' };
-    label.characters = `${componentName} / ${variant} / ${state}`;
+    label.characters = `${componentName} / ${variant}`;
     label.fontSize = 10;
     label.fills = [solidFill(resolveColor('color/brand/primary', COLOR.navy))];
     label.x = 8;
@@ -581,7 +589,6 @@ async function renderComponentNode(
     node.appendChild(label);
   }
 
-  if (isDisabled) { node.opacity = 0.4; }
   return node;
 }
 
@@ -611,16 +618,13 @@ async function buildComponentsPage(page: PageNode, manifest: ComponentManifest, 
     }
 
     const childNodes: ComponentNode[] = [];
-    const variantList = component.variants.length > 0 ? component.variants : ['default'];
-    const stateList = component.states.length > 0 ? component.states : ['default'];
+    const variantList = component.variants.length > 0 ? component.variants : ['Default'];
 
     for (const variant of variantList) {
-      for (const state of stateList) {
-        const node = await renderComponentNode(component.name, variant, state);
-        // Must be a child of the target page before combineAsVariants
-        page.appendChild(node);
-        childNodes.push(node);
-      }
+      const node = await renderComponentNode(component.name, variant);
+      // Must be a child of the target page before combineAsVariants
+      page.appendChild(node);
+      childNodes.push(node);
     }
 
     const componentSet = figma.combineAsVariants(childNodes, page as any);
