@@ -1,0 +1,2 @@
+# Design System Audit Log - append only
+# Format: ISO_TIMESTAMP | CONTRIBUTOR_ID | ACTION | DETAIL
