@@ -1,11 +1,11 @@
 # Graph Report - C:\Users\OriShavit\Documents\GitHub\compulocks-brand-system  (2026-05-14)
 
 ## Corpus Check
-- 92 files · ~900,614 words
+- 92 files · ~903,465 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4247 nodes · 11072 edges · 143 communities detected
+- 4247 nodes · 11072 edges · 145 communities detected
 - Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 1663 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -153,6 +153,8 @@
 - [[_COMMUNITY_Community 140|Community 140]]
 - [[_COMMUNITY_Community 141|Community 141]]
 - [[_COMMUNITY_Community 142|Community 142]]
+- [[_COMMUNITY_Community 143|Community 143]]
+- [[_COMMUNITY_Community 144|Community 144]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `keys()` - 147 edges
@@ -182,7 +184,7 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.0
-Nodes (6): $49c51c25361d4cd2$var$preventScrollStandard(), $49c51c25361d4cd2$var$setStyle(), generateBoundingClientRect(), handleClick(), "../../node_modules/react-popper-tooltip/dist/esm/react-popper-tooltip.js"(), onClick()
+Nodes (6): $e1995378a142960e$export$bf788dd355e3a401(), $e1995378a142960e$var$useCollectionDocument(), handleClick(), isObject5(), isObjectWithKeys(), onClick()
 
 ### Community 1 - "Community 1"
 Cohesion: 0.01
@@ -241,24 +243,24 @@ Cohesion: 0.07
 Nodes (67): $14c0b72509d70225$export$b0d6fa1ab32e3295(), applyStyles(), areValidElements(), arrow(), computeAutoPlacement(), computeOffsets(), computeStyles(), debounce() (+59 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.05
-Nodes (54): align(), compareObjects(), comparePrimitive(), concatenateRelevantDiffs(), countChanges(), createPatchMark(), diff(), diffLinesRaw() (+46 more)
+Cohesion: 0.07
+Nodes (43): compareObjects(), comparePrimitive(), countChanges(), createPatchMark(), diff(), diffLinesRaw(), diffLinesUnified(), diffLinesUnified2() (+35 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.04
-Nodes (52): $488c6ddbf4ef74c2$var$getCachedNumberFormatter(), appendErrorRef(), assertProperty(), asymmetricMatch(), _check_private_redeclaration(), _class_apply_descriptor_get(), _class_apply_descriptor_set(), _class_extract_field_descriptor() (+44 more)
-
-### Community 17 - "Community 17"
 Cohesion: 0.07
 Nodes (36): $488c6ddbf4ef74c2$export$711b50b3c525e0f2(), $5b160d28a433310d$var$getLanguage(), $5b160d28a433310d$var$getStringsForLocale(), areObjectsEqual(), createIndent(), eq2(), eq3(), findPlugin() (+28 more)
 
-### Community 18 - "Community 18"
+### Community 17 - "Community 17"
 Cohesion: 0.06
 Nodes (35): $3ad3f6e1647bc98d$export$80f3e147d781571c(), $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $507fabe10e71c6fb$export$630ff653c5ada6a9(), $55f9b1ae81f22853$export$2b35b76d2e30e129(), $55f9b1ae81f22853$export$6c5dc7e81d2cc29a(), $55f9b1ae81f22853$export$759df0d867455a91(), $55f9b1ae81f22853$export$76e4e37e5339496d() (+27 more)
 
-### Community 19 - "Community 19"
+### Community 18 - "Community 18"
 Cohesion: 0.08
 Nodes (35): createKey(), createLocation(), createPath(), DefaultErrorComponent(), _extends3(), _extends4(), getPathContributingMatches(), invariant2() (+27 more)
+
+### Community 19 - "Community 19"
+Cohesion: 0.06
+Nodes (33): $488c6ddbf4ef74c2$var$getCachedNumberFormatter(), appendErrorRef(), _check_private_redeclaration(), _class_apply_descriptor_get(), _class_apply_descriptor_set(), _class_extract_field_descriptor(), _class_private_field_get(), _class_private_field_init() (+25 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.1
@@ -281,24 +283,24 @@ Cohesion: 0.11
 Nodes (22): buildQueries(), createDOMElementFilter(), filterCommentsAndDefaultIgnoreTagsTags(), fireEvent(), getConfig2(), getDefaultNormalizer(), getDocument(), getElementError() (+14 more)
 
 ### Community 25 - "Community 25"
+Cohesion: 0.13
+Nodes (19): assertProperty(), asymmetricMatch(), getPathInfo(), getPrototype(), getValue2(), hasIterator(), hasProperty(), internalGetPathValue() (+11 more)
+
+### Community 26 - "Community 26"
 Cohesion: 0.12
 Nodes (17): createStringFromObject(), css(), flush(), getCurrentFrames(), getFrames(), getRegisteredStyles(), handleInterpolation(), keyframes() (+9 more)
 
-### Community 26 - "Community 26"
+### Community 27 - "Community 27"
 Cohesion: 0.2
 Nodes (11): orDefault(), useAddonState(), useArgs2(), useArgTypes(), useCurrentStory(), useGlobals2(), useGlobalTypes(), useParameter2() (+3 more)
 
-### Community 27 - "Community 27"
-Cohesion: 0.22
-Nodes (10): _construct(), curried(), curry(), _inheritsLoose(), _isNativeFunction(), _isNativeReflectConstruct(), "../../node_modules/polished/dist/polished.esm.js"(), _setPrototypeOf() (+2 more)
-
 ### Community 28 - "Community 28"
-Cohesion: 0.22
-Nodes (10): $9bf71ea28793e738$export$1258395f99bf9cbf(), $9bf71ea28793e738$var$isAncestorScope(), $9bf71ea28793e738$var$isElementInAnyScope(), $9bf71ea28793e738$var$isElementInChildScope(), $9bf71ea28793e738$var$isElementInScope(), $9bf71ea28793e738$var$shouldContainFocus(), $9bf71ea28793e738$var$shouldRestoreFocus(), getTreeNode() (+2 more)
+Cohesion: 0.2
+Nodes (11): align(), concatenateRelevantDiffs(), flushChangeLines(), getAlignedDiffs(), getLines(), isLineEmpty(), moveLinesTo(), pushDiff() (+3 more)
 
 ### Community 29 - "Community 29"
 Cohesion: 0.22
-Nodes (10): collide(), configureText(), drawFloatingLabel(), drawLabel(), floatingOffset(), offset(), overlapAdjustment(), positionCoordinate() (+2 more)
+Nodes (10): _construct(), curried(), curry(), _inheritsLoose(), _isNativeFunction(), _isNativeReflectConstruct(), "../../node_modules/polished/dist/polished.esm.js"(), _setPrototypeOf() (+2 more)
 
 ### Community 30 - "Community 30"
 Cohesion: 0.27
@@ -306,39 +308,39 @@ Nodes (10): assignProps(), initClipboardEvent(), initFocusEvent(), initInputEven
 
 ### Community 31 - "Community 31"
 Cohesion: 0.22
-Nodes (10): _classCallCheck(), _classCallCheck2(), _createClass2(), _defineProperties2(), _defineProperty2(), _defineProperty4(), SetLike3(), _toPrimitive3() (+2 more)
+Nodes (10): $9bf71ea28793e738$export$1258395f99bf9cbf(), $9bf71ea28793e738$var$isAncestorScope(), $9bf71ea28793e738$var$isElementInAnyScope(), $9bf71ea28793e738$var$isElementInChildScope(), $9bf71ea28793e738$var$isElementInScope(), $9bf71ea28793e738$var$shouldContainFocus(), $9bf71ea28793e738$var$shouldRestoreFocus(), getTreeNode() (+2 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.22
-Nodes (9): $7135fc7d473fd974$var$useCollectionRender(), addDescendants(), $c5a24bc478652b5f$export$1005530eda016c13(), CollectionBranch(), CollectionRoot(), $e1995378a142960e$export$fb8073518f34e6ec(), $e1995378a142960e$var$useCollectionChildren(), $e948873055cbafe4$export$727c8fc270210f13() (+1 more)
+Nodes (10): _classCallCheck(), _classCallCheck2(), _createClass2(), _defineProperties2(), _defineProperty2(), _defineProperty4(), SetLike3(), _toPrimitive3() (+2 more)
 
 ### Community 33 - "Community 33"
+Cohesion: 0.22
+Nodes (10): collide(), configureText(), drawFloatingLabel(), drawLabel(), floatingOffset(), offset(), overlapAdjustment(), positionCoordinate() (+2 more)
+
+### Community 34 - "Community 34"
+Cohesion: 0.22
+Nodes (9): $7135fc7d473fd974$var$useCollectionRender(), addDescendants(), $c5a24bc478652b5f$export$1005530eda016c13(), CollectionBranch(), CollectionRoot(), $e1995378a142960e$export$fb8073518f34e6ec(), $e1995378a142960e$var$useCollectionChildren(), $e948873055cbafe4$export$727c8fc270210f13() (+1 more)
+
+### Community 35 - "Community 35"
 Cohesion: 0.31
 Nodes (9): $edcf132a9284368a$export$4b834cebd9e5cebe(), $edcf132a9284368a$export$b3ceb0cbf1056d98(), $edcf132a9284368a$var$getContainerDimensions(), $edcf132a9284368a$var$getContainingBlock(), $edcf132a9284368a$var$getMargins(), $edcf132a9284368a$var$getOffset(), $edcf132a9284368a$var$getPosition(), $edcf132a9284368a$var$getScroll() (+1 more)
 
-### Community 34 - "Community 34"
-Cohesion: 0.33
-Nodes (7): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), $b4b717babfbb907b$export$4c063cf1350e6fed(), $b4b717babfbb907b$export$bebd5a1431fec25d(), $b4b717babfbb907b$var$isInert()
-
-### Community 35 - "Community 35"
+### Community 36 - "Community 36"
 Cohesion: 0.29
 Nodes (7): build(), childNodes(), $eb2240fc39a57fa5$var$compose(), $eb2240fc39a57fa5$var$iterable(), getChildState(), getFullNode(), iterateCollection()
 
-### Community 36 - "Community 36"
+### Community 37 - "Community 37"
 Cohesion: 0.29
 Nodes (7): clear3(), destroy(), draw(), drawBoxModel(), drawSelectedElement(), findAndDrawElement(), "../../node_modules/react-popper/lib/esm/usePopper.js"()
 
-### Community 37 - "Community 37"
-Cohesion: 0.53
-Nodes (4): figmaRgbToHex(), figmaToTokenFiles(), pxToRem(), setNested()
-
 ### Community 38 - "Community 38"
-Cohesion: 0.4
-Nodes (6): getCodeTree(), highlight_default(), isHighlightJs(), "../../node_modules/react-syntax-highlighter/dist/esm/prism-light.js"(), _objectWithoutProperties(), _objectWithoutPropertiesLoose()
+Cohesion: 0.33
+Nodes (7): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), $b4b717babfbb907b$export$4c063cf1350e6fed(), $b4b717babfbb907b$export$bebd5a1431fec25d(), $b4b717babfbb907b$var$isInert()
 
 ### Community 39 - "Community 39"
-Cohesion: 0.4
-Nodes (6): getHooksContextOrNull(), getHooksContextOrThrow(), useEffect5(), useHook(), useMemo3(), useMemoLike()
+Cohesion: 0.53
+Nodes (4): figmaRgbToHex(), figmaToTokenFiles(), pxToRem(), setNested()
 
 ### Community 40 - "Community 40"
 Cohesion: 0.33
@@ -350,87 +352,87 @@ Nodes (6): cleanup(), extractSize(), useList(), useResizeObserver2(), useResolve
 
 ### Community 42 - "Community 42"
 Cohesion: 0.4
-Nodes (1): StitchAdapter
+Nodes (6): getCodeTree(), highlight_default(), isHighlightJs(), "../../node_modules/react-syntax-highlighter/dist/esm/prism-light.js"(), _objectWithoutProperties(), _objectWithoutPropertiesLoose()
 
 ### Community 43 - "Community 43"
 Cohesion: 0.4
-Nodes (5): $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey(), $507fabe10e71c6fb$var$triggerChangeHandlers()
+Nodes (6): getHooksContextOrNull(), getHooksContextOrThrow(), useEffect5(), useHook(), useMemo3(), useMemoLike()
 
 ### Community 44 - "Community 44"
 Cohesion: 0.4
-Nodes (5): $4e3b923658d69c60$export$8c610744efcf8a1d(), $8796f90736e175cb$export$4d40659c25ecb50b(), BaseModal(), $fc909762b330b746$export$61c6a8c84e605fb6(), useMediaQuery()
+Nodes (1): StitchAdapter
 
 ### Community 45 - "Community 45"
 Cohesion: 0.4
-Nodes (5): formatTrailingSpaces(), printCommonLine(), printDeleteLine(), printDiffLine(), printInsertLine()
+Nodes (5): $9bf71ea28793e738$export$20e40289641fbbb6(), $9bf71ea28793e738$var$useActiveScopeTracker(), $9bf71ea28793e738$var$useAutoFocus(), $9bf71ea28793e738$var$useFocusContainment(), $9bf71ea28793e738$var$useRestoreFocus()
 
 ### Community 46 - "Community 46"
-Cohesion: 0.4
-Nodes (5): addListener(), on(), once(), onceListener(), "src/client-logger/index.ts"()
-
-### Community 47 - "Community 47"
 Cohesion: 0.5
 Nodes (5): $f6c31cce2adf654f$var$isHTMLAnchorLink(), $f6c31cce2adf654f$var$isValidInputKey(), $f6c31cce2adf654f$var$isValidKeyboardEvent(), $f6c31cce2adf654f$var$shouldPreventDefaultKeyboard(), $f6c31cce2adf654f$var$shouldPreventDefaultUp()
 
-### Community 48 - "Community 48"
+### Community 47 - "Community 47"
 Cohesion: 0.4
-Nodes (5): $9bf71ea28793e738$export$20e40289641fbbb6(), $9bf71ea28793e738$var$useActiveScopeTracker(), $9bf71ea28793e738$var$useAutoFocus(), $9bf71ea28793e738$var$useFocusContainment(), $9bf71ea28793e738$var$useRestoreFocus()
+Nodes (5): $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey(), $507fabe10e71c6fb$var$triggerChangeHandlers()
 
-### Community 49 - "Community 49"
+### Community 48 - "Community 48"
 Cohesion: 0.4
 Nodes (5): listenerCount(), listeners(), off(), removeListener(), responseHandler()
 
+### Community 49 - "Community 49"
+Cohesion: 0.4
+Nodes (5): addListener(), on(), once(), onceListener(), "src/client-logger/index.ts"()
+
 ### Community 50 - "Community 50"
-Cohesion: 0.5
-Nodes (4): drawBorder(), drawMargin(), drawPadding(), filterZeroValues()
+Cohesion: 0.4
+Nodes (5): $4e3b923658d69c60$export$8c610744efcf8a1d(), $8796f90736e175cb$export$4d40659c25ecb50b(), BaseModal(), $fc909762b330b746$export$61c6a8c84e605fb6(), useMediaQuery()
 
 ### Community 51 - "Community 51"
-Cohesion: 0.83
-Nodes (4): toPrimitive(), toPropertyKey(), _typeof(), _typeof2()
+Cohesion: 0.4
+Nodes (5): formatTrailingSpaces(), printCommonLine(), printDeleteLine(), printDiffLine(), printInsertLine()
 
 ### Community 52 - "Community 52"
 Cohesion: 0.5
-Nodes (4): getExpectedClassNamesAndOptions(), isSubset$1(), splitClassNames(), toHaveClass()
-
-### Community 53 - "Community 53"
-Cohesion: 0.67
-Nodes (4): _defineProperty5(), _toPrimitive4(), _toPropertyKey4(), _typeof5()
-
-### Community 54 - "Community 54"
-Cohesion: 0.5
 Nodes (4): isAttributeVisible(), isElementVisible(), isStyleVisible(), toBeVisible()
 
-### Community 55 - "Community 55"
+### Community 53 - "Community 53"
 Cohesion: 0.5
-Nodes (4): expandToHashMap(), getFreshSideObject(), mergePaddingObject(), "../../node_modules/@popperjs/core/lib/modifiers/arrow.js"()
+Nodes (4): getExpectedClassNamesAndOptions(), isSubset$1(), splitClassNames(), toHaveClass()
+
+### Community 54 - "Community 54"
+Cohesion: 0.83
+Nodes (4): toPrimitive(), toPropertyKey(), _typeof(), _typeof2()
+
+### Community 55 - "Community 55"
+Cohesion: 0.67
+Nodes (4): _defineProperty5(), _toPrimitive4(), _toPropertyKey4(), _typeof5()
 
 ### Community 56 - "Community 56"
 Cohesion: 0.5
 Nodes (4): $2f04cbc44ee30ce0$export$53a0910f038337bd(), $2f04cbc44ee30ce0$export$c826860796309d1b(), $2f04cbc44ee30ce0$var$relativeOffset(), $a40c673dc9f6d9c7$export$94ed1c92c7beeb22()
 
 ### Community 57 - "Community 57"
-Cohesion: 0.67
-Nodes (0): 
+Cohesion: 0.5
+Nodes (4): drawBorder(), drawMargin(), drawPadding(), filterZeroValues()
 
 ### Community 58 - "Community 58"
-Cohesion: 0.67
-Nodes (3): assertIsMock(), getSpy(), isMockFunction2()
+Cohesion: 0.5
+Nodes (4): expandToHashMap(), getFreshSideObject(), mergePaddingObject(), "../../node_modules/@popperjs/core/lib/modifiers/arrow.js"()
 
 ### Community 59 - "Community 59"
 Cohesion: 0.67
-Nodes (3): fn2(), listenWhenCalled(), reactiveMock()
+Nodes (0): 
 
 ### Community 60 - "Community 60"
-Cohesion: 0.67
-Nodes (3): escapeHTML(), printComment(), printText()
-
-### Community 61 - "Community 61"
 Cohesion: 1.0
 Nodes (3): _toPrimitive2(), _toPropertyKey2(), _typeof3()
 
+### Community 61 - "Community 61"
+Cohesion: 0.67
+Nodes (3): checkToAppear(), toAppearAfter(), toAppearBefore()
+
 ### Community 62 - "Community 62"
 Cohesion: 0.67
-Nodes (3): encode(), getPlaygroundUrl(), unindent()
+Nodes (3): useCallbackRef(), useDebounceCallback(), useResizeObserver()
 
 ### Community 63 - "Community 63"
 Cohesion: 0.67
@@ -438,31 +440,31 @@ Nodes (3): getSideOffsets(), hide(), isAnySideFullyClipped()
 
 ### Community 64 - "Community 64"
 Cohesion: 0.67
-Nodes (2): Button(), "src/components/components/ActionBar/ActionBar.tsx"()
+Nodes (3): createEvent(), getWindowFromNode(), setNativeValue()
 
 ### Community 65 - "Community 65"
 Cohesion: 0.67
-Nodes (3): $9bf71ea28793e738$var$last(), lastChild(), previousNode()
+Nodes (3): encode(), getPlaygroundUrl(), unindent()
 
 ### Community 66 - "Community 66"
 Cohesion: 0.67
-Nodes (3): externalToValue(), optionOrResetToInternal(), optionToInternal()
+Nodes (3): BrowserRouter(), createBrowserHistory(), getUrlBasedHistory()
 
 ### Community 67 - "Community 67"
 Cohesion: 0.67
-Nodes (3): BrowserRouter(), createBrowserHistory(), getUrlBasedHistory()
+Nodes (3): fn2(), listenWhenCalled(), reactiveMock()
 
 ### Community 68 - "Community 68"
 Cohesion: 0.67
-Nodes (3): $148a7a147e38ea7f$export$702d680b21cbd764(), $1e5a04cdaf7d1af8$export$f09106e7c6677ec5(), $1e5a04cdaf7d1af8$var$updateLocale()
+Nodes (3): composeContextScopes(), createContextScope(), "../../node_modules/@radix-ui/react-scroll-area/dist/index.mjs"()
 
 ### Community 69 - "Community 69"
 Cohesion: 0.67
-Nodes (3): createEvent(), getWindowFromNode(), setNativeValue()
+Nodes (3): $148a7a147e38ea7f$export$702d680b21cbd764(), $1e5a04cdaf7d1af8$export$f09106e7c6677ec5(), $1e5a04cdaf7d1af8$var$updateLocale()
 
 ### Community 70 - "Community 70"
 Cohesion: 0.67
-Nodes (3): composeContextScopes(), createContextScope(), "../../node_modules/@radix-ui/react-scroll-area/dist/index.mjs"()
+Nodes (3): externalToValue(), optionOrResetToInternal(), optionToInternal()
 
 ### Community 71 - "Community 71"
 Cohesion: 0.67
@@ -470,19 +472,19 @@ Nodes (3): floatingAlignment(), measureElement(), pxToNumber()
 
 ### Community 72 - "Community 72"
 Cohesion: 0.67
-Nodes (3): useCallbackRef(), useDebounceCallback(), useResizeObserver()
+Nodes (3): escapeHTML(), printComment(), printText()
 
 ### Community 73 - "Community 73"
 Cohesion: 0.67
-Nodes (3): checkToAppear(), toAppearAfter(), toAppearBefore()
+Nodes (3): $9bf71ea28793e738$var$last(), lastChild(), previousNode()
 
 ### Community 74 - "Community 74"
-Cohesion: 1.0
-Nodes (0): 
+Cohesion: 0.67
+Nodes (3): assertIsMock(), getSpy(), isMockFunction2()
 
 ### Community 75 - "Community 75"
-Cohesion: 1.0
-Nodes (0): 
+Cohesion: 0.67
+Nodes (2): Button(), "src/components/components/ActionBar/ActionBar.tsx"()
 
 ### Community 76 - "Community 76"
 Cohesion: 1.0
@@ -518,119 +520,119 @@ Nodes (0):
 
 ### Community 84 - "Community 84"
 Cohesion: 1.0
-Nodes (2): colorToInt(), convertToInt()
+Nodes (0): 
 
 ### Community 85 - "Community 85"
 Cohesion: 1.0
-Nodes (2): isLiteralValue(), setSelectedFromDefault()
+Nodes (0): 
 
 ### Community 86 - "Community 86"
 Cohesion: 1.0
-Nodes (2): __reset(), setupPreparationPromise()
+Nodes (2): requireReactIs(), requireReactIs_production_min()
 
 ### Community 87 - "Community 87"
 Cohesion: 1.0
-Nodes (2): createBrowserChannel(), __prepare()
+Nodes (2): usePresence(), useStateMachine()
 
 ### Community 88 - "Community 88"
 Cohesion: 1.0
-Nodes (2): isLazyComponent(), isPromiseLike()
+Nodes (2): isLiteralValue(), setSelectedFromDefault()
 
 ### Community 89 - "Community 89"
 Cohesion: 1.0
-Nodes (2): $507fabe10e71c6fb$var$handleClickEvent(), $6a7db85432448f7f$export$60278871457622de()
+Nodes (2): colorToInt(), convertToInt()
 
 ### Community 90 - "Community 90"
 Cohesion: 1.0
-Nodes (2): createMemoryHistory(), MemoryRouter()
+Nodes (2): $c5a24bc478652b5f$export$5f3398f8733f90e2(), $c5a24bc478652b5f$export$fbdeaa6a76694f71()
 
 ### Community 91 - "Community 91"
 Cohesion: 1.0
-Nodes (2): onClear(), setWhatsNewCache()
+Nodes (2): generateBoundingClientRect(), "../../node_modules/react-popper-tooltip/dist/esm/react-popper-tooltip.js"()
 
 ### Community 92 - "Community 92"
 Cohesion: 1.0
-Nodes (2): $e1995378a142960e$var$CollectionInner(), render()
+Nodes (2): requireReactIs$1(), requireReactIs_production()
 
 ### Community 93 - "Community 93"
 Cohesion: 1.0
-Nodes (2): usePresence(), useStateMachine()
+Nodes (2): setIframeInnerZoom(), setIframeZoom()
 
 ### Community 94 - "Community 94"
 Cohesion: 1.0
-Nodes (2): isModifiedEvent(), shouldProcessLinkClick()
+Nodes (2): $507fabe10e71c6fb$var$handleClickEvent(), $6a7db85432448f7f$export$60278871457622de()
 
 ### Community 95 - "Community 95"
 Cohesion: 1.0
-Nodes (2): isObject5(), isObjectWithKeys()
+Nodes (2): createCopyToClipboardFunction(), "src/components/components/syntaxhighlighter/syntaxhighlighter.tsx"()
 
 ### Community 96 - "Community 96"
 Cohesion: 1.0
-Nodes (2): composeRefs(), useComposedRefs()
+Nodes (2): $6179b936705e76d3$var$handleGlobalPointerEvent(), $6179b936705e76d3$var$setGlobalIgnoreEmulatedMouseEvents()
 
 ### Community 97 - "Community 97"
 Cohesion: 1.0
-Nodes (2): hasDefinedKey(), hasKey()
+Nodes (2): $f57aed4a881a3485$export$d9aaed4c3ece1bc0(), $f57aed4a881a3485$var$OverlayContainerDOM()
 
 ### Community 98 - "Community 98"
 Cohesion: 1.0
-Nodes (2): createCopyToClipboardFunction(), "src/components/components/syntaxhighlighter/syntaxhighlighter.tsx"()
+Nodes (2): display(), getMessage3()
 
 ### Community 99 - "Community 99"
 Cohesion: 1.0
-Nodes (2): drawStack(), labelStacks()
+Nodes (2): createBrowserChannel(), __prepare()
 
 ### Community 100 - "Community 100"
 Cohesion: 1.0
-Nodes (2): setIframeInnerZoom(), setIframeZoom()
+Nodes (2): getBrowserInfo(), prepareForTelemetry()
 
 ### Community 101 - "Community 101"
 Cohesion: 1.0
-Nodes (2): $6179b936705e76d3$var$handleGlobalPointerEvent(), $6179b936705e76d3$var$setGlobalIgnoreEmulatedMouseEvents()
+Nodes (2): _isAlpha(), _isAlphaOrSlash()
 
 ### Community 102 - "Community 102"
 Cohesion: 1.0
-Nodes (2): createSlot(), createSlotClone()
+Nodes (2): composeRefs(), useComposedRefs()
 
 ### Community 103 - "Community 103"
 Cohesion: 1.0
-Nodes (2): display(), getMessage3()
+Nodes (2): createMemoryHistory(), MemoryRouter()
 
 ### Community 104 - "Community 104"
 Cohesion: 1.0
-Nodes (2): _isAlpha(), _isAlphaOrSlash()
+Nodes (2): onClear(), setWhatsNewCache()
 
 ### Community 105 - "Community 105"
 Cohesion: 1.0
-Nodes (2): getBrowserInfo(), prepareForTelemetry()
+Nodes (2): createSlot(), createSlotClone()
 
 ### Community 106 - "Community 106"
 Cohesion: 1.0
-Nodes (2): requireReactIs$1(), requireReactIs_production()
+Nodes (2): isModifiedEvent(), shouldProcessLinkClick()
 
 ### Community 107 - "Community 107"
 Cohesion: 1.0
-Nodes (2): requireReactIs(), requireReactIs_production_min()
+Nodes (2): $49c51c25361d4cd2$var$preventScrollStandard(), $49c51c25361d4cd2$var$setStyle()
 
 ### Community 108 - "Community 108"
 Cohesion: 1.0
-Nodes (2): $c5a24bc478652b5f$export$5f3398f8733f90e2(), $c5a24bc478652b5f$export$fbdeaa6a76694f71()
+Nodes (2): drawStack(), labelStacks()
 
 ### Community 109 - "Community 109"
 Cohesion: 1.0
-Nodes (2): $f57aed4a881a3485$export$d9aaed4c3ece1bc0(), $f57aed4a881a3485$var$OverlayContainerDOM()
+Nodes (2): isLazyComponent(), isPromiseLike()
 
 ### Community 110 - "Community 110"
 Cohesion: 1.0
-Nodes (2): $e1995378a142960e$export$bf788dd355e3a401(), $e1995378a142960e$var$useCollectionDocument()
+Nodes (2): $e1995378a142960e$var$CollectionInner(), render()
 
 ### Community 111 - "Community 111"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): __reset(), setupPreparationPromise()
 
 ### Community 112 - "Community 112"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): hasDefinedKey(), hasKey()
 
 ### Community 113 - "Community 113"
 Cohesion: 1.0
@@ -752,155 +754,163 @@ Nodes (0):
 Cohesion: 1.0
 Nodes (0): 
 
+### Community 143 - "Community 143"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 144 - "Community 144"
+Cohesion: 1.0
+Nodes (0): 
+
 ## Knowledge Gaps
-- **Thin community `Community 74`** (2 nodes): `put_workflow.js`, `ghHttpNode()`
+- **Thin community `Community 76`** (2 nodes): `put_workflow.js`, `ghHttpNode()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 75`** (2 nodes): `transformer.ts`, `manifestComponentToComponent()`
+- **Thin community `Community 77`** (2 nodes): `transformer.ts`, `manifestComponentToComponent()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 76`** (2 nodes): `Badge()`, `Badge.tsx`
+- **Thin community `Community 78`** (2 nodes): `Badge()`, `Badge.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 77`** (2 nodes): `Card.tsx`, `Card()`
+- **Thin community `Community 79`** (2 nodes): `Card.tsx`, `Card()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (2 nodes): `Chip.tsx`, `Chip()`
+- **Thin community `Community 80`** (2 nodes): `Chip.tsx`, `Chip()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (2 nodes): `Input.tsx`, `Input()`
+- **Thin community `Community 81`** (2 nodes): `Input.tsx`, `Input()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (2 nodes): `page.tsx`, `getSyncState()`
+- **Thin community `Community 82`** (2 nodes): `page.tsx`, `getSyncState()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (2 nodes): `page.tsx`, `getSourceHealth()`
+- **Thin community `Community 83`** (2 nodes): `page.tsx`, `getSourceHealth()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (2 nodes): `PrimarySourceSelector.tsx`, `handleChange()`
+- **Thin community `Community 84`** (2 nodes): `PrimarySourceSelector.tsx`, `handleChange()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 83`** (2 nodes): `SyncMatrix.tsx`, `StatusBadge()`
+- **Thin community `Community 85`** (2 nodes): `SyncMatrix.tsx`, `StatusBadge()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (2 nodes): `colorToInt()`, `convertToInt()`
+- **Thin community `Community 86`** (2 nodes): `requireReactIs()`, `requireReactIs_production_min()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (2 nodes): `isLiteralValue()`, `setSelectedFromDefault()`
+- **Thin community `Community 87`** (2 nodes): `usePresence()`, `useStateMachine()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 86`** (2 nodes): `__reset()`, `setupPreparationPromise()`
+- **Thin community `Community 88`** (2 nodes): `isLiteralValue()`, `setSelectedFromDefault()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 87`** (2 nodes): `createBrowserChannel()`, `__prepare()`
+- **Thin community `Community 89`** (2 nodes): `colorToInt()`, `convertToInt()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 88`** (2 nodes): `isLazyComponent()`, `isPromiseLike()`
+- **Thin community `Community 90`** (2 nodes): `$c5a24bc478652b5f$export$5f3398f8733f90e2()`, `$c5a24bc478652b5f$export$fbdeaa6a76694f71()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 89`** (2 nodes): `$507fabe10e71c6fb$var$handleClickEvent()`, `$6a7db85432448f7f$export$60278871457622de()`
+- **Thin community `Community 91`** (2 nodes): `generateBoundingClientRect()`, `"../../node_modules/react-popper-tooltip/dist/esm/react-popper-tooltip.js"()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 90`** (2 nodes): `createMemoryHistory()`, `MemoryRouter()`
+- **Thin community `Community 92`** (2 nodes): `requireReactIs$1()`, `requireReactIs_production()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 91`** (2 nodes): `onClear()`, `setWhatsNewCache()`
+- **Thin community `Community 93`** (2 nodes): `setIframeInnerZoom()`, `setIframeZoom()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 92`** (2 nodes): `$e1995378a142960e$var$CollectionInner()`, `render()`
+- **Thin community `Community 94`** (2 nodes): `$507fabe10e71c6fb$var$handleClickEvent()`, `$6a7db85432448f7f$export$60278871457622de()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 93`** (2 nodes): `usePresence()`, `useStateMachine()`
+- **Thin community `Community 95`** (2 nodes): `createCopyToClipboardFunction()`, `"src/components/components/syntaxhighlighter/syntaxhighlighter.tsx"()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 94`** (2 nodes): `isModifiedEvent()`, `shouldProcessLinkClick()`
+- **Thin community `Community 96`** (2 nodes): `$6179b936705e76d3$var$handleGlobalPointerEvent()`, `$6179b936705e76d3$var$setGlobalIgnoreEmulatedMouseEvents()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 95`** (2 nodes): `isObject5()`, `isObjectWithKeys()`
+- **Thin community `Community 97`** (2 nodes): `$f57aed4a881a3485$export$d9aaed4c3ece1bc0()`, `$f57aed4a881a3485$var$OverlayContainerDOM()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 96`** (2 nodes): `composeRefs()`, `useComposedRefs()`
+- **Thin community `Community 98`** (2 nodes): `display()`, `getMessage3()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 97`** (2 nodes): `hasDefinedKey()`, `hasKey()`
+- **Thin community `Community 99`** (2 nodes): `createBrowserChannel()`, `__prepare()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 98`** (2 nodes): `createCopyToClipboardFunction()`, `"src/components/components/syntaxhighlighter/syntaxhighlighter.tsx"()`
+- **Thin community `Community 100`** (2 nodes): `getBrowserInfo()`, `prepareForTelemetry()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 99`** (2 nodes): `drawStack()`, `labelStacks()`
+- **Thin community `Community 101`** (2 nodes): `_isAlpha()`, `_isAlphaOrSlash()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 100`** (2 nodes): `setIframeInnerZoom()`, `setIframeZoom()`
+- **Thin community `Community 102`** (2 nodes): `composeRefs()`, `useComposedRefs()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 101`** (2 nodes): `$6179b936705e76d3$var$handleGlobalPointerEvent()`, `$6179b936705e76d3$var$setGlobalIgnoreEmulatedMouseEvents()`
+- **Thin community `Community 103`** (2 nodes): `createMemoryHistory()`, `MemoryRouter()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 102`** (2 nodes): `createSlot()`, `createSlotClone()`
+- **Thin community `Community 104`** (2 nodes): `onClear()`, `setWhatsNewCache()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 103`** (2 nodes): `display()`, `getMessage3()`
+- **Thin community `Community 105`** (2 nodes): `createSlot()`, `createSlotClone()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 104`** (2 nodes): `_isAlpha()`, `_isAlphaOrSlash()`
+- **Thin community `Community 106`** (2 nodes): `isModifiedEvent()`, `shouldProcessLinkClick()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 105`** (2 nodes): `getBrowserInfo()`, `prepareForTelemetry()`
+- **Thin community `Community 107`** (2 nodes): `$49c51c25361d4cd2$var$preventScrollStandard()`, `$49c51c25361d4cd2$var$setStyle()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 106`** (2 nodes): `requireReactIs$1()`, `requireReactIs_production()`
+- **Thin community `Community 108`** (2 nodes): `drawStack()`, `labelStacks()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 107`** (2 nodes): `requireReactIs()`, `requireReactIs_production_min()`
+- **Thin community `Community 109`** (2 nodes): `isLazyComponent()`, `isPromiseLike()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 108`** (2 nodes): `$c5a24bc478652b5f$export$5f3398f8733f90e2()`, `$c5a24bc478652b5f$export$fbdeaa6a76694f71()`
+- **Thin community `Community 110`** (2 nodes): `$e1995378a142960e$var$CollectionInner()`, `render()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 109`** (2 nodes): `$f57aed4a881a3485$export$d9aaed4c3ece1bc0()`, `$f57aed4a881a3485$var$OverlayContainerDOM()`
+- **Thin community `Community 111`** (2 nodes): `__reset()`, `setupPreparationPromise()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 110`** (2 nodes): `$e1995378a142960e$export$bf788dd355e3a401()`, `$e1995378a142960e$var$useCollectionDocument()`
+- **Thin community `Community 112`** (2 nodes): `hasDefinedKey()`, `hasKey()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 111`** (1 nodes): `tsup.config.ts`
+- **Thin community `Community 113`** (1 nodes): `tsup.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 112`** (1 nodes): `vitest.config.ts`
+- **Thin community `Community 114`** (1 nodes): `vitest.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 113`** (1 nodes): `vitest.shims.d.ts`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 114`** (1 nodes): `types.ts`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 115`** (1 nodes): `types.ts`
+- **Thin community `Community 115`** (1 nodes): `vitest.shims.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 116`** (1 nodes): `types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 117`** (1 nodes): `index.ts`
+- **Thin community `Community 117`** (1 nodes): `types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 118`** (1 nodes): `Badge.stories.tsx`
+- **Thin community `Community 118`** (1 nodes): `types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 119`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 120`** (1 nodes): `Button.stories.tsx`
+- **Thin community `Community 120`** (1 nodes): `Badge.stories.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 121`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 122`** (1 nodes): `Card.stories.tsx`
+- **Thin community `Community 122`** (1 nodes): `Button.stories.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 123`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 124`** (1 nodes): `Chip.stories.tsx`
+- **Thin community `Community 124`** (1 nodes): `Card.stories.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 125`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 126`** (1 nodes): `index.ts`
+- **Thin community `Community 126`** (1 nodes): `Chip.stories.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 127`** (1 nodes): `Input.stories.tsx`
+- **Thin community `Community 127`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 128`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 129`** (1 nodes): `Tag.stories.tsx`
+- **Thin community `Community 129`** (1 nodes): `Input.stories.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 130`** (1 nodes): `Tag.tsx`
+- **Thin community `Community 130`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 131`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 131`** (1 nodes): `Tag.stories.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 132`** (1 nodes): `next.config.ts`
+- **Thin community `Community 132`** (1 nodes): `Tag.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 133`** (1 nodes): `layout.tsx`
+- **Thin community `Community 133`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 134`** (1 nodes): `page.tsx`
+- **Thin community `Community 134`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 135`** (1 nodes): `SourceCard.tsx`
+- **Thin community `Community 135`** (1 nodes): `layout.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 136`** (1 nodes): `types.ts`
+- **Thin community `Community 136`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 137`** (1 nodes): `types.ts`
+- **Thin community `Community 137`** (1 nodes): `SourceCard.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 138`** (1 nodes): `globals.js`
+- **Thin community `Community 138`** (1 nodes): `types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 139`** (1 nodes): `manager-stores.js`
+- **Thin community `Community 139`** (1 nodes): `types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 140`** (1 nodes): `vite.config.ts`
+- **Thin community `Community 140`** (1 nodes): `globals.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 141`** (1 nodes): `App.tsx`
+- **Thin community `Community 141`** (1 nodes): `manager-stores.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 142`** (1 nodes): `main.tsx`
+- **Thin community `Community 142`** (1 nodes): `vite.config.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 143`** (1 nodes): `App.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 144`** (1 nodes): `main.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `keys()` connect `Community 5` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 36`, `Community 4`, `Community 69`, `Community 7`, `Community 6`, `Community 9`, `Community 10`, `Community 8`, `Community 11`, `Community 13`, `Community 14`, `Community 17`, `Community 22`, `Community 23`?**
-  _High betweenness centrality (0.043) - this node is a cross-community bridge._
-- **Why does `slice()` connect `Community 4` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 19`, `Community 22`, `Community 24`, `Community 25`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `replace()` connect `Community 4` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 13`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 19`, `Community 22`, `Community 24`, `Community 45`, `Community 62`, `Community 71`?**
-  _High betweenness centrality (0.032) - this node is a cross-community bridge._
+- **Why does `keys()` connect `Community 5` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 37`, `Community 64`, `Community 7`, `Community 6`, `Community 9`, `Community 10`, `Community 8`, `Community 11`, `Community 13`, `Community 14`, `Community 16`, `Community 22`, `Community 23`?**
+  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+- **Why does `filter()` connect `Community 5` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 11`, `Community 12`, `Community 14`, `Community 16`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 22`, `Community 24`, `Community 25`, `Community 26`, `Community 34`, `Community 48`, `Community 53`, `Community 57`, `Community 73`, `Community 88`?**
+  _High betweenness centrality (0.036) - this node is a cross-community bridge._
+- **Why does `slice()` connect `Community 4` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 15`, `Community 18`, `Community 19`, `Community 22`, `Community 24`, `Community 26`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Are the 79 inferred relationships involving `keys()` (e.g. with `figmaComponentToComponent()` and `.fetchAll()`) actually correct?**
   _`keys()` has 79 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 53 inferred relationships involving `filter()` (e.g. with `.ping()` and `.readLocalTokenFiles()`) actually correct?**
