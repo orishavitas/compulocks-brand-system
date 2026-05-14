@@ -1,0 +1,21 @@
+{
+  "name": "@compulocks/design-mcp",
+  "version": "1.0.0",
+  "description": "Compulocks Design System MCP server",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs --outDir dist --no-splitting",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "chokidar": "^3.6.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}
