@@ -26,7 +26,7 @@
 - `npm run mcp:build` - rebuilt Task 8 MCP dist; stdio `tools/list` output showed all 9 tools.
 
 ### Notes
-- Codex performed the Task 8 pickup on 2026-05-14 after the closeout artifacts were pushed remotely; the current local commit state is still ahead of `origin/master`.
+- Codex performed the Task 8 pickup on 2026-05-14 after the closeout artifacts were pushed remotely; Task 8 was pushed and final remote head is `626b522`.
 - Local dirty/untracked artifacts remain for Graphify/cache, `.agent-harness/`, `.playwright-mcp/`, `.superpowers/`, and `tokens/size.json`.
 
 ## v0.1.0 — 2026-02-19

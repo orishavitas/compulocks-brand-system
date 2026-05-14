@@ -16,7 +16,7 @@ Accumulated context and learnings for the compulocks-brand-system project.
 - Bundled MCP code runs from `mcp-server/dist`, so repo-root resolution in bundled tool code must account for that output location.
 - Task 8 pickup added Claude-facing distribution artifacts: `.claude/settings.json` registers `compulocks-design`, `.claude/skills/design-system.md` defines `/design-system`, and `agents/ux-prep.md` defines the frontend prep persona.
 - Verification passed on 2026-05-14: manifest tests, `npm run build`, design scripts, MCP build, and a mutation smoke test for all 9 tools. Mutation smoke restored audit/request/manifest files afterward to avoid committed test noise.
-- Local `master` contains the pushed closeout-artifact chain plus one local auto-manifest timestamp commit ahead of `origin/master`; Task 8 artifacts are local until committed/pushed.
+- Task 8 was committed as `d2d996e` and pushed to `origin/master`; pre-push manifest timestamp commits advanced the final pushed head to `626b522`. Graphify output remained dirty locally after the hook refresh.
 
 ## Decisions
 

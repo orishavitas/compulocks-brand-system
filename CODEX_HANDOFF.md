@@ -2,7 +2,7 @@
 
 ## Status
 
-Design System Distribution Layer T-01 through T-07 is complete and pushed through `origin/master` closeout artifacts. Task 8 has been picked up locally: Claude MCP registration, `/design-system` skill, and `ux-prep` agent persona now exist in the working tree.
+Design System Distribution Layer T-01 through T-07 and Task 8 are complete and pushed to `origin/master`. Current pushed head is `626b522` after the final pre-push manifest timestamp commit.
 
 ## Last Completed
 
@@ -25,11 +25,11 @@ Task 8 Claude-facing distribution layer:
 
 ## Next Action
 
-Review and commit Task 8 files, then decide what to do with the pre-existing Graphify dirty output and local auto-manifest timestamp commit before pushing.
+Only Graphify output remains dirty locally. Review `graphify-out/GRAPH_REPORT.md`, `graphify-out/graph.html`, and `graphify-out/graph.json`, then decide whether to commit or leave them local.
 
 ## Blockers
 
-None for Task 8 implementation. Local `master` is ahead of `origin/master` by one auto-manifest timestamp commit before the Task 8 commit is created.
+None for Task 8 implementation or push. `master` is aligned with `origin/master`.
 
 ## Watchpoints
 

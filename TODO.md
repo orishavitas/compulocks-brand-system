@@ -20,14 +20,13 @@ _Last updated: 2026-05-14 by Codex_
 
 ## Current handoff
 
-- Branch state: `origin/master` contains pushed closeout artifacts through `4605ede`; local `master` is ahead by one auto-manifest timestamp commit before the Task 8 commit.
+- Branch state: `origin/master` contains Task 8 and the final manifest hook commit through `626b522`; local `master` is aligned with remote.
 - Verification passed: `node scripts/test-export-manifest.mjs`, `npm run build`, `npm run design:status`, `npm run design:requests`, `npm run mcp:build`, and MCP smoke/list coverage for all 9 tools.
-- Dirty local artifacts remain: Task 8 files, Graphify output, and other local generated/cache artifacts; do not clean or delete without an explicit backup/cleanup instruction.
+- Dirty local artifacts remain: Graphify output only; do not clean or delete without an explicit backup/cleanup instruction.
 
 ## Next priority
 
-- Commit Task 8 files separately from Graphify/generated artifacts unless cleanup scope is explicitly requested.
-- Review local dirty artifacts and decide what should be committed, ignored, or left local before pushing.
+- Review local Graphify output and decide what should be committed, ignored, or left local.
 - If pushing, expect the repo pre-push hook to regenerate `component-manifest.json` and possibly create another auto-update commit.
 - Register/use the MCP server from `mcp-server/dist/index.js` only after `cd mcp-server && npm run build` has been run locally.
 
