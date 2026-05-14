@@ -15,6 +15,7 @@ Accumulated context and learnings for the compulocks-brand-system project.
 - Auth split is intentional: `request_component` has no `contributor_id` and only appends to `design-requests.md`; `approve_component`, `refresh`, and `get_requests` require authorized `contributor_id`.
 - Bundled MCP code runs from `mcp-server/dist`, so repo-root resolution in bundled tool code must account for that output location.
 - Task 8 pickup added Claude-facing distribution artifacts: `.claude/settings.json` registers `compulocks-design`, `.claude/skills/design-system.md` defines `/design-system`, and `agents/ux-prep.md` defines the frontend prep persona.
+- UI-based requests must now load `docs/design-system-distribution/ui-task-intake-sop.md` first. Triggers include HTML review, dashboard, web app, frontend, UI/UX, layout, component, visual review, responsive, mobile, and desktop work. Codex should read local vault artifacts or repo fallbacks; Claude should prefer the `compulocks-design` MCP server.
 - Verification passed on 2026-05-14: manifest tests, `npm run build`, design scripts, MCP build, and a mutation smoke test for all 9 tools. Mutation smoke restored audit/request/manifest files afterward to avoid committed test noise.
 - Task 8 was committed as `d2d996e` and pushed to `origin/master`; pre-push manifest timestamp commits advanced the final pushed head to `626b522`. Graphify output remained dirty locally after the hook refresh.
 

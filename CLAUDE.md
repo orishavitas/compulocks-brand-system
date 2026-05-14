@@ -20,6 +20,19 @@ npm run mcp:build          # Build the design system MCP server
 npm run mcp:start          # Start the MCP server on stdio
 ```
 
+## UI Task Intake SOP
+
+Before any UI-based output or review, including HTML review, dashboard work, web app screens, frontend components, design critique, layout changes, generated mockups, or implementation plans that affect user-facing UI, load `docs/design-system-distribution/ui-task-intake-sop.md`.
+
+Claude Code should use the `compulocks-design` MCP server from `.claude/settings.json` first:
+- `list_components`
+- `get_tokens`
+- `get_spec`
+
+If MCP is unavailable, read the local vault artifacts at `~/.compulocks/design/manifest.json`, `~/.compulocks/design/tokens.json`, and `~/.compulocks/design/SPEC.md`. If the vault is unavailable, fall back to `component-manifest.json`, `build/json/tokens.json`, and `design-system/index.html`.
+
+For UI work, stable manifest components and design tokens are mandatory inputs. Do not invent components or hardcode design values. If a needed component is missing, use `/design-system request` or `request_component` and mark that part blocked.
+
 ## Architecture
 
 ```

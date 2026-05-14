@@ -7,6 +7,10 @@ description: Access the Compulocks design system: list stable components, get to
 
 Interacts with the Compulocks Design System MCP server (`compulocks-design`).
 
+Automatically use this skill before any UI-based output or review, including HTML review, dashboard work, web app screens, frontend components, design critique, layout changes, generated mockups, and implementation plans that affect user-facing UI.
+
+First read `docs/design-system-distribution/ui-task-intake-sop.md`, then call `list_components`, `get_tokens`, and `get_spec`.
+
 ## Usage
 
 `/design-system` - List all stable components and a token summary

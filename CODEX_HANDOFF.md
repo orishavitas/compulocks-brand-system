@@ -11,6 +11,7 @@ Task 8 Claude-facing distribution layer:
 - `.claude/skills/design-system.md` defines `/design-system`.
 - `agents/ux-prep.md` defines the frontend prep persona.
 - `CLAUDE.md` documents the new distribution layer.
+- `docs/design-system-distribution/ui-task-intake-sop.md` is the mandatory UI request intake checklist for Codex and Claude.
 
 ## Verification
 
@@ -22,10 +23,11 @@ Task 8 Claude-facing distribution layer:
 - MCP smoke - passed for all 9 tools and restored mutation fixtures.
 - `npm run mcp:build` - passed after sandbox escalation; rebuilt `mcp-server/dist/`.
 - stdio `tools/list` output showed all 9 tools; command timed out only because the server remains open on stdio.
+- Verified `~/.compulocks/design/manifest.json`, `tokens.json`, `SPEC.md`, and `.last-updated` exist for the automatic UI intake fallback path.
 
 ## Next Action
 
-Only Graphify output remains dirty locally. Review `graphify-out/GRAPH_REPORT.md`, `graphify-out/graph.html`, and `graphify-out/graph.json`, then decide whether to commit or leave them local.
+Review `graphify-out/GRAPH_REPORT.md`, `graphify-out/graph.html`, and `graphify-out/graph.json` to decide whether to commit or leave them local.
 
 ## Blockers
 

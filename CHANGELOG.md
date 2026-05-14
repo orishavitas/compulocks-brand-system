@@ -10,6 +10,7 @@
 - Added `scripts/generate-living-html.mjs` and generated `design-system/index.html` as the human approval surface.
 - Added `mcp-server/` with 9 MCP tools: 5 read tools plus request, approve, refresh, and request-list tools.
 - Added Task 8 Claude-facing distribution artifacts: `.claude/settings.json`, `.claude/skills/design-system.md`, and `agents/ux-prep.md`.
+- Added `docs/design-system-distribution/ui-task-intake-sop.md` and automatic UI-task intake rules for Codex and Claude.
 - Added `.agent-harness/outbox/` result files for T-20260514-ds-01 through T-20260514-ds-07.
 
 ### Changed
@@ -24,6 +25,7 @@
 - `cd mcp-server && npm run build` - TypeScript/tsup build passed.
 - MCP smoke test passed for all 9 tools, including request append, unauthorized rejection, authorized draft approval, no-op approval, refresh, and `get_requests`.
 - `npm run mcp:build` - rebuilt Task 8 MCP dist; stdio `tools/list` output showed all 9 tools.
+- Verified local design vault artifacts exist at `~/.compulocks/design/` for the UI intake fallback path.
 
 ### Notes
 - Codex performed the Task 8 pickup on 2026-05-14 after the closeout artifacts were pushed remotely; Task 8 was pushed and final remote head is `626b522`.

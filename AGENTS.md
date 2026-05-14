@@ -21,6 +21,17 @@ Sprint 1 status as of 2026-05-14:
 
 The Design System Distribution Layer task branches are stacked in local history and merged locally on `master` via `94992b0`, with pre-push auto-manifest commit `f5eb383` on top. Outbox results exist for T-01 through T-07. Codex did not push during the 2026-05-14 closeout.
 
+## UI Task Intake SOP
+
+Before any UI-based output or review, including HTML review, dashboard work, web app screens, frontend components, design critique, layout changes, generated mockups, or implementation plans that affect user-facing UI, load `docs/design-system-distribution/ui-task-intake-sop.md`.
+
+Codex must then load the current design system through the best available local path:
+- Preferred shell/local path: `~/.compulocks/design/manifest.json`, `~/.compulocks/design/tokens.json`, and `~/.compulocks/design/SPEC.md`.
+- Repo fallback: `component-manifest.json`, `build/json/tokens.json`, and `design-system/index.html`.
+- If working in a Claude Code context with MCP tools available, use the `compulocks-design` MCP server first.
+
+For UI work, stable manifest components and design tokens are mandatory inputs. Do not invent components or hardcode design values. If a needed component is missing, file or recommend a `request_component` design request and mark that part blocked.
+
 ## Commands
 
 ```bash

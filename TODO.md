@@ -14,6 +14,7 @@ _Last updated: 2026-05-14 by Codex_
 - [x] T-20260514-ds-06: Added `mcp-server/` with read tools: `get_tokens`, `get_manifest`, `list_components`, `get_component`, `get_spec`.
 - [x] T-20260514-ds-07: Added MCP auth/write tools: `request_component`, `approve_component`, `refresh`, `get_requests`.
 - [x] Task 8: Added Claude MCP registration, `/design-system` skill, `ux-prep` agent persona, and distribution-layer docs.
+- [x] Engrained automatic UI task intake SOP for Codex and Claude before HTML review, dashboard, web app, frontend, or design review work.
 - [x] Wrote result files for T-01 through T-07 under `.agent-harness/outbox/`.
 
 ---
@@ -22,7 +23,7 @@ _Last updated: 2026-05-14 by Codex_
 
 - Branch state: `origin/master` contains Task 8 and the final manifest hook commit through `626b522`; local `master` is aligned with remote.
 - Verification passed: `node scripts/test-export-manifest.mjs`, `npm run build`, `npm run design:status`, `npm run design:requests`, `npm run mcp:build`, and MCP smoke/list coverage for all 9 tools.
-- Dirty local artifacts remain: Graphify output only; do not clean or delete without an explicit backup/cleanup instruction.
+- Dirty local artifacts remain: Graphify output only after the UI-intake SOP commit; do not clean or delete without an explicit backup/cleanup instruction.
 
 ## Next priority
 
