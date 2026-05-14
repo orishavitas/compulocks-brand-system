@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { extractTitle, extractNamedExports, extractArgTypesKeys, computeHash } from './export-manifest.mjs';
+import { extractTitle, extractNamedExports, extractArgTypesKeys, computeHash, mergeStatus } from './export-manifest.mjs';
 
 let passed = 0; let failed = 0;
 function test(label, fn) {
@@ -48,6 +48,30 @@ test('is deterministic', () => { const h1 = computeHash('Button',['a','b'],['x']
 test('order-independent (sorts before hashing)', () => assert.equal(computeHash('Button',['primary','ghost','secondary'],['disabled','default']), computeHash('Button',['secondary','primary','ghost'],['default','disabled'])));
 test('differs when name changes', () => assert.notEqual(computeHash('Button',['primary'],['default']), computeHash('Card',['primary'],['default'])));
 test('differs when variants change', () => assert.notEqual(computeHash('Button',['primary','secondary'],['default']), computeHash('Button',['primary'],['default'])));
+
+console.log('\nmergeStatus');
+test('keeps existing stable status', () => {
+  const existing = { version: '1.0.0', generatedAt: '', components: [
+    { name: 'Button', variants: ['Primary'], states: [], tokens: [], hash: 'abc', status: 'stable' }
+  ] };
+  const incoming = { name: 'Button', variants: ['Primary'], states: [], tokens: [], hash: 'abc' };
+  const result = mergeStatus(incoming, existing.components);
+  assert.equal(result.status, 'stable');
+});
+test('defaults new component to draft', () => {
+  const existing = { version: '1.0.0', generatedAt: '', components: [] };
+  const incoming = { name: 'Modal', variants: ['Default'], states: [], tokens: [], hash: 'xyz' };
+  const result = mergeStatus(incoming, existing.components);
+  assert.equal(result.status, 'draft');
+});
+test('does not downgrade stable when hash changes', () => {
+  const existing = { version: '1.0.0', generatedAt: '', components: [
+    { name: 'Card', variants: ['Default'], states: [], tokens: [], hash: 'old', status: 'stable' }
+  ] };
+  const incoming = { name: 'Card', variants: ['Default', 'Elevated'], states: [], tokens: [], hash: 'new' };
+  const result = mergeStatus(incoming, existing.components);
+  assert.equal(result.status, 'stable');
+});
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 if (failed > 0) process.exit(1);
