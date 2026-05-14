@@ -2,6 +2,21 @@
 
 Accumulated context and learnings for the compulocks-brand-system project.
 
+## Design System Distribution Layer (2026-05-14)
+
+- Codex completed task packets T-20260514-ds-01 through T-20260514-ds-07 and wrote matching result files under `.agent-harness/outbox/`.
+- `component-manifest.json` now uses `status` for component governance. `scripts/export-manifest.mjs` exports `mergeStatus()` and preserves existing statuses on re-export; new components default to `draft`.
+- Root governance files are `contributors.json`, `design-requests.md`, and `design-audit.log`. `ori@compulocks.com` is the owner contributor.
+- `scripts/sync-vault.mjs` writes stable agent artifacts to `~/.compulocks/design/`: `tokens.json`, stable-only `manifest.json`, `SPEC.md`, and `.last-updated`.
+- `scripts/approve.mjs` is the local approval CLI. It requires `COMPULOCKS_CONTRIBUTOR`, checks `contributors.json`, appends to `design-audit.log`, flips draft components to stable, then runs `npm run build`.
+- `scripts/generate-living-html.mjs` reads the flat Style Dictionary output (`ColorBrandPrimary`, `Spacing1`, `FontSizeXs`, etc.) and generates `design-system/index.html`.
+- `mcp-server/` is an isolated package. Build with `cd mcp-server && npm run build`; start with `node mcp-server/dist/index.js`.
+- MCP exposes 9 tools total: `get_tokens`, `get_manifest`, `list_components`, `get_component`, `get_spec`, `request_component`, `approve_component`, `refresh`, `get_requests`.
+- Auth split is intentional: `request_component` has no `contributor_id` and only appends to `design-requests.md`; `approve_component`, `refresh`, and `get_requests` require authorized `contributor_id`.
+- Bundled MCP code runs from `mcp-server/dist`, so repo-root resolution in bundled tool code must account for that output location.
+- Verification passed on 2026-05-14: manifest tests, `npm run build`, design scripts, MCP build, and a mutation smoke test for all 9 tools. Mutation smoke restored audit/request/manifest files afterward to avoid committed test noise.
+- Local `master` contains merge commit `94992b0` plus auto-manifest commit `f5eb383`; no remote push was performed by Codex in this closeout.
+
 ## Decisions
 
 - **Style Dictionary v5** chosen as the token engine (ESM, DTCG format support)

@@ -4,3 +4,8 @@ dist/
 
 *storybook.log
 storybook-static
+
+# Tooling artifacts — not repo content
+graphify-out/cache/
+.playwright-mcp/
+.superpowers/

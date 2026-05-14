@@ -1,0 +1,39 @@
+{
+  "size": {
+    "input": {
+      "$value": "40px",
+      "$type": "dimension",
+      "$description": "Standard input / select height (--h-input)"
+    },
+    "button": {
+      "$value": "36px",
+      "$type": "dimension",
+      "$description": "Standard button height (--h-btn)"
+    },
+    "button-sm": {
+      "$value": "28px",
+      "$type": "dimension",
+      "$description": "Small button height (--h-btn-sm)"
+    },
+    "chip": {
+      "$value": "30px",
+      "$type": "dimension",
+      "$description": "Chip / tag height (--h-chip)"
+    },
+    "top-bar": {
+      "$value": "56px",
+      "$type": "dimension",
+      "$description": "Top app bar height"
+    },
+    "action-bar": {
+      "$value": "64px",
+      "$type": "dimension",
+      "$description": "Bottom action bar height"
+    },
+    "icon-btn": {
+      "$value": "32px",
+      "$type": "dimension",
+      "$description": "Icon button width and height"
+    }
+  }
+}

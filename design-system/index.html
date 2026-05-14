@@ -12,44 +12,21 @@
     --duration-fast: 120ms;
     --duration-normal: 200ms;
     --duration-slow: 350ms;
-    --border-radius-xs: 6px;
-    --border-radius-s: 10px;
-    --border-radius-m: 14px;
-    --border-radius-l: 20px;
-    --border-radius-xl: 28px;
-    --border-radius-pill: 9999px;
     --border-radius-sm: 6px;
-    --border-radius-md: 14px;
-    --border-radius-lg: 20px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 24px;
     --border-radius-full: 9999px;
     --color-brand-primary: #1d1f4a;
-    --color-brand-secondary: #243469;
+    --color-brand-highlight: #243469;
     --color-brand-green-dark: #009966;
     --color-brand-green-light: #1db274;
-    --color-brand-bg-light: #f2f2f2;
+    --color-brand-surface: #f2f2f2;
     --color-brand-white: #ffffff;
-    --color-surface-page: #fbfafd;
-    --color-surface-default: #ffffff;
-    --color-surface-sunken: #f4f4f8;
-    --color-surface-deep: #ecedf2;
-    --color-content-primary: #1a1b2a;
-    --color-content-muted: #5a5c70;
-    --color-content-faint: #8c8e9f;
-    --color-outline-soft: #e8e9ee;
-    --color-outline-default: #d9dae2;
-    --color-outline-strong: #b8bac8;
-    --color-state-success: #009966;
-    --color-state-success-soft: #0099661a;
-    --color-state-warning: #b86f00;
-    --color-state-warning-soft: #b86f001a;
-    --color-state-error: #b3261e;
-    --color-state-info-soft: #1d1f4a0f;
-    --shadow1: 0 1px 2px rgba(29,31,74,0.06), 0 1px 1px rgba(29,31,74,0.04);
-    --shadow2: 0 2px 6px rgba(29,31,74,0.08), 0 1px 2px rgba(29,31,74,0.04);
-    --shadow3: 0 8px 24px rgba(29,31,74,0.10), 0 2px 6px rgba(29,31,74,0.06);
-    --shadow-sm: 0 1px 2px rgba(29,31,74,0.06), 0 1px 1px rgba(29,31,74,0.04);
-    --shadow-md: 0 2px 6px rgba(29,31,74,0.08), 0 1px 2px rgba(29,31,74,0.04);
-    --shadow-lg: 0 8px 24px rgba(29,31,74,0.10), 0 2px 6px rgba(29,31,74,0.06);
+    --color-brand-outline: #e0e0e0;
+    --shadow-sm: 0 1px 3px rgba(29,31,74,0.10);
+    --shadow-md: 0 4px 12px rgba(29,31,74,0.14);
+    --shadow-lg: 0 10px 15px rgba(29,31,74,0.15);
     --size-input: 40px;
     --size-button: 36px;
     --size-button-sm: 28px;
@@ -57,105 +34,36 @@
     --size-top-bar: 56px;
     --size-action-bar: 64px;
     --size-icon-btn: 32px;
-    --spacing1: 4px;
-    --spacing2: 8px;
-    --spacing3: 12px;
-    --spacing4: 16px;
-    --spacing5: 20px;
-    --spacing6: 24px;
-    --spacing7: 32px;
-    --spacing8: 40px;
-    --spacing9: 56px;
-    --font-family-heading: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --font-family-body: 'Barlow', 'Segoe UI', Arial, sans-serif;
-    --font-family-primary: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --font-family-secondary: 'Barlow', 'Segoe UI', Arial, sans-serif;
+    --spacing1: 0.25rem;
+    --spacing2: 0.5rem;
+    --spacing3: 0.75rem;
+    --spacing4: 1rem;
+    --spacing5: 1.25rem;
+    --spacing6: 1.5rem;
+    --spacing8: 2rem;
+    --spacing10: 2.5rem;
+    --spacing12: 3rem;
+    --spacing16: 4rem;
+    --font-family-primary: 'Barlow Condensed', sans-serif;
+    --font-family-secondary: 'Barlow', sans-serif;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-size-xs: 11px;
-    --font-size-s: 13px;
-    --font-size-m: 14px;
-    --font-size-l: 16px;
-    --font-size-xl: 18px;
-    --font-size2xl: 22px;
-    --font-size3xl: 28px;
-    --font-size4xl: 36px;
-    --font-size5xl: 56px;
-    --font-line-height-tight: 1.05;
-    --font-line-height-snug: 1.2;
-    --font-line-height-normal: 1.5;
-    --font-line-height-relaxed: 1.6;
-    --font-letter-spacing-tight: 0.01em;
-    --font-letter-spacing-normal: 0.02em;
-    --font-letter-spacing-wide: 0.06em;
-    --font-letter-spacing-wider: 0.08em;
-    --font-letter-spacing-widest: 0.12em;
-    --font-letter-spacing-ultra: 0.18em;
-    --text-style-display-hero-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-display-hero-font-size: 56px;
-    --text-style-display-hero-font-weight: 500;
-    --text-style-display-hero-line-height: 1.05;
-    --text-style-display-hero-letter-spacing: 0.01em;
-    --text-style-display-title-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-display-title-font-size: 36px;
-    --text-style-display-title-font-weight: 500;
-    --text-style-display-title-line-height: 1.05;
-    --text-style-display-title-letter-spacing: 0.02em;
-    --text-style-section-title-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-section-title-font-size: 22px;
-    --text-style-section-title-font-weight: 500;
-    --text-style-section-title-line-height: 1.2;
-    --text-style-section-title-letter-spacing: 0.01em;
-    --text-style-section-title-text-transform: capitalize;
-    --text-style-card-title-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-card-title-font-size: 18px;
-    --text-style-card-title-font-weight: 500;
-    --text-style-card-title-line-height: 1.2;
-    --text-style-card-title-letter-spacing: 0.01em;
-    --text-style-subhead-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-subhead-font-size: 13px;
-    --text-style-subhead-font-weight: 600;
-    --text-style-subhead-text-transform: uppercase;
-    --text-style-subhead-letter-spacing: 0.12em;
-    --text-style-eyebrow-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-eyebrow-font-size: 11px;
-    --text-style-eyebrow-font-weight: 600;
-    --text-style-eyebrow-text-transform: uppercase;
-    --text-style-eyebrow-letter-spacing: 0.18em;
-    --text-style-button-label-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
-    --text-style-button-label-font-size: 13px;
-    --text-style-button-label-font-weight: 600;
-    --text-style-button-label-text-transform: uppercase;
-    --text-style-button-label-letter-spacing: 0.08em;
-    --text-style-body-default-font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
-    --text-style-body-default-font-size: 14px;
-    --text-style-body-default-font-weight: 400;
-    --text-style-body-default-line-height: 1.5;
-    --text-style-body-large-font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
-    --text-style-body-large-font-size: 16px;
-    --text-style-body-large-font-weight: 400;
-    --text-style-body-large-line-height: 1.6;
-    --text-style-caption-font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
-    --text-style-caption-font-size: 11px;
-    --text-style-caption-font-weight: 400;
-    --text-style-caption-line-height: 1.5;
-    --text-style-big-short-title-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+    --text-style-big-short-title-font-family: 'Barlow Condensed', sans-serif;
     --text-style-big-short-title-font-weight: 500;
     --text-style-big-short-title-text-transform: uppercase;
-    --text-style-big-long-title-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+    --text-style-big-long-title-font-family: 'Barlow Condensed', sans-serif;
     --text-style-big-long-title-font-weight: 500;
     --text-style-big-long-title-text-transform: capitalize;
-    --text-style-big-paragraph-font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+    --text-style-big-paragraph-font-family: 'Barlow Condensed', sans-serif;
     --text-style-big-paragraph-font-weight: 400;
-    --text-style-big-paragraph-text-transform: none;
-    --text-style-small-paragraph-font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+    --text-style-big-paragraph-text-transform: lowercase;
+    --text-style-small-paragraph-font-family: 'Barlow', sans-serif;
     --text-style-small-paragraph-font-weight: 400;
-    --text-style-small-paragraph-text-transform: none;
-    --text-style-small-text-font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+    --text-style-small-paragraph-text-transform: lowercase;
+    --text-style-small-text-font-family: 'Barlow', sans-serif;
     --text-style-small-text-font-weight: 400;
     --text-style-small-text-font-style: italic;
-    --text-style-small-text-text-transform: none;
+    --text-style-small-text-text-transform: lowercase;
     --font-family-heading-fallback: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
     --font-family-body-fallback: 'Barlow', 'Segoe UI', Arial, sans-serif;
   }
@@ -232,7 +140,7 @@
 
 <header class="ds-header">
   <h1>Compulocks Design System</h1>
-  <div class="ds-meta">v1.0.0<br>Last generated 5/14/2026, 2:20:55 PM<br>6 stable components</div>
+  <div class="ds-meta">v1.0.0<br>Last generated 5/14/2026, 2:57:00 PM<br>6 stable components</div>
 </header>
 <nav class="ds-nav">
   <a href="#foundations">Foundations</a>
@@ -253,7 +161,7 @@
   </div>
 <div class="swatch-item">
     <div class="swatch-color" style="background:#243469;"></div>
-    <div class="swatch-name">--color-brand-secondary</div>
+    <div class="swatch-name">--color-brand-highlight</div>
     <div class="swatch-value">#243469</div>
   </div>
 <div class="swatch-item">
@@ -268,7 +176,7 @@
   </div>
 <div class="swatch-item">
     <div class="swatch-color" style="background:#f2f2f2;"></div>
-    <div class="swatch-name">--color-brand-bg-light</div>
+    <div class="swatch-name">--color-brand-surface</div>
     <div class="swatch-value">#f2f2f2</div>
   </div>
 <div class="swatch-item">
@@ -277,84 +185,9 @@
     <div class="swatch-value">#ffffff</div>
   </div>
 <div class="swatch-item">
-    <div class="swatch-color" style="background:#fbfafd;"></div>
-    <div class="swatch-name">--color-surface-page</div>
-    <div class="swatch-value">#fbfafd</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#ffffff; border: 1px solid var(--color-outline-default);"></div>
-    <div class="swatch-name">--color-surface-default</div>
-    <div class="swatch-value">#ffffff</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#f4f4f8;"></div>
-    <div class="swatch-name">--color-surface-sunken</div>
-    <div class="swatch-value">#f4f4f8</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#ecedf2;"></div>
-    <div class="swatch-name">--color-surface-deep</div>
-    <div class="swatch-value">#ecedf2</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#1a1b2a;"></div>
-    <div class="swatch-name">--color-content-primary</div>
-    <div class="swatch-value">#1a1b2a</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#5a5c70;"></div>
-    <div class="swatch-name">--color-content-muted</div>
-    <div class="swatch-value">#5a5c70</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#8c8e9f;"></div>
-    <div class="swatch-name">--color-content-faint</div>
-    <div class="swatch-value">#8c8e9f</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#e8e9ee;"></div>
-    <div class="swatch-name">--color-outline-soft</div>
-    <div class="swatch-value">#e8e9ee</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#d9dae2;"></div>
-    <div class="swatch-name">--color-outline-default</div>
-    <div class="swatch-value">#d9dae2</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#b8bac8;"></div>
-    <div class="swatch-name">--color-outline-strong</div>
-    <div class="swatch-value">#b8bac8</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#009966;"></div>
-    <div class="swatch-name">--color-state-success</div>
-    <div class="swatch-value">#009966</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#0099661a;"></div>
-    <div class="swatch-name">--color-state-success-soft</div>
-    <div class="swatch-value">#0099661a</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#b86f00;"></div>
-    <div class="swatch-name">--color-state-warning</div>
-    <div class="swatch-value">#b86f00</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#b86f001a;"></div>
-    <div class="swatch-name">--color-state-warning-soft</div>
-    <div class="swatch-value">#b86f001a</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#b3261e;"></div>
-    <div class="swatch-name">--color-state-error</div>
-    <div class="swatch-value">#b3261e</div>
-  </div>
-<div class="swatch-item">
-    <div class="swatch-color" style="background:#1d1f4a0f;"></div>
-    <div class="swatch-name">--color-state-info-soft</div>
-    <div class="swatch-value">#1d1f4a0f</div>
+    <div class="swatch-color" style="background:#e0e0e0;"></div>
+    <div class="swatch-name">--color-brand-outline</div>
+    <div class="swatch-value">#e0e0e0</div>
   </div></div>
   </section>
   <section class="ds-section" id="type">
@@ -362,42 +195,7 @@
       <h2>Typography Scale</h2>
       <p>Barlow Condensed for display and Barlow for body text.</p>
     </div>
-    <div class="type-row">
-    <div class="type-meta">--font-size-xs <code>11px</code></div>
-    <div class="type-specimen" style="font-size:11px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size-s <code>13px</code></div>
-    <div class="type-specimen" style="font-size:13px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size-m <code>14px</code></div>
-    <div class="type-specimen" style="font-size:14px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size-l <code>16px</code></div>
-    <div class="type-specimen" style="font-size:16px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size-xl <code>18px</code></div>
-    <div class="type-specimen" style="font-size:18px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size2xl <code>22px</code></div>
-    <div class="type-specimen" style="font-size:22px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size3xl <code>28px</code></div>
-    <div class="type-specimen" style="font-size:28px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size4xl <code>36px</code></div>
-    <div class="type-specimen" style="font-size:36px">Compulocks</div>
-  </div>
-<div class="type-row">
-    <div class="type-meta">--font-size5xl <code>56px</code></div>
-    <div class="type-specimen" style="font-size:56px">Compulocks</div>
-  </div>
+    
   </section>
   <section class="ds-section" id="spacing">
     <div class="ds-section-header">
@@ -406,48 +204,53 @@
     </div>
     <div class="spacing-row">
     <div class="spacing-label">--spacing1</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:16px"></div></div>
-    <code>4px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>0.25rem</code>
   </div>
 <div class="spacing-row">
     <div class="spacing-label">--spacing2</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:32px"></div></div>
-    <code>8px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>0.5rem</code>
   </div>
 <div class="spacing-row">
     <div class="spacing-label">--spacing3</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:48px"></div></div>
-    <code>12px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>0.75rem</code>
   </div>
 <div class="spacing-row">
     <div class="spacing-label">--spacing4</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:64px"></div></div>
-    <code>16px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>1rem</code>
   </div>
 <div class="spacing-row">
     <div class="spacing-label">--spacing5</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:80px"></div></div>
-    <code>20px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>1.25rem</code>
   </div>
 <div class="spacing-row">
     <div class="spacing-label">--spacing6</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:96px"></div></div>
-    <code>24px</code>
-  </div>
-<div class="spacing-row">
-    <div class="spacing-label">--spacing7</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:128px"></div></div>
-    <code>32px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>1.5rem</code>
   </div>
 <div class="spacing-row">
     <div class="spacing-label">--spacing8</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:160px"></div></div>
-    <code>40px</code>
+    <div class="spacing-track"><div class="spacing-bar" style="width:8px"></div></div>
+    <code>2rem</code>
   </div>
 <div class="spacing-row">
-    <div class="spacing-label">--spacing9</div>
-    <div class="spacing-track"><div class="spacing-bar" style="width:224px"></div></div>
-    <code>56px</code>
+    <div class="spacing-label">--spacing10</div>
+    <div class="spacing-track"><div class="spacing-bar" style="width:10px"></div></div>
+    <code>2.5rem</code>
+  </div>
+<div class="spacing-row">
+    <div class="spacing-label">--spacing12</div>
+    <div class="spacing-track"><div class="spacing-bar" style="width:12px"></div></div>
+    <code>3rem</code>
+  </div>
+<div class="spacing-row">
+    <div class="spacing-label">--spacing16</div>
+    <div class="spacing-track"><div class="spacing-bar" style="width:16px"></div></div>
+    <code>4rem</code>
   </div>
   </section>
   <section class="ds-section" id="components">

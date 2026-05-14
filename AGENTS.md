@@ -2,15 +2,37 @@
 
 ## Project Overview
 
-Compulocks brand design token system. Single source of truth for colors, typography, and spacing across all apps, web apps, and documents.
+Compulocks brand design token system and Design System Distribution Layer. Single source of truth for colors, typography, spacing, component registry status, and agent-facing design artifacts across apps, web apps, and documents.
 
 Built on **Style Dictionary v5** — human-editable JSON tokens auto-generate platform-specific outputs (CSS, SCSS, TypeScript, JSON).
+
+## Task Pickup
+
+When `.agent-harness/inbox/*.task.md` files exist, read the lowest-numbered task packet before changing files. Work on the branch named in the packet and write `.agent-harness/outbox/<task_id>.result.md` before claiming done.
+
+Sprint 1 status as of 2026-05-14:
+- T-20260514-ds-01-manifest-status: done on `task/T-20260514-ds-01-manifest-status`, commit `aaf0d68`.
+- T-20260514-ds-02-static-artifacts: done on `task/T-20260514-ds-02-static-artifacts`, commit `7b16fdb`.
+- T-20260514-ds-03-vault-sync: done on `task/T-20260514-ds-03-vault-sync`, commit `7d56a6a`.
+- T-20260514-ds-04-approve-cli: done on `task/T-20260514-ds-04-approve-cli`, commit `c4e0ec0`.
+- T-20260514-ds-05-living-html: done on `task/T-20260514-ds-05-living-html`, commit `3fa4e7b`.
+- T-20260514-ds-06-mcp-read: done on `task/T-20260514-ds-06-mcp-read`, commit `410193b`.
+- T-20260514-ds-07-mcp-write: done on `task/T-20260514-ds-07-mcp-write`, commit `6063c29`.
+
+The Design System Distribution Layer task branches are stacked in local history and merged locally on `master` via `94992b0`, with pre-push auto-manifest commit `f5eb383` on top. Outbox results exist for T-01 through T-07. Codex did not push during the 2026-05-14 closeout.
 
 ## Commands
 
 ```bash
-npm run build    # Generate all platform outputs from tokens/*.json
-npm run clean    # Remove build/ directory
+npm run build               # Generate all platform outputs from tokens/*.json
+npm run clean               # Remove build/ directory
+npm run export-manifest     # Generate component-manifest.json from stories and preserve status fields
+node scripts/sync-vault.mjs # Copy stable design artifacts to ~/.compulocks/design/
+npm run approve <Name>      # Approve a draft component; requires COMPULOCKS_CONTRIBUTOR
+npm run design:status       # Print component status rows
+npm run design:requests     # Print open design request rows
+npm run mcp:build           # Build MCP server into mcp-server/dist/
+npm run mcp:start           # Start MCP server on stdio
 ```
 
 ## Architecture
@@ -23,6 +45,15 @@ tokens/              # Source of truth — edit these
 
 FIGMA_SYNC.md        # Guide for syncing tokens with Figma board
 build-tokens.mjs     # Style Dictionary v5 build script
+component-manifest.json # Component registry with status: draft | stable | deprecated
+contributors.json    # Write-access whitelist
+design-requests.md   # Append-only component request log
+design-audit.log     # Append-only design system audit log
+scripts/sync-vault.mjs # Stable artifact sync to ~/.compulocks/design/
+scripts/approve.mjs    # Contributor-authorized local approval CLI
+scripts/generate-living-html.mjs # Generates design-system/index.html
+design-system/index.html # Generated approval/specimen surface
+mcp-server/          # Local MCP server exposing 9 design system tools
 
 build/               # Auto-generated — do NOT edit
 ├── css/variables.css       # CSS custom properties
@@ -72,6 +103,8 @@ See `CHANGELOG.md` for full history.
 - ALWAYS run `npm run build` after changing tokens
 - ALWAYS update `CHANGELOG.md` following the versioning rules above
 - Check `MEMORY.md` before starting work for accumulated context
+- Preserve existing `component-manifest.json` status values on export; new components default to `draft`
+- `~/.compulocks/design/manifest.json` must expose stable components only
 
 ## graphify
 

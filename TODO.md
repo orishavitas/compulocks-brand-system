@@ -1,6 +1,33 @@
 # compulocks-brand-system — TODO
 
-_Last updated: 2026-04-13_
+_Last updated: 2026-05-14 by Codex_
+
+---
+
+## Done - Design System Distribution Layer
+
+- [x] T-20260514-ds-01: Added `status` to all six manifest components and preserved status during `scripts/export-manifest.mjs` re-export.
+- [x] T-20260514-ds-02: Added root governance artifacts: `contributors.json`, `design-requests.md`, and `design-audit.log`.
+- [x] T-20260514-ds-03: Added `scripts/sync-vault.mjs` and verified local agent artifacts in `~/.compulocks/design/`.
+- [x] T-20260514-ds-04: Added `scripts/approve.mjs`, build hooks, and package scripts for approval/status/request workflows.
+- [x] T-20260514-ds-05: Added `scripts/generate-living-html.mjs` and generated `design-system/index.html`.
+- [x] T-20260514-ds-06: Added `mcp-server/` with read tools: `get_tokens`, `get_manifest`, `list_components`, `get_component`, `get_spec`.
+- [x] T-20260514-ds-07: Added MCP auth/write tools: `request_component`, `approve_component`, `refresh`, `get_requests`.
+- [x] Wrote result files for T-01 through T-07 under `.agent-harness/outbox/`.
+
+---
+
+## Current handoff
+
+- Branch state: `master` contains merge commit `94992b0` for T-01 through T-07 and local auto-manifest commit `f5eb383`; no remote push was performed by Codex in this closeout.
+- Verification passed: `node scripts/test-export-manifest.mjs`, `npm run build`, `npm run design:status`, `npm run design:requests`, `cd mcp-server && npm run build`, and MCP smoke for all 9 tools.
+- Dirty local artifacts remain: Graphify output/cache, untracked `.agent-harness/`, `.playwright-mcp/`, `.superpowers/`, and `tokens/size.json`; do not clean or delete without an explicit backup/cleanup instruction.
+
+## Next priority
+
+- Review local dirty/untracked artifacts and decide what should be committed, ignored, or left local before pushing.
+- If pushing, expect the repo pre-push hook to regenerate `component-manifest.json` and possibly create another auto-update commit.
+- Register/use the MCP server from `mcp-server/dist/index.js` only after `cd mcp-server && npm run build` has been run locally.
 
 ---
 

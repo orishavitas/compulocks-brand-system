@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## 2026-05-14 - Design System Distribution Layer
+
+### Added
+- Added component status governance to `component-manifest.json` and status preservation in `scripts/export-manifest.mjs`.
+- Added root governance files: `contributors.json`, `design-requests.md`, and `design-audit.log`.
+- Added `scripts/sync-vault.mjs` for local agent artifacts in `~/.compulocks/design/`.
+- Added `scripts/approve.mjs`, design status/request package scripts, and build hooks for living HTML plus vault sync.
+- Added `scripts/generate-living-html.mjs` and generated `design-system/index.html` as the human approval surface.
+- Added `mcp-server/` with 9 MCP tools: 5 read tools plus request, approve, refresh, and request-list tools.
+- Added `.agent-harness/outbox/` result files for T-20260514-ds-01 through T-20260514-ds-07.
+
+### Changed
+- `npm run build` now regenerates the living HTML approval page when available and syncs stable design artifacts to the local Compulocks design vault.
+- Approval and MCP mutation checks use `contributors.json` for authorization and append to `design-audit.log`; `request_component` remains unauthenticated by design.
+
+### Verification
+- `node scripts/test-export-manifest.mjs` - 19 passed, 0 failed.
+- `npm run build` - generated Style Dictionary outputs, token guide, living HTML, and vault sync.
+- `npm run design:status` - all six components stable.
+- `npm run design:requests` - no open requests after restored smoke-test fixtures.
+- `cd mcp-server && npm run build` - TypeScript/tsup build passed.
+- MCP smoke test passed for all 9 tools, including request append, unauthorized rejection, authorized draft approval, no-op approval, refresh, and `get_requests`.
+
+### Notes
+- Codex performed this closeout on 2026-05-14 and did not push remotely.
+- Local dirty/untracked artifacts remain for Graphify/cache, `.agent-harness/`, `.playwright-mcp/`, `.superpowers/`, and `tokens/size.json`.
+
 ## v0.1.0 — 2026-02-19
 
 **Session 1: Initial setup**
