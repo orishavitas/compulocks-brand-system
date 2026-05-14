@@ -1,6 +1,8 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { registerReadTools } from './tools/read.js';
+import { registerRequestTools } from './tools/request.js';
+import { registerWriteTools } from './tools/write.js';
 import { watchDesignFiles } from './watcher.js';
 
 const server = new McpServer({
@@ -9,6 +11,8 @@ const server = new McpServer({
 });
 
 registerReadTools(server);
+registerRequestTools(server);
+registerWriteTools(server);
 
 watchDesignFiles((_path) => {
   // Tools re-read files on each call.
