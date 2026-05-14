@@ -14,10 +14,12 @@ export function extractTitle(source) {
   const m = source.match(/title\s*:\s*['"`]([^'"`]+)['"`]/);
   return m ? m[1] : null;
 }
+
 export function extractNamedExports(source) {
   const matches = [...source.matchAll(/^export\s+const\s+(\w+)\s*:/gm)];
   return matches.map(m => m[1]).filter(name => name !== 'default');
 }
+
 export function extractArgTypesKeys(source) {
   const start = source.indexOf('argTypes');
   if (start === -1) return [];
@@ -43,9 +45,18 @@ export function extractArgTypesKeys(source) {
   }
   return [];
 }
+
 export function computeHash(name, variants, states) {
   const input = name + JSON.stringify([...variants].sort()) + JSON.stringify([...states].sort());
   return createHash('sha1').update(input).digest('hex');
+}
+
+export function mergeStatus(incoming, existingComponents) {
+  const existing = existingComponents.find(c => c.name === incoming.name);
+  return {
+    ...incoming,
+    status: existing?.status ?? 'draft',
+  };
 }
 
 function findStoryFiles(dir) {
@@ -65,32 +76,52 @@ function inferTokens(source) {
   return [...new Set(varRefs.map(m => m[1].replace(/-/g, '.')))];
 }
 
-const storyFiles = findStoryFiles(COMPONENTS_DIR);
-if (storyFiles.length === 0) {
-  console.warn('[export-manifest] Warning: no *.stories.tsx files found under components/');
+function readExistingComponents() {
+  try {
+    const raw = readFileSync(OUTPUT_PATH, 'utf8');
+    return JSON.parse(raw).components ?? [];
+  } catch {
+    return [];
+  }
 }
 
-const components = [];
-for (const filePath of storyFiles) {
-  const source = readFileSync(filePath, 'utf8');
-  const fullTitle = extractTitle(source);
-  if (!fullTitle) { console.warn(`[export-manifest] Skipping ${filePath} — no title found`); continue; }
-  const name = fullTitle.split('/').at(-1).trim();
-  const variants = extractNamedExports(source);
-  const states = extractArgTypesKeys(source).filter(k => k !== 'variant');
-  const tokens = inferTokens(source);
-  const hash = computeHash(name, variants, states);
-  components.push({ name, variants, states, tokens, hash });
+export function buildManifest() {
+  const storyFiles = findStoryFiles(COMPONENTS_DIR);
+  if (storyFiles.length === 0) {
+    console.warn('[export-manifest] Warning: no *.stories.tsx files found under components/');
+  }
+
+  const existingComponents = readExistingComponents();
+  const components = [];
+  for (const filePath of storyFiles) {
+    const source = readFileSync(filePath, 'utf8');
+    const fullTitle = extractTitle(source);
+    if (!fullTitle) { console.warn(`[export-manifest] Skipping ${filePath} - no title found`); continue; }
+    const name = fullTitle.split('/').at(-1).trim();
+    const variants = extractNamedExports(source);
+    const states = extractArgTypesKeys(source).filter(k => k !== 'variant');
+    const tokens = inferTokens(source);
+    const hash = computeHash(name, variants, states);
+    components.push(mergeStatus({ name, variants, states, tokens, hash }, existingComponents));
+  }
+
+  components.sort((a, b) => a.name.localeCompare(b.name));
+  return { version: '1.0.0', generatedAt: new Date().toISOString(), components };
 }
 
-components.sort((a, b) => a.name.localeCompare(b.name));
-const manifest = { version: '1.0.0', generatedAt: new Date().toISOString(), components };
-const json = JSON.stringify(manifest, null, 2);
+function main() {
+  const manifest = buildManifest();
+  const json = JSON.stringify(manifest, null, 2);
 
-if (DRY_RUN) {
-  console.log(json);
-} else {
-  writeFileSync(OUTPUT_PATH, json + '\n', 'utf8');
-  console.log(`[export-manifest] Written: ${OUTPUT_PATH}`);
-  console.log(`[export-manifest] ${components.length} component(s): ${components.map(c => c.name).join(', ')}`);
+  if (DRY_RUN) {
+    console.log(json);
+  } else {
+    writeFileSync(OUTPUT_PATH, json + '\n', 'utf8');
+    console.log(`[export-manifest] Written: ${OUTPUT_PATH}`);
+    console.log(`[export-manifest] ${manifest.components.length} component(s): ${manifest.components.map(c => c.name).join(', ')}`);
+  }
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main();
 }

@@ -13,7 +13,8 @@
       ],
       "states": [],
       "tokens": [],
-      "hash": "f50c7dda669839204f4962a1abd2cd1a978bb812"
+      "hash": "f50c7dda669839204f4962a1abd2cd1a978bb812",
+      "status": "stable"
     },
     {
       "name": "Button",
@@ -30,7 +31,8 @@
         "loading"
       ],
       "tokens": [],
-      "hash": "989786cdfa9f4928e44a81d391a0a0fda2af6933"
+      "hash": "989786cdfa9f4928e44a81d391a0a0fda2af6933",
+      "status": "stable"
     },
     {
       "name": "Card",
@@ -40,7 +42,8 @@
       ],
       "states": [],
       "tokens": [],
-      "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96"
+      "hash": "cf9c686ceeaf8a086827ed5714d525b5d9455b96",
+      "status": "stable"
     },
     {
       "name": "Chip",
@@ -53,7 +56,8 @@
         "disabled"
       ],
       "tokens": [],
-      "hash": "72f3deac12d137d59f5a545e04b4a690c487e47e"
+      "hash": "72f3deac12d137d59f5a545e04b4a690c487e47e",
+      "status": "stable"
     },
     {
       "name": "Input",
@@ -66,7 +70,8 @@
         "disabled"
       ],
       "tokens": [],
-      "hash": "a2c8e2a1278c3ad06bafaeb372245e128f757bd0"
+      "hash": "a2c8e2a1278c3ad06bafaeb372245e128f757bd0",
+      "status": "stable"
     },
     {
       "name": "Tag",
@@ -76,7 +81,8 @@
       ],
       "states": [],
       "tokens": [],
-      "hash": "d86af42b3009f380c2158e45374cf3a89d962ba8"
+      "hash": "d86af42b3009f380c2158e45374cf3a89d962ba8",
+      "status": "stable"
     }
   ]
 }
