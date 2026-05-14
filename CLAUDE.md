@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Compulocks brand design token system. Single source of truth for colors, typography, and spacing across all apps, web apps, and documents.
+Compulocks brand design token system and Design System Distribution Layer. Single source of truth for colors, typography, spacing, component registry status, and agent-facing design artifacts across apps, web apps, and documents.
 
 Built on **Style Dictionary v5** — human-editable JSON tokens auto-generate platform-specific outputs (CSS, SCSS, TypeScript, JSON).
 
@@ -12,7 +12,12 @@ Built on **Style Dictionary v5** — human-editable JSON tokens auto-generate pl
 npm run build          # Generate all platform outputs + token_guide.md from tokens/*.json
 npm run build:plugin   # Compile Figma plugin TypeScript → JavaScript
 npm run clean          # Remove build/ directory
-npm run export-manifest    # Generate component-manifest.json from stories
+npm run export-manifest    # Generate component-manifest.json from stories and preserve statuses
+npm run approve <Name>     # Approve a draft component; requires COMPULOCKS_CONTRIBUTOR
+npm run design:status      # Print component status rows
+npm run design:requests    # Print open design request rows
+npm run mcp:build          # Build the design system MCP server
+npm run mcp:start          # Start the MCP server on stdio
 ```
 
 ## Architecture
@@ -132,17 +137,44 @@ npm run build:plugin
 
 ### Manifest Pipeline — Complete ✅
 - `scripts/export-manifest.mjs` — static story parser, SHA-1 hashing
-- `scripts/test-export-manifest.mjs` — 16 unit tests, all passing
+- `scripts/test-export-manifest.mjs` — 19 unit tests, all passing
 - `.githooks/pre-push` — auto-commits manifest on every push
-- `component-manifest.json` — committed to repo root, 5 components
+- `component-manifest.json` — committed to repo root, 6 components
 - `n8n/workflow-a-code-to-figma.json` — extended to fetch manifest on push
 
 ### Component Library — Complete ✅
-- `components/` — 5 React components (Button, Card, Input, Badge, Tag)
+- `components/` — 6 React components (Button, Card, Input, Badge, Tag, Chip)
 - `npm run storybook` — Storybook 10 on localhost:6006
 - `npm run build:components` — tsup builds `dist/` (CJS + ESM + types + styles.css)
 - `test-consumer/` — local Vite app to verify `@compulocks/ui` imports
 - Package name: `@compulocks/ui` v0.1.0 — ready to publish to npm
+
+## Design System Distribution Layer (added 2026-05-14)
+
+Agent-safe design system access now lives in repo artifacts, a local MCP server, and a synced local vault.
+
+### Governance Artifacts
+- `component-manifest.json` stores component status: `draft`, `stable`, or `deprecated`.
+- `contributors.json` is the write-access whitelist. Current owner contributor: `ori@compulocks.com`.
+- `design-requests.md` is append-only and records missing component requests.
+- `design-audit.log` is append-only and records approvals, refreshes, and authorization failures.
+
+### Build and Vault Flow
+- `npm run build` generates token outputs, `token_guide.md`, `design-system/index.html`, and synced vault artifacts.
+- `scripts/sync-vault.mjs` writes stable artifacts to `~/.compulocks/design/`: `tokens.json`, stable-only `manifest.json`, `SPEC.md`, and `.last-updated`.
+- `scripts/generate-living-html.mjs` generates the local specimen and approval surface at `design-system/index.html`.
+- `scripts/approve.mjs` approves draft components only when `COMPULOCKS_CONTRIBUTOR` matches `contributors.json`.
+
+### MCP Server
+- Build with `npm run mcp:build`; start with `npm run mcp:start`.
+- Claude project registration is in `.claude/settings.json` as `compulocks-design`, running `node ./mcp-server/dist/index.js`.
+- Read tools: `get_tokens`, `get_manifest`, `list_components`, `get_component`, `get_spec`.
+- Request/write tools: `request_component`, `approve_component`, `refresh`, `get_requests`.
+- `request_component` is intentionally unauthenticated. `approve_component`, `refresh`, and `get_requests` require an authorized `contributor_id`.
+
+### Claude Skill and Agent
+- `.claude/skills/design-system.md` defines `/design-system` for token/component lookup, design requests, approvals, and refreshes.
+- `agents/ux-prep.md` is the pre-implementation UX agent persona. It must load components, tokens, and spec before frontend work, file requests for gaps, and hand off a UI prep sheet to the coder.
 
 ## Sync Platform (added 2026-03-25)
 

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "compulocks-design": {
+      "command": "node",
+      "args": ["./mcp-server/dist/index.js"],
+      "env": {}
+    }
+  }
+}

@@ -14,8 +14,9 @@ Accumulated context and learnings for the compulocks-brand-system project.
 - MCP exposes 9 tools total: `get_tokens`, `get_manifest`, `list_components`, `get_component`, `get_spec`, `request_component`, `approve_component`, `refresh`, `get_requests`.
 - Auth split is intentional: `request_component` has no `contributor_id` and only appends to `design-requests.md`; `approve_component`, `refresh`, and `get_requests` require authorized `contributor_id`.
 - Bundled MCP code runs from `mcp-server/dist`, so repo-root resolution in bundled tool code must account for that output location.
+- Task 8 pickup added Claude-facing distribution artifacts: `.claude/settings.json` registers `compulocks-design`, `.claude/skills/design-system.md` defines `/design-system`, and `agents/ux-prep.md` defines the frontend prep persona.
 - Verification passed on 2026-05-14: manifest tests, `npm run build`, design scripts, MCP build, and a mutation smoke test for all 9 tools. Mutation smoke restored audit/request/manifest files afterward to avoid committed test noise.
-- Local `master` contains merge commit `94992b0` plus auto-manifest commit `f5eb383`; no remote push was performed by Codex in this closeout.
+- Local `master` contains the pushed closeout-artifact chain plus one local auto-manifest timestamp commit ahead of `origin/master`; Task 8 artifacts are local until committed/pushed.
 
 ## Decisions
 

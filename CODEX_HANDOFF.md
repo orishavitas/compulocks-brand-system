@@ -2,15 +2,15 @@
 
 ## Status
 
-Design System Distribution Layer T-01 through T-07 is complete locally. `master` contains merge commit `94992b0` plus auto-manifest commit `f5eb383`.
+Design System Distribution Layer T-01 through T-07 is complete and pushed through `origin/master` closeout artifacts. Task 8 has been picked up locally: Claude MCP registration, `/design-system` skill, and `ux-prep` agent persona now exist in the working tree.
 
 ## Last Completed
 
-T-20260514-ds-07 MCP write layer:
-- `request_component`
-- `approve_component`
-- `refresh`
-- `get_requests`
+Task 8 Claude-facing distribution layer:
+- `.claude/settings.json` registers `compulocks-design`.
+- `.claude/skills/design-system.md` defines `/design-system`.
+- `agents/ux-prep.md` defines the frontend prep persona.
+- `CLAUDE.md` documents the new distribution layer.
 
 ## Verification
 
@@ -20,14 +20,16 @@ T-20260514-ds-07 MCP write layer:
 - `npm run design:requests` - passed; no open requests.
 - `cd mcp-server && npm run build` - passed.
 - MCP smoke - passed for all 9 tools and restored mutation fixtures.
+- `npm run mcp:build` - passed after sandbox escalation; rebuilt `mcp-server/dist/`.
+- stdio `tools/list` output showed all 9 tools; command timed out only because the server remains open on stdio.
 
 ## Next Action
 
-Review dirty/untracked local artifacts in `git status --short` and decide what should be committed, ignored, or left local before any remote push.
+Review and commit Task 8 files, then decide what to do with the pre-existing Graphify dirty output and local auto-manifest timestamp commit before pushing.
 
 ## Blockers
 
-None for local implementation. Remote push/PR was not performed by Codex during this closeout.
+None for Task 8 implementation. Local `master` is ahead of `origin/master` by one auto-manifest timestamp commit before the Task 8 commit is created.
 
 ## Watchpoints
 

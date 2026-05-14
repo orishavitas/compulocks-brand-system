@@ -13,19 +13,21 @@ _Last updated: 2026-05-14 by Codex_
 - [x] T-20260514-ds-05: Added `scripts/generate-living-html.mjs` and generated `design-system/index.html`.
 - [x] T-20260514-ds-06: Added `mcp-server/` with read tools: `get_tokens`, `get_manifest`, `list_components`, `get_component`, `get_spec`.
 - [x] T-20260514-ds-07: Added MCP auth/write tools: `request_component`, `approve_component`, `refresh`, `get_requests`.
+- [x] Task 8: Added Claude MCP registration, `/design-system` skill, `ux-prep` agent persona, and distribution-layer docs.
 - [x] Wrote result files for T-01 through T-07 under `.agent-harness/outbox/`.
 
 ---
 
 ## Current handoff
 
-- Branch state: `master` contains merge commit `94992b0` for T-01 through T-07 and local auto-manifest commit `f5eb383`; no remote push was performed by Codex in this closeout.
-- Verification passed: `node scripts/test-export-manifest.mjs`, `npm run build`, `npm run design:status`, `npm run design:requests`, `cd mcp-server && npm run build`, and MCP smoke for all 9 tools.
-- Dirty local artifacts remain: Graphify output/cache, untracked `.agent-harness/`, `.playwright-mcp/`, `.superpowers/`, and `tokens/size.json`; do not clean or delete without an explicit backup/cleanup instruction.
+- Branch state: `origin/master` contains pushed closeout artifacts through `4605ede`; local `master` is ahead by one auto-manifest timestamp commit before the Task 8 commit.
+- Verification passed: `node scripts/test-export-manifest.mjs`, `npm run build`, `npm run design:status`, `npm run design:requests`, `npm run mcp:build`, and MCP smoke/list coverage for all 9 tools.
+- Dirty local artifacts remain: Task 8 files, Graphify output, and other local generated/cache artifacts; do not clean or delete without an explicit backup/cleanup instruction.
 
 ## Next priority
 
-- Review local dirty/untracked artifacts and decide what should be committed, ignored, or left local before pushing.
+- Commit Task 8 files separately from Graphify/generated artifacts unless cleanup scope is explicitly requested.
+- Review local dirty artifacts and decide what should be committed, ignored, or left local before pushing.
 - If pushing, expect the repo pre-push hook to regenerate `component-manifest.json` and possibly create another auto-update commit.
 - Register/use the MCP server from `mcp-server/dist/index.js` only after `cd mcp-server && npm run build` has been run locally.
 
