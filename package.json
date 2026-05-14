@@ -37,6 +37,12 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "export-manifest": "node scripts/export-manifest.mjs",
+    "mcp:build": "cd mcp-server && npx tsup src/index.ts --format cjs --outDir dist --no-splitting",
+    "mcp:start": "node mcp-server/dist/index.js",
+    "approve": "node scripts/approve.mjs",
+    "design:status": "node -e \"const m=JSON.parse(require('fs').readFileSync('component-manifest.json','utf8')); m.components.forEach(c=>console.log(c.status.padEnd(12)+c.name));\"",
+    "design:requests": "node -e \"const fs=require('fs'); if(!fs.existsSync('design-requests.md')){console.log('No requests yet.');process.exit(0);} const lines=fs.readFileSync('design-requests.md','utf8').split('\\n').filter(l=>l.startsWith('|')&&!l.includes('---')&&!l.includes('Component')); console.log(lines.length?lines.join('\\n'):'No open requests.');\"",
+    "build:mcp": "npm run mcp:build",
     "prepare": "git config core.hooksPath .githooks"
   },
   "type": "commonjs",

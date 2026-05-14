@@ -1,5 +1,5 @@
 import StyleDictionary from 'style-dictionary';
-import { readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 // Custom format: nested TypeScript constants
 function tsTokensFormat({ dictionary }) {
@@ -255,4 +255,20 @@ const typographyUtilities = `/* Compulocks Typography Utility Classes */
 writeFileSync('build/css/typography.css', typographyUtilities, 'utf-8');
 console.log('Typography utilities generated → build/css/typography.css');
 
+const { execSync: exec } = await import('node:child_process');
+try {
+  if (existsSync('scripts/generate-living-html.mjs')) {
+    exec('node scripts/generate-living-html.mjs', { cwd: process.cwd(), stdio: 'inherit' });
+  } else {
+    console.warn('[build] generate-living-html.mjs not found - skipping');
+  }
+} catch {
+  console.warn('[build] generate-living-html.mjs failed - skipping');
+}
+
+try {
+  exec('node scripts/sync-vault.mjs', { cwd: process.cwd(), stdio: 'inherit' });
+} catch {
+  console.warn('[build] sync-vault.mjs failed - vault not updated');
+}
 console.log('Build complete — outputs in build/');

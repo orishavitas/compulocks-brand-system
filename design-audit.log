@@ -1,2 +1,4 @@
 # Design System Audit Log - append only
 # Format: ISO_TIMESTAMP | CONTRIBUTOR_ID | ACTION | DETAIL
+2026-05-14T11:16:46.824Z | ori@compulocks.com | APPROVED | Chip
+2026-05-14T11:16:48.138Z | notreal@example.com | APPROVE_REJECTED | Chip - not in contributors list
